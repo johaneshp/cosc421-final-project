@@ -1,0 +1,30 @@
+---
+title: "Basic analysis"
+author: "Jinxi_Hu-48528608"
+date: "2025-11-09"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, message = FALSE, warning = FALSE}
+library(readr)
+```
+
+```{r}
+# this file is for do some most basic analysis to the data we collected.
+data <- read_csv("data/nodes.csv")
+
+# head of data
+head(data)
+# row and colum number
+dim(data)
+# colum names
+names(data)
+# type of colums
+str(data)
+# summary
+summary(data)
+```
