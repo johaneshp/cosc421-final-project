@@ -18,25 +18,29 @@ set.seed(48528608)
 ```{r}
 # this file is for do some most basic analysis to the data we collected.
 nodes <- read.csv("data/nodes.csv")
+# noly keep the node with title
+nodes_clean <- subset(nodes, !(is.na(title) | trimws(title) == ""))
 
 # head of data
-head(nodes)
+head(nodes_clean)
 # row and colum number
-dim(nodes)
+dim(nodes_clean)
 # colum names
-names(nodes)
+names(nodes_clean)
 # type of colums
-str(nodes)
+str(nodes_clean)
 # summary
-summary(nodes)
+summary(nodes_clean)
 
 # read edge
 edges = read.csv("data/edges.csv")
+# only keep valid edges
+edges_clean <- subset(edges, source %in% nodes_clean$local_id & target %in% nodes_clean$local_id)
 # number of cititations
-dim(edges)
+dim(edges_clean)
 
 # form graph
-graph <- graph_from_data_frame(edges, nodes, directed = FALSE)
+graph <- graph_from_data_frame(edges_clean, nodes_clean, directed = FALSE)
 # remove the parallel edges and self loops
 graph <- simplify(graph, remove.multiple = TRUE, remove.loops = TRUE)
 # nodes in graph
@@ -51,6 +55,8 @@ institutions <- unique(V(graph)$institution)
 palette <- brewer.pal(min(length(institutions), 8), "Set2")
 color_map <- setNames(rep(palette, length.out = length(institutions)), institutions)
 V(graph)$color <- color_map[V(graph)$institution]
+
+graph_
 
 plot(graph, vertex.size=2, edge.size=0.1, vertex.color=V(graph)$color,
      main="Overall network (colored by university)", vertex.label=NA)
