@@ -11,20 +11,47 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r, message = FALSE, warning = FALSE}
 library(readr)
+library(igraph)
+library(RColorBrewer)
+set.seed(48528608)
 ```
-
 ```{r}
 # this file is for do some most basic analysis to the data we collected.
-data <- read_csv("data/nodes.csv")
+nodes <- read.csv("data/nodes.csv")
 
 # head of data
-head(data)
+head(nodes)
 # row and colum number
-dim(data)
+dim(nodes)
 # colum names
-names(data)
+names(nodes)
 # type of colums
-str(data)
+str(nodes)
 # summary
-summary(data)
+summary(nodes)
+
+# read edge
+edges = read.csv("data/edges.csv")
+# number of cititations
+dim(edges)
+
+# form graph
+graph <- graph_from_data_frame(edges, nodes, directed = FALSE)
+# remove the parallel edges and self loops
+graph <- simplify(graph, remove.multiple = TRUE, remove.loops = TRUE)
+# nodes in graph
+vcount(graph)
+# edges in graph
+ecount(graph)
+```
+
+```{r draw basic graph}
+# plot graph (color by university)
+institutions <- unique(V(graph)$institution)
+palette <- brewer.pal(min(length(institutions), 8), "Set2")
+color_map <- setNames(rep(palette, length.out = length(institutions)), institutions)
+V(graph)$color <- color_map[V(graph)$institution]
+
+plot(graph, vertex.size=2, edge.size=0.1, vertex.color=V(graph)$color,
+     main="Overall network (colored by university)", vertex.label=NA)
 ```
