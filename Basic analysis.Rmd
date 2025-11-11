@@ -1,6 +1,6 @@
 ---
-title: "Basic analysis"
-author: "Jinxi_Hu-48528608"
+title: "Basic analysis and Network statistics"
+author: "Jinxi_Hu-48528608, Samarth_Grover-38220463"
 date: "2025-11-09"
 output: pdf_document
 ---
@@ -16,9 +16,10 @@ library(RColorBrewer)
 set.seed(48528608)
 ```
 ```{r}
+# Basic Analysis (Jinxi Hu)
 # this file is for do some most basic analysis to the data we collected.
 nodes <- read.csv("data/nodes.csv")
-# noly keep the node with title
+# only keep the node with title
 nodes_clean <- subset(nodes, !(is.na(title) | trimws(title) == ""))
 
 # head of data
@@ -56,8 +57,49 @@ palette <- brewer.pal(min(length(institutions), 8), "Set2")
 color_map <- setNames(rep(palette, length.out = length(institutions)), institutions)
 V(graph)$color <- color_map[V(graph)$institution]
 
-graph_
-
 plot(graph, vertex.size=2, edge.size=0.1, vertex.color=V(graph)$color,
      main="Overall network (colored by university)", vertex.label=NA)
+```
+
+
+```{r}
+# Initial Network Statistics (Samarth Grover)
+cat("=== NETWORK STATISTICS ===\n")
+cat("Total nodes:", vcount(graph), "\n")
+cat("Total edges (citations):", ecount(graph), "\n")
+cat("Network density:", edge_density(graph), "\n")
+cat("Average degree:", mean(degree(graph, mode="all")), "\n")
+cat("Average in-degree (citations received):", mean(degree(graph, mode="in")), "\n")
+cat("Average out-degree (citations made):", mean(degree(graph, mode="out")), "\n\n")
+```
+
+```{r}
+# Analyze isolated components
+cat("=== COMPONENT ANALYSIS ===\n")
+components <- components(graph, mode="weak")
+cat("Number of weakly connected components:", components$no, "\n")
+cat("Size of largest component:", max(components$csize), "\n")
+cat("Proportion of nodes in largest component:", 
+    round(max(components$csize) / vcount(graph) * 100, 2), "%\n\n")
+
+# Count isolated nodes
+isolated_count <- sum(degree(graph, mode="all") == 0)
+cat("Number of isolated nodes (no citations in or out):", isolated_count, "\n")
+cat("Proportion of isolated nodes:", 
+    round(isolated_count / vcount(graph) * 100, 2), "%\n")
+```
+```{r draw graph without isolated nodes}
+# Remove isolated nodes for cleaner visualization
+non_isolated <- V(graph)[degree(graph, mode="all") > 0]
+graph_connected <- induced_subgraph(graph, non_isolated)
+
+# plot graph without isolated nodes (color by university)
+institutions_connected <- unique(V(graph_connected)$institution)
+palette_connected <- brewer.pal(min(length(institutions_connected), 8), "Set2")
+color_map_connected <- setNames(rep(palette_connected, length.out = length(institutions_connected)), 
+                                institutions_connected)
+V(graph_connected)$color <- color_map_connected[V(graph_connected)$institution]
+
+plot(graph_connected, vertex.size=2, edge.size=0.1, vertex.color=V(graph_connected)$color,
+     main="Network without isolated nodes (colored by university)", vertex.label=NA)
 ```
