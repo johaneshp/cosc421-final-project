@@ -103,3 +103,94 @@ V(graph_connected)$color <- color_map_connected[V(graph_connected)$institution]
 plot(graph_connected, vertex.size=2, edge.size=0.1, vertex.color=V(graph_connected)$color,
      main="Network without isolated nodes (colored by university)", vertex.label=NA)
 ```
+
+```{r using updated new data separated from isolated}
+library(igraph)
+nodes2 <- read.csv("data/nodes_connected.csv")
+edges2 <- read.csv("data/edges_connected.csv")
+
+head(nodes2)
+dim(nodes2)
+names(nodes2)
+str(nodes2)
+summary(nodes2)
+
+graph2 <- graph_from_data_frame(edges2, vertices = nodes2, directed = TRUE)
+graph2 <- simplify(graph2, remove.multiple = TRUE, remove.loops = TRUE)
+
+```
+
+```{r draw basic graph2}
+# plot graph (color by university)
+institutions <- unique(V(graph2)$institution)
+palette <- brewer.pal(min(length(institutions), 8), "Set2")
+color_map <- setNames(rep(palette, length.out = length(institutions)), institutions)
+V(graph2)$color <- color_map[V(graph2)$institution]
+
+plot(graph2, vertex.size=3, edge.size=1, vertex.color=V(graph2)$color,
+     main="Overall network (colored by university)", vertex.label=NA, edge.arrow.size=0.5)
+```
+
+```{r}
+
+cat("Total nodes:", vcount(graph2), "\n")
+cat("Total edges (citations):", ecount(graph2), "\n")
+cat("Network density:", edge_density(graph2), "\n")
+cat("Average degree:", mean(degree(graph2, mode="all")), "\n")
+cat("Average in-degree (citations received):", mean(degree(graph2, mode="in")), "\n")
+cat("Average out-degree (citations made):", mean(degree(graph2, mode="out")), "\n\n")
+```
+
+```{r}
+# Component Analysis
+cat("=== COMPONENT ANALYSIS ===\n")
+components <- components(graph2, mode="weak")
+cat("Number of weakly connected components:", components$no, "\n")
+cat("Size of largest component:", max(components$csize), "\n")
+cat("Proportion of nodes in largest component:",
+    round(max(components$csize) / vcount(graph2) * 100, 2), "%\n\n")
+```
+
+```{r visualize-by-subtopic}
+top_subtopics <- names(sort(table(V(graph2)$subtopic), decreasing = TRUE)[1:10])
+V(graph2)$subtopic_group <- ifelse(V(graph2)$subtopic %in% top_subtopics,
+                                   V(graph2)$subtopic, "Other")
+
+# Create color palette
+subtopic_groups <- unique(V(graph2)$subtopic_group)
+n_groups <- length(subtopic_groups)
+palette_sub <- c(brewer.pal(min(n_groups-1, 11), "Paired"), "gray80")
+color_map_sub <- setNames(palette_sub[1:n_groups], subtopic_groups)
+V(graph2)$color <- color_map_sub[V(graph2)$subtopic_group]
+
+# Plot
+plot(graph2, vertex.size=2, edge.arrow.size=0.2, vertex.color=V(graph2)$color,
+     main="Citation Network (colored by subtopic)", vertex.label=NA)
+legend("bottomleft", legend=names(color_map_sub), fill=color_map_sub,
+       cex=0.6, title="Subtopic", ncol=2)
+```
+
+```{r calculate-centralities}
+
+# Calculate all centrality metrics
+V(graph2)$in_degree <- degree(graph2, mode="in")
+V(graph2)$out_degree <- degree(graph2, mode="out")
+V(graph2)$total_degree <- degree(graph2, mode="all")
+
+# PageRank (influence - highly cited by other highly cited papers)
+V(graph2)$pagerank <- page_rank(graph2, directed = TRUE)$vector
+
+# Betweenness (bridging papers, potentially unifying ideas)
+V(graph2)$betweenness <- betweenness(graph2, directed = TRUE, normalized = TRUE)
+
+# Closeness (foundational papers)
+V(graph2)$closeness_out <- closeness(graph2, mode = "out", normalized = TRUE)
+V(graph2)$closeness_in <- closeness(graph2, mode = "in", normalized = TRUE)
+
+# Eigenvector centrality (alternative influence measure)
+V(graph2)$eigenvector <- eigen_centrality(graph2, directed = TRUE)$vector
+```
+
+
+
+
