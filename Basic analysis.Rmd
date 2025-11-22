@@ -9,12 +9,18 @@ output: pdf_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r, message = FALSE, warning = FALSE}
+## set uup
+
+```{r set up,message = FALSE, warning = FALSE}
 library(readr)
 library(igraph)
 library(RColorBrewer)
+library(ggplot2)
+library(reshape2)
+library(scales)
 set.seed(48528608)
 ```
+
 ```{r}
 # Basic Analysis (Jinxi Hu)
 # this file is for do some most basic analysis to the data we collected.
@@ -36,7 +42,8 @@ summary(nodes_clean)
 # read edge
 edges = read.csv("data/edges.csv")
 # only keep valid edges
-edges_clean <- subset(edges, source %in% nodes_clean$local_id & target %in% nodes_clean$local_id)
+edges_clean <- subset(edges, source %in% nodes_clean$local_id & 
+                        target %in% nodes_clean$local_id)
 # number of cititations
 dim(edges_clean)
 
@@ -54,13 +61,13 @@ ecount(graph)
 # plot graph (color by university)
 institutions <- unique(V(graph)$institution)
 palette <- brewer.pal(min(length(institutions), 8), "Set2")
-color_map <- setNames(rep(palette, length.out = length(institutions)), institutions)
+color_map <- setNames(rep(palette, length.out = length(institutions)), 
+                      institutions)
 V(graph)$color <- color_map[V(graph)$institution]
 
 plot(graph, vertex.size=2, edge.size=0.1, vertex.color=V(graph)$color,
      main="Overall network (colored by university)", vertex.label=NA)
 ```
-
 
 ```{r}
 # Initial Network Statistics (Samarth Grover)
@@ -69,8 +76,10 @@ cat("Total nodes:", vcount(graph), "\n")
 cat("Total edges (citations):", ecount(graph), "\n")
 cat("Network density:", edge_density(graph), "\n")
 cat("Average degree:", mean(degree(graph, mode="all")), "\n")
-cat("Average in-degree (citations received):", mean(degree(graph, mode="in")), "\n")
-cat("Average out-degree (citations made):", mean(degree(graph, mode="out")), "\n\n")
+cat("Average in-degree (citations received):", 
+    mean(degree(graph, mode="in")), "\n")
+cat("Average out-degree (citations made):", 
+    mean(degree(graph, mode="out")), "\n\n")
 ```
 
 ```{r}
@@ -84,10 +93,12 @@ cat("Proportion of nodes in largest component:",
 
 # Count isolated nodes
 isolated_count <- sum(degree(graph, mode="all") == 0)
-cat("Number of isolated nodes (no citations in or out):", isolated_count, "\n")
+cat("Number of isolated nodes (no citations in or out):", 
+    isolated_count, "\n")
 cat("Proportion of isolated nodes:", 
     round(isolated_count / vcount(graph) * 100, 2), "%\n")
 ```
+
 ```{r draw graph without isolated nodes}
 # Remove isolated nodes for cleaner visualization
 non_isolated <- V(graph)[degree(graph, mode="all") > 0]
@@ -96,12 +107,15 @@ graph_connected <- induced_subgraph(graph, non_isolated)
 # plot graph without isolated nodes (color by university)
 institutions_connected <- unique(V(graph_connected)$institution)
 palette_connected <- brewer.pal(min(length(institutions_connected), 8), "Set2")
-color_map_connected <- setNames(rep(palette_connected, length.out = length(institutions_connected)), 
+color_map_connected <- setNames(rep(palette_connected, 
+                                length.out = length(institutions_connected)), 
                                 institutions_connected)
 V(graph_connected)$color <- color_map_connected[V(graph_connected)$institution]
 
-plot(graph_connected, vertex.size=2, edge.size=0.1, vertex.color=V(graph_connected)$color,
-     main="Network without isolated nodes (colored by university)", vertex.label=NA)
+plot(graph_connected, vertex.size=2, edge.size=0.1, 
+     vertex.color=V(graph_connected)$color,
+     main="Network without isolated nodes (colored by university)", 
+     vertex.label=NA)
 ```
 
 ```{r using updated new data separated from isolated}
@@ -124,11 +138,13 @@ graph2 <- simplify(graph2, remove.multiple = TRUE, remove.loops = TRUE)
 # plot graph (color by university)
 institutions <- unique(V(graph2)$institution)
 palette <- brewer.pal(min(length(institutions), 8), "Set2")
-color_map <- setNames(rep(palette, length.out = length(institutions)), institutions)
+color_map <- setNames(rep(palette, length.out = length(institutions)), 
+                      institutions)
 V(graph2)$color <- color_map[V(graph2)$institution]
 
 plot(graph2, vertex.size=3, edge.size=1, vertex.color=V(graph2)$color,
-     main="Overall network (colored by university)", vertex.label=NA, edge.arrow.size=0.5)
+     main="Overall network (colored by university)", 
+     vertex.label=NA, edge.arrow.size=0.5)
 ```
 
 ```{r}
@@ -137,8 +153,10 @@ cat("Total nodes:", vcount(graph2), "\n")
 cat("Total edges (citations):", ecount(graph2), "\n")
 cat("Network density:", edge_density(graph2), "\n")
 cat("Average degree:", mean(degree(graph2, mode="all")), "\n")
-cat("Average in-degree (citations received):", mean(degree(graph2, mode="in")), "\n")
-cat("Average out-degree (citations made):", mean(degree(graph2, mode="out")), "\n\n")
+cat("Average in-degree (citations received):", 
+    mean(degree(graph2, mode="in")), "\n")
+cat("Average out-degree (citations made):", 
+    mean(degree(graph2, mode="out")), "\n\n")
 ```
 
 ```{r}
@@ -152,7 +170,8 @@ cat("Proportion of nodes in largest component:",
 ```
 
 ```{r visualize-by-subtopic}
-top_subtopics <- names(sort(table(V(graph2)$subtopic), decreasing = TRUE)[1:10])
+top_subtopics <- names(sort(table(V(graph2)$subtopic), 
+                            decreasing = TRUE)[1:10])
 V(graph2)$subtopic_group <- ifelse(V(graph2)$subtopic %in% top_subtopics,
                                    V(graph2)$subtopic, "Other")
 
@@ -191,6 +210,160 @@ V(graph2)$closeness_in <- closeness(graph2, mode = "in", normalized = TRUE)
 V(graph2)$eigenvector <- eigen_centrality(graph2, directed = TRUE)$vector
 ```
 
+## Analyze the isolated nodes (Jinxi Hu)
 
+```{r analyze-isolated-nodes}
+# Load isolated nodes data
+nodes_isolated <- read.csv("data/nodes_isolated.csv")
 
+cat("=== ISOLATED NODES ANALYSIS ===\n")
+cat("Total isolated nodes:", nrow(nodes_isolated), "\n")
+cat("Isolated nodes have no citations in or out\n\n")
 
+# Basic statistics for isolated nodes
+cat("Year range for isolated papers:", min(nodes_isolated$year, na.rm=TRUE), "-", 
+    max(nodes_isolated$year, na.rm=TRUE), "\n")
+cat("Average citations for isolated papers:", 
+    round(mean(nodes_isolated$citations, na.rm=TRUE), 2), "\n")
+cat("Average references for isolated papers:", 
+    round(mean(nodes_isolated$references, na.rm=TRUE), 2), "\n\n")
+```
+
+```{r histogram-isolated-subtopics}
+# Frequency analysis by research subtopic for isolated nodes
+
+# Count frequency of subtopics in isolated nodes
+subtopic_freq_isolated <- table(nodes_isolated$subtopic)
+subtopic_df_isolated <- data.frame(
+  subtopic = names(subtopic_freq_isolated),
+  frequency = as.numeric(subtopic_freq_isolated)
+)
+subtopic_df_isolated <- subtopic_df_isolated[order(
+  subtopic_df_isolated$frequency, decreasing = TRUE), ]
+
+# Create histogram for subtopics (isolated nodes)
+ggplot(subtopic_df_isolated, aes(x = reorder(subtopic, frequency), 
+                                 y = frequency)) +
+  geom_bar(stat = "identity", fill = "lightcoral", alpha = 0.7) +
+  coord_flip() +
+  labs(title = "Research Subtopic Distribution - Isolated Nodes",
+       subtitle = paste("Total of", nrow(nodes_isolated), "isolated nodes"),
+       x = "Research Subtopic",
+       y = "Frequency") +
+  theme_minimal() +
+  theme(axis.text.y = element_text(size = 8),
+        plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5))
+
+# Print top subtopics for isolated nodes
+cat("Top 10 research subtopics in isolated nodes:\n")
+print(head(subtopic_df_isolated, 10))
+```
+
+```{r histogram-isolated-institutions}
+# Frequency analysis by institution for isolated nodes
+
+# Count frequency of institutions in isolated nodes
+institution_freq_isolated <- table(nodes_isolated$institution)
+institution_df_isolated <- data.frame(
+  institution = names(institution_freq_isolated),
+  frequency = as.numeric(institution_freq_isolated)
+)
+institution_df_isolated <- institution_df_isolated[order(
+  institution_df_isolated$frequency, decreasing = TRUE), ]
+
+# Show only top 20 institutions for better visualization
+top_institutions_isolated <- head(institution_df_isolated, 20)
+
+# Create histogram for institutions (isolated nodes)
+ggplot(top_institutions_isolated, aes(x = reorder(institution, frequency), 
+                                      y = frequency)) +
+  geom_bar(stat = "identity", fill = "lightblue", alpha = 0.7) +
+  coord_flip() +
+  labs(title = "Institution Distribution - Isolated Nodes (Top 20)",
+       subtitle = paste("Total of", nrow(nodes_isolated), 
+        "isolated nodes, showing top 20 institutions"),
+        x = "Institution",
+        y = "Frequency") +
+  theme_minimal() +
+  theme(axis.text.y = element_text(size = 8),
+        plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5))
+
+# Print top institutions for isolated nodes
+cat("\nTop 15 institutions with isolated nodes:\n")
+print(head(institution_df_isolated, 15))
+```
+
+```{r compare-isolated-vs-connected}
+# Compare isolated vs connected nodes
+
+# For connected nodes
+subtopic_freq_connected <- table(V(graph2)$subtopic)
+institution_freq_connected <- table(V(graph2)$institution)
+
+# Create comparison data frame for subtopics
+subtopic_comparison <- data.frame(
+  subtopic = unique(c(names(subtopic_freq_isolated), 
+                      names(subtopic_freq_connected))),
+  isolated = 0,
+  connected = 0
+)
+
+# Fill in frequencies
+for(i in 1:nrow(subtopic_comparison)) {
+  topic <- subtopic_comparison$subtopic[i]
+  subtopic_comparison$isolated[i] <- ifelse(
+    topic %in% names(subtopic_freq_isolated), 
+    subtopic_freq_isolated[topic], 0)
+  subtopic_comparison$connected[i] <- ifelse(
+    topic %in% names(subtopic_freq_connected), 
+    subtopic_freq_connected[topic], 0)
+}
+
+# Calculate proportions
+subtopic_comparison$total <- subtopic_comparison$isolated + subtopic_comparison$connected
+subtopic_comparison$isolated_prop <- subtopic_comparison$
+  isolated / subtopic_comparison$total
+subtopic_comparison <- subtopic_comparison[order(
+  subtopic_comparison$isolated_prop, decreasing = TRUE), ]
+
+cat("\n=== COMPARISON: ISOLATED vs CONNECTED NODES ===\n")
+cat("Research subtopics with highest isolation rates:\n")
+print(head(subtopic_comparison[subtopic_comparison$total >= 5, 
+                               c("subtopic", "isolated", "connected", 
+                                 "isolated_prop")], 10))
+```
+
+```{r histogram-comparison-subtopics}
+# Visualize comparison of isolated vs connected by subtopic
+
+# Prepare data for comparison plot (top 15 subtopics by total count)
+top_subtopics_total <- head(subtopic_comparison[order(subtopic_comparison$total, 
+                                                      decreasing = TRUE), ], 15)
+comparison_melted <- melt(top_subtopics_total[, 
+                         c("subtopic", "isolated", "connected")], 
+                         id.vars = "subtopic", 
+                         variable.name = "type", 
+                         value.name = "count")
+
+# Create stacked bar chart
+ggplot(comparison_melted, aes(x = reorder(subtopic, count), y = count, 
+                              fill = type)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  scale_fill_manual(values = c("isolated" = "lightcoral", 
+                               "connected" = "lightblue"),
+                    labels = c("Isolated Nodes", "Connected Nodes")) +
+  labs(title = "Research Subtopic Distribution Comparison: 
+       Isolated vs Connected Nodes",
+       subtitle = "Top 15 research subtopics ordered by total paper count",
+       x = "Research Subtopic",
+       y = "Number of Papers",
+       fill = "Node Type") +
+  theme_minimal() +
+  theme(axis.text.y = element_text(size = 8),
+        plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5),
+        legend.position = "bottom")
+```
