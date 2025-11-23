@@ -367,3 +367,187 @@ ggplot(comparison_melted, aes(x = reorder(subtopic, count), y = count,
         plot.subtitle = element_text(hjust = 0.5),
         legend.position = "bottom")
 ```
+
+## Analyze the connected nodes (Jinxi Hu)
+
+```{r analyze-connected-nodes}
+# Analyze connected nodes (non-isolated nodes)
+cat("=== CONNECTED NODES ANALYSIS ===\n")
+cat("Total connected nodes:", nrow(nodes2), "\n")
+cat("Connected nodes have at least one citation in or out\n\n")
+
+# Basic statistics for connected nodes
+cat("Year range for connected papers:", min(nodes2$year, na.rm=TRUE), "-", 
+    max(nodes2$year, na.rm=TRUE), "\n")
+cat("Average citations for connected papers:", 
+    round(mean(nodes2$citations, na.rm=TRUE), 2), "\n")
+cat("Average references for connected papers:", 
+    round(mean(nodes2$references, na.rm=TRUE), 2), "\n\n")
+```
+
+```{r histogram-connected-subtopics}
+# Frequency analysis by research subtopic for connected nodes
+
+# Count frequency of subtopics in connected nodes
+subtopic_freq_connected_detailed <- table(nodes2$subtopic)
+subtopic_df_connected <- data.frame(
+  subtopic = names(subtopic_freq_connected_detailed),
+  frequency = as.numeric(subtopic_freq_connected_detailed)
+)
+subtopic_df_connected <- subtopic_df_connected[order(
+  subtopic_df_connected$frequency, decreasing = TRUE), ]
+
+# Create histogram for subtopics (connected nodes)
+ggplot(subtopic_df_connected, aes(x = reorder(subtopic, frequency), 
+                                  y = frequency)) +
+  geom_bar(stat = "identity", fill = "lightgreen", alpha = 0.7) +
+  coord_flip() +
+  labs(title = "Research Subtopic Distribution - Connected Nodes",
+       subtitle = paste("Total of", nrow(nodes2), "connected nodes"),
+       x = "Research Subtopic",
+       y = "Frequency") +
+  theme_minimal() +
+  theme(axis.text.y = element_text(size = 8),
+        plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5))
+
+# Print top subtopics for connected nodes
+cat("Top 10 research subtopics in connected nodes:\n")
+print(head(subtopic_df_connected, 10))
+```
+
+```{r histogram-connected-institutions}
+# Frequency analysis by institution for connected nodes
+
+# Count frequency of institutions in connected nodes
+institution_freq_connected_detailed <- table(nodes2$institution)
+institution_df_connected <- data.frame(
+  institution = names(institution_freq_connected_detailed),
+  frequency = as.numeric(institution_freq_connected_detailed)
+)
+institution_df_connected <- institution_df_connected[order(
+  institution_df_connected$frequency, decreasing = TRUE), ]
+
+# Show only top 20 institutions for better visualization
+top_institutions_connected <- head(institution_df_connected, 20)
+
+# Create histogram for institutions (connected nodes)
+ggplot(top_institutions_connected, aes(x = reorder(institution, frequency), 
+                                       y = frequency)) +
+  geom_bar(stat = "identity", fill = "lightsteelblue", alpha = 0.7) +
+  coord_flip() +
+  labs(title = "Institution Distribution - Connected Nodes (Top 20)",
+       subtitle = paste("Total of", nrow(nodes2), 
+                       "connected nodes, showing top 20 institutions"),
+       x = "Institution",
+       y = "Frequency") +
+  theme_minimal() +
+  theme(axis.text.y = element_text(size = 8),
+        plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5))
+
+# Print top institutions for connected nodes
+cat("\nTop 15 institutions with connected nodes:\n")
+print(head(institution_df_connected, 15))
+```
+
+```{r detailed-comparison-analysis}
+# Detailed comparison between isolated and connected nodes
+
+cat("\n=== DETAILED COMPARISON ANALYSIS ===\n")
+
+# Compare basic statistics
+cat("BASIC STATISTICS COMPARISON:\n")
+cat("Isolated nodes - Average citations:", 
+    round(mean(nodes_isolated$citations, na.rm=TRUE), 2), "\n")
+cat("Connected nodes - Average citations:", 
+    round(mean(nodes2$citations, na.rm=TRUE), 2), "\n")
+cat("Isolated nodes - Average references:", 
+    round(mean(nodes_isolated$references, na.rm=TRUE), 2), "\n")
+cat("Connected nodes - Average references:", 
+    round(mean(nodes2$references, na.rm=TRUE), 2), "\n\n")
+
+# Top institutions comparison
+cat("TOP INSTITUTIONS COMPARISON:\n")
+cat("Top 5 institutions in isolated nodes:\n")
+print(head(institution_df_isolated, 5))
+cat("\nTop 5 institutions in connected nodes:\n")
+print(head(institution_df_connected, 5))
+
+# Top subtopics comparison  
+cat("\nTOP SUBTOPICS COMPARISON:\n")
+cat("Top 5 subtopics in isolated nodes:\n")
+print(head(subtopic_df_isolated, 5))
+cat("\nTop 5 subtopics in connected nodes:\n")
+print(head(subtopic_df_connected, 5))
+```
+
+```{r side-by-side-comparison-plots}
+# Create side-by-side comparison plots
+
+# Prepare data for subtopic comparison (top 10 from each)
+top_isolated_subtopics <- head(subtopic_df_isolated, 10)
+top_connected_subtopics <- head(subtopic_df_connected, 10)
+
+# Combine and label data
+top_isolated_subtopics$type <- "Isolated"
+top_connected_subtopics$type <- "Connected"
+
+combined_subtopics <- rbind(
+  top_isolated_subtopics[, c("subtopic", "frequency", "type")],
+  top_connected_subtopics[, c("subtopic", "frequency", "type")]
+)
+
+# Create faceted plot for subtopic comparison
+ggplot(combined_subtopics, aes(x = reorder(subtopic, frequency), 
+                               y = frequency, fill = type)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  facet_wrap(~type, scales = "free") +
+  scale_fill_manual(values = c("Isolated" = "lightcoral", 
+                               "Connected" = "lightgreen")) +
+  labs(title = "Top Research Subtopics: Isolated vs Connected Nodes",
+       subtitle = "Top 10 subtopics for each node type",
+       x = "Research Subtopic",
+       y = "Frequency") +
+  theme_minimal() +
+  theme(axis.text.y = element_text(size = 7),
+        plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5),
+        legend.position = "none",
+        strip.text = element_text(size = 10, face = "bold"))
+```
+
+```{r institution-comparison-plot}
+# Institution comparison plot
+top_isolated_institutions <- head(institution_df_isolated, 10)
+top_connected_institutions <- head(institution_df_connected, 10)
+
+# Combine and label data
+top_isolated_institutions$type <- "Isolated"
+top_connected_institutions$type <- "Connected"
+
+combined_institutions <- rbind(
+  top_isolated_institutions[, c("institution", "frequency", "type")],
+  top_connected_institutions[, c("institution", "frequency", "type")]
+)
+
+# Create faceted plot for institution comparison
+ggplot(combined_institutions, aes(x = reorder(institution, frequency), 
+                                  y = frequency, fill = type)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  facet_wrap(~type, scales = "free") +
+  scale_fill_manual(values = c("Isolated" = "lightblue", 
+                               "Connected" = "lightsteelblue")) +
+  labs(title = "Top Institutions: Isolated vs Connected Nodes",
+       subtitle = "Top 10 institutions for each node type",
+       x = "Institution",
+       y = "Frequency") +
+  theme_minimal() +
+  theme(axis.text.y = element_text(size = 7),
+        plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5),
+        legend.position = "none",
+        strip.text = element_text(size = 10, face = "bold"))
+```
