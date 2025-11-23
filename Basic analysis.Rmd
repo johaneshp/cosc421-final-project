@@ -9,7 +9,7 @@ output: pdf_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## set uup
+## set up
 
 ```{r set up,message = FALSE, warning = FALSE}
 library(readr)

@@ -1,0 +1,250 @@
+---
+title: "Deeper analysis and Network statistics"
+author: "Jinxi_Hu-48528608, Samarth_Grover-38220463"
+date: "2025-11-09"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## set up
+```{r set up,message = FALSE, warning = FALSE}
+library(readr)
+library(igraph)
+library(RColorBrewer)
+library(ggplot2)
+library(reshape2)
+library(scales)
+set.seed(48528608)
+```
+
+## Load and prepare connected nodes data (Jinxi Hu)
+
+```{r load-connected-data}
+# Load the connected nodes and edges data
+nodes_connected <- read.csv("data/nodes_connected.csv")
+edges_connected <- read.csv("data/edges_connected.csv")
+
+cat("=== DATA LOADING ===\n")
+cat("Connected nodes loaded:", nrow(nodes_connected), "\n")
+cat("Connected edges loaded:", nrow(edges_connected), "\n\n")
+
+# Create the graph from connected nodes only
+graph_connected <- graph_from_data_frame(edges_connected, 
+                                        vertices = nodes_connected, 
+                                        directed = TRUE)
+# Remove multiple edges and self-loops for cleaner analysis
+graph_connected <- simplify(graph_connected, 
+                          remove.multiple = TRUE, 
+                          remove.loops = TRUE)
+
+cat("Graph created successfully\n")
+cat("Final nodes in graph:", vcount(graph_connected), "\n")
+cat("Final edges in graph:", ecount(graph_connected), "\n\n")
+```
+
+## Basic Graph Analysis (Jinxi Hu)
+
+```{r basic-graph-analysis}
+cat("=== BASIC GRAPH STATISTICS ===\n")
+cat("Total nodes:", vcount(graph_connected), "\n")
+cat("Total edges (citations):", ecount(graph_connected), "\n")
+cat("Network density:", round(edge_density(graph_connected), 6), "\n")
+cat("Is directed:", is_directed(graph_connected), "\n")
+cat("Is weighted:", is_weighted(graph_connected), "\n\n")
+
+# Calculate degree statistics
+all_degrees <- degree(graph_connected, mode = "all")
+in_degrees <- degree(graph_connected, mode = "in")
+out_degrees <- degree(graph_connected, mode = "out")
+
+cat("=== DEGREE STATISTICS ===\n")
+cat("Average total degree:", round(mean(all_degrees), 2), "\n")
+cat("Average in-degree (citations received):", round(mean(in_degrees), 2), "\n")
+cat("Average out-degree (citations made):", round(mean(out_degrees), 2), "\n\n")
+
+cat("Degree range (total):", min(all_degrees), "-", max(all_degrees), "\n")
+cat("Degree range (in):", min(in_degrees), "-", max(in_degrees), "\n")
+cat("Degree range (out):", min(out_degrees), "-", max(out_degrees), "\n\n")
+
+cat("Standard deviation (total):", round(sd(all_degrees), 2), "\n")
+cat("Standard deviation (in):", round(sd(in_degrees), 2), "\n")
+cat("Standard deviation (out):", round(sd(out_degrees), 2), "\n\n")
+```
+
+```{r component-analysis}
+cat("=== COMPONENT ANALYSIS ===\n")
+
+# Analyze weakly connected components
+weak_components <- components(graph_connected, mode = "weak")
+cat("Number of weakly connected components:", weak_components$no, "\n")
+cat("Size of largest weak component:", max(weak_components$csize), "\n")
+cat("Proportion of nodes in largest weak component:", 
+    round(max(weak_components$csize) / vcount(graph_connected) * 100, 2), "%\n\n")
+
+# Analyze strongly connected components
+strong_components <- components(graph_connected, mode = "strong")
+cat("Number of strongly connected components:", strong_components$no, "\n")
+cat("Size of largest strong component:", max(strong_components$csize), "\n")
+cat("Proportion of nodes in largest strong component:", 
+    round(max(strong_components$csize) / vcount(graph_connected) * 100, 2), "%\n\n")
+
+# Component size distribution
+cat("Weak component sizes (top 10):\n")
+weak_sizes <- sort(weak_components$csize, decreasing = TRUE)
+print(head(weak_sizes, 10))
+
+cat("\nStrong component sizes (top 10):\n")
+strong_sizes <- sort(strong_components$csize, decreasing = TRUE)
+print(head(strong_sizes, 10))
+```
+
+```{r degree-distribution-analysis}
+# Create comprehensive degree distribution analysis
+
+# Prepare data for plotting
+degree_data <- data.frame(
+  node_id = V(graph_connected)$name,
+  total_degree = all_degrees,
+  in_degree = in_degrees,
+  out_degree = out_degrees
+)
+
+# Add node attributes for additional analysis
+degree_data$institution <- V(graph_connected)$institution
+degree_data$subtopic <- V(graph_connected)$subtopic
+degree_data$year <- V(graph_connected)$year
+degree_data$citations <- V(graph_connected)$citations
+
+cat("=== DEGREE DISTRIBUTION SUMMARY ===\n")
+cat("Total degree quartiles:\n")
+print(quantile(all_degrees))
+cat("\nIn-degree quartiles:\n")
+print(quantile(in_degrees))
+cat("\nOut-degree quartiles:\n")
+print(quantile(out_degrees))
+```
+
+```{r in-degree-histogram}
+# In-degree distribution histogram
+ggplot(degree_data, aes(x = in_degree)) +
+  geom_histogram(binwidth = 1, fill = "lightblue", alpha = 0.7, color = "white") +
+  labs(title = "In-Degree Distribution (Citations Received)",
+       subtitle = paste("Connected nodes (n =", vcount(graph_connected), ")"),
+       x = "In-Degree (Citations Received)",
+       y = "Frequency") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5)) +
+  scale_x_continuous(breaks = seq(0, max(in_degrees), by = 5))
+
+# Print summary statistics
+cat("\nIN-DEGREE DISTRIBUTION STATISTICS:\n")
+cat("Mean:", round(mean(in_degrees), 2), "\n")
+cat("Median:", median(in_degrees), "\n")
+cat("Mode:", names(sort(table(in_degrees), decreasing = TRUE))[1], "\n")
+cat("Nodes with 0 in-degree:", sum(in_degrees == 0), "\n")
+cat("Nodes with >10 in-degree:", sum(in_degrees > 10), "\n")
+```
+
+```{r out-degree-histogram}
+# Out-degree distribution histogram
+ggplot(degree_data, aes(x = out_degree)) +
+  geom_histogram(binwidth = 1, fill = "lightcoral", alpha = 0.7, color = "white") +
+  labs(title = "Out-Degree Distribution (Citations Made)",
+       subtitle = paste("Connected nodes (n =", vcount(graph_connected), ")"),
+       x = "Out-Degree (Citations Made)",
+       y = "Frequency") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5)) +
+  scale_x_continuous(breaks = seq(0, max(out_degrees), by = 5))
+
+# Print summary statistics
+cat("\nOUT-DEGREE DISTRIBUTION STATISTICS:\n")
+cat("Mean:", round(mean(out_degrees), 2), "\n")
+cat("Median:", median(out_degrees), "\n")
+cat("Mode:", names(sort(table(out_degrees), decreasing = TRUE))[1], "\n")
+cat("Nodes with 0 out-degree:", sum(out_degrees == 0), "\n")
+cat("Nodes with >10 out-degree:", sum(out_degrees > 10), "\n")
+```
+
+```{r total-degree-histogram}
+# Total degree distribution histogram
+ggplot(degree_data, aes(x = total_degree)) +
+  geom_histogram(binwidth = 2, fill = "lightgreen", alpha = 0.7, color = "white") +
+  labs(title = "Total Degree Distribution",
+       subtitle = paste("Connected nodes (n =", vcount(graph_connected), ")"),
+       x = "Total Degree (In + Out)",
+       y = "Frequency") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5)) +
+  scale_x_continuous(breaks = seq(0, max(all_degrees), by = 10))
+
+# Print summary statistics
+cat("\nTOTAL DEGREE DISTRIBUTION STATISTICS:\n")
+cat("Mean:", round(mean(all_degrees), 2), "\n")
+cat("Median:", median(all_degrees), "\n")
+cat("Mode:", names(sort(table(all_degrees), decreasing = TRUE))[1], "\n")
+cat("Nodes with degree 1:", sum(all_degrees == 1), "\n")
+cat("Nodes with degree >20:", sum(all_degrees > 20), "\n")
+```
+
+```{r degree-comparison-plot}
+# Create combined degree distribution plot
+degree_long <- reshape2::melt(degree_data[, c("in_degree", "out_degree", "total_degree")],
+                             variable.name = "degree_type",
+                             value.name = "degree_value")
+
+# Rename for better labels
+degree_long$degree_type <- factor(degree_long$degree_type,
+                                 levels = c("in_degree", "out_degree", "total_degree"),
+                                 labels = c("In-Degree", "Out-Degree", "Total Degree"))
+
+# Create faceted histogram
+ggplot(degree_long, aes(x = degree_value, fill = degree_type)) +
+  geom_histogram(alpha = 0.7, color = "white", bins = 30) +
+  facet_wrap(~degree_type, scales = "free") +
+  scale_fill_manual(values = c("In-Degree" = "lightblue", 
+                              "Out-Degree" = "lightcoral", 
+                              "Total Degree" = "lightgreen")) +
+  labs(title = "Degree Distribution Comparison",
+       subtitle = "In-Degree vs Out-Degree vs Total Degree",
+       x = "Degree Value",
+       y = "Frequency") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5),
+        legend.position = "none",
+        strip.text = element_text(face = "bold"))
+```
+
+```{r largest-component-analysis}
+# Analyze the largest component in detail
+cat("=== LARGEST COMPONENT DETAILED ANALYSIS ===\n")
+
+# Extract the largest weakly connected component
+largest_comp_nodes <- which(weak_components$membership == which.max(weak_components$csize))
+largest_component <- induced_subgraph(graph_connected, largest_comp_nodes)
+
+cat("Largest component statistics:\n")
+cat("Nodes:", vcount(largest_component), "\n")
+cat("Edges:", ecount(largest_component), "\n")
+cat("Density:", round(edge_density(largest_component), 6), "\n")
+cat("Average in degree:", round(mean(degree(largest_component, mode = "in")), 2), "\n")
+cat("Average out degree:", round(mean(degree(largest_component, mode = "out")), 2), "\n")
+cat("Average degree:", round(mean(degree(largest_component, mode = "all")), 2), "\n")
+cat("Diameter:", diameter(largest_component, directed = FALSE), "\n")
+cat("Average path length:", round(mean_distance(largest_component, directed = FALSE), 2), "\n\n")
+
+# Check if there are smaller components worth analyzing
+if(length(unique(weak_components$csize)) > 1) {
+  second_largest_size <- sort(weak_components$csize, decreasing = TRUE)[2]
+  cat("Second largest component size:", second_largest_size, "\n")
+  cat("Ratio (largest/second largest):", round(max(weak_components$csize) / 
+  second_largest_size, 2), "\n")
+}
+```
