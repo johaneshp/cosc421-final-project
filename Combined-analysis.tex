@@ -1,0 +1,1325 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Integrated Network Analysis},
+  pdfauthor={Jinxi\_Hu-48528608, Samarth\_Grover-38220463},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Integrated Network Analysis}
+\author{Jinxi\_Hu-48528608, Samarth\_Grover-38220463}
+\date{2025-11-09}
+
+\begin{document}
+\maketitle
+
+\subsection{1. Environment and
+Dependencies}\label{environment-and-dependencies}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(readr)}
+\FunctionTok{library}\NormalTok{(igraph)}
+\FunctionTok{library}\NormalTok{(RColorBrewer)}
+\FunctionTok{library}\NormalTok{(ggplot2)}
+\FunctionTok{library}\NormalTok{(reshape2)}
+\FunctionTok{library}\NormalTok{(scales)}
+\FunctionTok{library}\NormalTok{(gridExtra)}
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{48528608}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{2. Raw Data Loading and Preprocessing (before removing
+isolated
+nodes)}\label{raw-data-loading-and-preprocessing-before-removing-isolated-nodes}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Load raw node and edge data}
+\NormalTok{a\_nodes }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"data/nodes.csv"}\NormalTok{)}
+\NormalTok{a\_edges }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"data/edges.csv"}\NormalTok{)}
+
+\CommentTok{\# Keep nodes with non{-}empty titles}
+\NormalTok{a\_nodes\_clean }\OtherTok{\textless{}{-}} \FunctionTok{subset}\NormalTok{(a\_nodes, }\SpecialCharTok{!}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(title) }\SpecialCharTok{|} \FunctionTok{trimws}\NormalTok{(title) }\SpecialCharTok{==} \StringTok{""}\NormalTok{))}
+
+\CommentTok{\# Filter valid edges (source and target both in node set)}
+\NormalTok{a\_edges\_clean }\OtherTok{\textless{}{-}} \FunctionTok{subset}\NormalTok{(a\_edges, source }\SpecialCharTok{\%in\%}\NormalTok{ a\_nodes\_clean}\SpecialCharTok{$}\NormalTok{local\_id }\SpecialCharTok{\&} 
+\NormalTok{                                  target }\SpecialCharTok{\%in\%}\NormalTok{ a\_nodes\_clean}\SpecialCharTok{$}\NormalTok{local\_id)}
+
+\FunctionTok{cat}\NormalTok{(}\StringTok{"=== RAW DATA ===}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## === RAW DATA ===
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Total nodes (including potential isolated):"}\NormalTok{, }\FunctionTok{nrow}\NormalTok{(a\_nodes\_clean), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Total nodes (including potential isolated): 2610
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Valid citation edges:"}\NormalTok{, }\FunctionTok{nrow}\NormalTok{(a\_edges\_clean), }\StringTok{"}\SpecialCharTok{\textbackslash{}n\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Valid citation edges: 3757
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Build undirected base graph (for overview and isolated node detection)}
+\NormalTok{graph\_raw }\OtherTok{\textless{}{-}} \FunctionTok{graph\_from\_data\_frame}\NormalTok{(a\_edges\_clean, }\AttributeTok{vertices =}\NormalTok{ a\_nodes\_clean, }\AttributeTok{directed =} \ConstantTok{FALSE}\NormalTok{)}
+\CommentTok{\# Remove multi{-}edges and self{-}loops}
+\NormalTok{graph\_raw }\OtherTok{\textless{}{-}} \FunctionTok{simplify}\NormalTok{(graph\_raw, }\AttributeTok{remove.multiple =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{remove.loops =} \ConstantTok{TRUE}\NormalTok{)}
+
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Raw undirected graph nodes:"}\NormalTok{, }\FunctionTok{vcount}\NormalTok{(graph\_raw), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Raw undirected graph nodes: 2610
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Raw undirected graph edges:"}\NormalTok{, }\FunctionTok{ecount}\NormalTok{(graph\_raw), }\StringTok{"}\SpecialCharTok{\textbackslash{}n\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Raw undirected graph edges: 3722
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Compute isolated nodes}
+\NormalTok{deg\_all\_raw }\OtherTok{\textless{}{-}} \FunctionTok{degree}\NormalTok{(graph\_raw, }\AttributeTok{mode =} \StringTok{"all"}\NormalTok{)}
+\NormalTok{raw\_isolated }\OtherTok{\textless{}{-}} \FunctionTok{V}\NormalTok{(graph\_raw)[deg\_all\_raw }\SpecialCharTok{==} \DecValTok{0}\NormalTok{]}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Isolated nodes count:"}\NormalTok{, }\FunctionTok{length}\NormalTok{(raw\_isolated), }\StringTok{" ("}\NormalTok{, }\FunctionTok{round}\NormalTok{(}\FunctionTok{length}\NormalTok{(raw\_isolated)}\SpecialCharTok{/}\FunctionTok{vcount}\NormalTok{(graph\_raw)}\SpecialCharTok{*}\DecValTok{100}\NormalTok{, }\DecValTok{2}\NormalTok{), }\StringTok{"\%)}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Isolated nodes count: 1043  ( 39.96 %)
+\end{verbatim}
+
+\subsection{3. Connected Data After Removing Isolated Nodes (for
+directed advanced
+analysis)}\label{connected-data-after-removing-isolated-nodes-for-directed-advanced-analysis}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Load cleaned connected node/edge data (already separated from isolated set)}
+\NormalTok{nodes\_connected }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"data/nodes\_connected.csv"}\NormalTok{)}
+\NormalTok{edges\_connected }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"data/edges\_connected.csv"}\NormalTok{)}
+
+\FunctionTok{cat}\NormalTok{(}\StringTok{"=== CONNECTED DATA ===}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## === CONNECTED DATA ===
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Connected nodes:"}\NormalTok{, }\FunctionTok{nrow}\NormalTok{(nodes\_connected), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Connected nodes: 1582
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Connected edges:"}\NormalTok{, }\FunctionTok{nrow}\NormalTok{(edges\_connected), }\StringTok{"}\SpecialCharTok{\textbackslash{}n\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Connected edges: 3757
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Build directed graph}
+\NormalTok{graph\_connected }\OtherTok{\textless{}{-}} \FunctionTok{graph\_from\_data\_frame}\NormalTok{(edges\_connected, }\AttributeTok{vertices =}\NormalTok{ nodes\_connected, }\AttributeTok{directed =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{graph\_connected }\OtherTok{\textless{}{-}} \FunctionTok{simplify}\NormalTok{(graph\_connected, }\AttributeTok{remove.multiple =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{remove.loops =} \ConstantTok{TRUE}\NormalTok{)}
+
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Directed graph nodes:"}\NormalTok{, }\FunctionTok{vcount}\NormalTok{(graph\_connected), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Directed graph nodes: 1582
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Directed graph edges:"}\NormalTok{, }\FunctionTok{ecount}\NormalTok{(graph\_connected), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Directed graph edges: 3730
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Network density:"}\NormalTok{, }\FunctionTok{round}\NormalTok{(}\FunctionTok{edge\_density}\NormalTok{(graph\_connected), }\DecValTok{6}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Network density: 0.001491
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Is directed:"}\NormalTok{, }\FunctionTok{is\_directed}\NormalTok{(graph\_connected), }\StringTok{" | Is weighted:"}\NormalTok{, }\FunctionTok{is\_weighted}\NormalTok{(graph\_connected), }\StringTok{"}\SpecialCharTok{\textbackslash{}n\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Is directed: TRUE  | Is weighted: FALSE
+\end{verbatim}
+
+\subsection{4. Global Degree Statistics and Distributions (directed
+connected
+graph)}\label{global-degree-statistics-and-distributions-directed-connected-graph}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{all\_deg }\OtherTok{\textless{}{-}} \FunctionTok{degree}\NormalTok{(graph\_connected, }\AttributeTok{mode =} \StringTok{"all"}\NormalTok{)}
+\NormalTok{in\_deg }\OtherTok{\textless{}{-}} \FunctionTok{degree}\NormalTok{(graph\_connected, }\AttributeTok{mode =} \StringTok{"in"}\NormalTok{)}
+\NormalTok{out\_deg }\OtherTok{\textless{}{-}} \FunctionTok{degree}\NormalTok{(graph\_connected, }\AttributeTok{mode =} \StringTok{"out"}\NormalTok{)}
+
+\FunctionTok{cat}\NormalTok{(}\StringTok{"=== GLOBAL DEGREE STATISTICS ===}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## === GLOBAL DEGREE STATISTICS ===
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Mean total degree:"}\NormalTok{, }\FunctionTok{round}\NormalTok{(}\FunctionTok{mean}\NormalTok{(all\_deg), }\DecValTok{2}\NormalTok{), }\StringTok{" | Range:"}\NormalTok{, }\FunctionTok{min}\NormalTok{(all\_deg), }\StringTok{"{-}"}\NormalTok{, }\FunctionTok{max}\NormalTok{(all\_deg), }\StringTok{" | SD:"}\NormalTok{, }\FunctionTok{round}\NormalTok{(}\FunctionTok{sd}\NormalTok{(all\_deg),}\DecValTok{2}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Mean total degree: 4.72  | Range: 0 - 110  | SD: 6.74
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Mean in{-}degree:"}\NormalTok{, }\FunctionTok{round}\NormalTok{(}\FunctionTok{mean}\NormalTok{(in\_deg), }\DecValTok{2}\NormalTok{), }\StringTok{" | Range:"}\NormalTok{, }\FunctionTok{min}\NormalTok{(in\_deg), }\StringTok{"{-}"}\NormalTok{, }\FunctionTok{max}\NormalTok{(in\_deg), }\StringTok{" | SD:"}\NormalTok{, }\FunctionTok{round}\NormalTok{(}\FunctionTok{sd}\NormalTok{(in\_deg),}\DecValTok{2}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Mean in-degree: 2.36  | Range: 0 - 104  | SD: 6.2
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Mean out{-}degree:"}\NormalTok{, }\FunctionTok{round}\NormalTok{(}\FunctionTok{mean}\NormalTok{(out\_deg), }\DecValTok{2}\NormalTok{), }\StringTok{" | Range:"}\NormalTok{, }\FunctionTok{min}\NormalTok{(out\_deg), }\StringTok{"{-}"}\NormalTok{, }\FunctionTok{max}\NormalTok{(out\_deg), }\StringTok{" | SD:"}\NormalTok{, }\FunctionTok{round}\NormalTok{(}\FunctionTok{sd}\NormalTok{(out\_deg),}\DecValTok{2}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Mean out-degree: 2.36  | Range: 0 - 29  | SD: 2.72
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{degree\_data }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}
+  \AttributeTok{node\_id =} \FunctionTok{V}\NormalTok{(graph\_connected)}\SpecialCharTok{$}\NormalTok{name,}
+  \AttributeTok{total\_degree =}\NormalTok{ all\_deg,}
+  \AttributeTok{in\_degree =}\NormalTok{ in\_deg,}
+  \AttributeTok{out\_degree =}\NormalTok{ out\_deg,}
+  \AttributeTok{institution =} \FunctionTok{V}\NormalTok{(graph\_connected)}\SpecialCharTok{$}\NormalTok{institution,}
+  \AttributeTok{subtopic =} \FunctionTok{V}\NormalTok{(graph\_connected)}\SpecialCharTok{$}\NormalTok{subtopic,}
+  \AttributeTok{year =} \FunctionTok{V}\NormalTok{(graph\_connected)}\SpecialCharTok{$}\NormalTok{year,}
+  \AttributeTok{citations =} \FunctionTok{V}\NormalTok{(graph\_connected)}\SpecialCharTok{$}\NormalTok{citations}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# In{-}degree distribution}
+\FunctionTok{ggplot}\NormalTok{(degree\_data, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ in\_degree)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_histogram}\NormalTok{(}\AttributeTok{binwidth =} \DecValTok{1}\NormalTok{, }\AttributeTok{fill =} \StringTok{"lightblue"}\NormalTok{, }\AttributeTok{alpha =} \FloatTok{0.7}\NormalTok{, }\AttributeTok{color =} \StringTok{"white"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"In{-}Degree Distribution"}\NormalTok{, }\AttributeTok{subtitle =} \FunctionTok{paste}\NormalTok{(}\StringTok{"Connected nodes n="}\NormalTok{, }\FunctionTok{vcount}\NormalTok{(graph\_connected)),}
+       \AttributeTok{x =} \StringTok{"In{-}Degree"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Frequency"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{theme\_minimal}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Combined-analysis_files/figure-latex/hist-in-degree-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Out{-}degree distribution}
+\FunctionTok{ggplot}\NormalTok{(degree\_data, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ out\_degree)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_histogram}\NormalTok{(}\AttributeTok{binwidth =} \DecValTok{1}\NormalTok{, }\AttributeTok{fill =} \StringTok{"lightcoral"}\NormalTok{, }\AttributeTok{alpha =} \FloatTok{0.7}\NormalTok{, }\AttributeTok{color =} \StringTok{"white"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Out{-}Degree Distribution"}\NormalTok{, }\AttributeTok{subtitle =} \FunctionTok{paste}\NormalTok{(}\StringTok{"Connected nodes n="}\NormalTok{, }\FunctionTok{vcount}\NormalTok{(graph\_connected)),}
+       \AttributeTok{x =} \StringTok{"Out{-}Degree"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Frequency"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{theme\_minimal}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Combined-analysis_files/figure-latex/hist-out-degree-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Total{-}degree distribution}
+\FunctionTok{ggplot}\NormalTok{(degree\_data, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ total\_degree)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_histogram}\NormalTok{(}\AttributeTok{binwidth =} \DecValTok{2}\NormalTok{, }\AttributeTok{fill =} \StringTok{"lightgreen"}\NormalTok{, }\AttributeTok{alpha =} \FloatTok{0.7}\NormalTok{, }\AttributeTok{color =} \StringTok{"white"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Total Degree Distribution"}\NormalTok{, }\AttributeTok{subtitle =} \FunctionTok{paste}\NormalTok{(}\StringTok{"Connected nodes n="}\NormalTok{, }\FunctionTok{vcount}\NormalTok{(graph\_connected)),}
+       \AttributeTok{x =} \StringTok{"Total Degree"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Frequency"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{theme\_minimal}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Combined-analysis_files/figure-latex/hist-total-degree-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{degree\_long }\OtherTok{\textless{}{-}} \FunctionTok{melt}\NormalTok{(degree\_data[, }\FunctionTok{c}\NormalTok{(}\StringTok{"in\_degree"}\NormalTok{, }\StringTok{"out\_degree"}\NormalTok{, }\StringTok{"total\_degree"}\NormalTok{)],}
+                    \AttributeTok{variable.name =} \StringTok{"degree\_type"}\NormalTok{, }\AttributeTok{value.name =} \StringTok{"degree\_value"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## No id variables; using all as measure variables
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{degree\_long}\SpecialCharTok{$}\NormalTok{degree\_type }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(degree\_long}\SpecialCharTok{$}\NormalTok{degree\_type,}
+                                  \AttributeTok{levels =} \FunctionTok{c}\NormalTok{(}\StringTok{"in\_degree"}\NormalTok{, }\StringTok{"out\_degree"}\NormalTok{, }\StringTok{"total\_degree"}\NormalTok{),}
+                                  \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"In{-}Degree"}\NormalTok{, }\StringTok{"Out{-}Degree"}\NormalTok{, }\StringTok{"Total Degree"}\NormalTok{))}
+
+\FunctionTok{ggplot}\NormalTok{(degree\_long, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ degree\_value, }\AttributeTok{fill =}\NormalTok{ degree\_type)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_histogram}\NormalTok{(}\AttributeTok{alpha =} \FloatTok{0.7}\NormalTok{, }\AttributeTok{color =} \StringTok{"white"}\NormalTok{, }\AttributeTok{bins =} \DecValTok{30}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{facet\_wrap}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\NormalTok{degree\_type, }\AttributeTok{scales =} \StringTok{"free"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_fill\_manual}\NormalTok{(}\AttributeTok{values =} \FunctionTok{c}\NormalTok{(}\StringTok{"In{-}Degree"} \OtherTok{=} \StringTok{"lightblue"}\NormalTok{, }\StringTok{"Out{-}Degree"} \OtherTok{=} \StringTok{"lightcoral"}\NormalTok{, }\StringTok{"Total Degree"} \OtherTok{=} \StringTok{"lightgreen"}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Degree Distribution Comparison"}\NormalTok{, }\AttributeTok{subtitle =} \StringTok{"In{-}Degree vs Out{-}Degree vs Total Degree"}\NormalTok{, }\AttributeTok{x =} \StringTok{"Degree Value"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Frequency"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{() }\SpecialCharTok{+} \FunctionTok{theme}\NormalTok{(}\AttributeTok{legend.position =} \StringTok{"none"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Combined-analysis_files/figure-latex/degree-comparison-1.pdf}
+
+\subsection{5. Component Analysis (directed
+graph)}\label{component-analysis-directed-graph}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"=== COMPONENT ANALYSIS (DIRECTED GRAPH) ===}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## === COMPONENT ANALYSIS (DIRECTED GRAPH) ===
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{weak\_comp }\OtherTok{\textless{}{-}} \FunctionTok{components}\NormalTok{(graph\_connected, }\AttributeTok{mode =} \StringTok{"weak"}\NormalTok{)}
+\NormalTok{strong\_comp }\OtherTok{\textless{}{-}} \FunctionTok{components}\NormalTok{(graph\_connected, }\AttributeTok{mode =} \StringTok{"strong"}\NormalTok{)}
+
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Weakly connected components:"}\NormalTok{, weak\_comp}\SpecialCharTok{$}\NormalTok{no, }\StringTok{" | Largest weak component size:"}\NormalTok{, }\FunctionTok{max}\NormalTok{(weak\_comp}\SpecialCharTok{$}\NormalTok{csize), }\StringTok{" ("}\NormalTok{, }\FunctionTok{round}\NormalTok{(}\FunctionTok{max}\NormalTok{(weak\_comp}\SpecialCharTok{$}\NormalTok{csize)}\SpecialCharTok{/}\FunctionTok{vcount}\NormalTok{(graph\_connected)}\SpecialCharTok{*}\DecValTok{100}\NormalTok{,}\DecValTok{2}\NormalTok{), }\StringTok{"\%)}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Weakly connected components: 58  | Largest weak component size: 1433  ( 90.58 %)
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Strongly connected components:"}\NormalTok{, strong\_comp}\SpecialCharTok{$}\NormalTok{no, }\StringTok{" | Largest strong component size:"}\NormalTok{, }\FunctionTok{max}\NormalTok{(strong\_comp}\SpecialCharTok{$}\NormalTok{csize), }\StringTok{" ("}\NormalTok{, }\FunctionTok{round}\NormalTok{(}\FunctionTok{max}\NormalTok{(strong\_comp}\SpecialCharTok{$}\NormalTok{csize)}\SpecialCharTok{/}\FunctionTok{vcount}\NormalTok{(graph\_connected)}\SpecialCharTok{*}\DecValTok{100}\NormalTok{,}\DecValTok{2}\NormalTok{), }\StringTok{"\%)}\SpecialCharTok{\textbackslash{}n\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Strongly connected components: 1569  | Largest strong component size: 6  ( 0.38 %)
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Weak component sizes (Top 10):}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Weak component sizes (Top 10):
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(}\FunctionTok{head}\NormalTok{(}\FunctionTok{sort}\NormalTok{(weak\_comp}\SpecialCharTok{$}\NormalTok{csize, }\AttributeTok{decreasing =} \ConstantTok{TRUE}\NormalTok{), }\DecValTok{10}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  [1] 1433   27    9    5    5    4    3    3    3    3
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{Strong component sizes (Top 10):}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Strong component sizes (Top 10):
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(}\FunctionTok{head}\NormalTok{(}\FunctionTok{sort}\NormalTok{(strong\_comp}\SpecialCharTok{$}\NormalTok{csize, }\AttributeTok{decreasing =} \ConstantTok{TRUE}\NormalTok{), }\DecValTok{10}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  [1] 6 2 2 2 2 2 2 2 2 1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{largest\_nodes }\OtherTok{\textless{}{-}} \FunctionTok{which}\NormalTok{(weak\_comp}\SpecialCharTok{$}\NormalTok{membership }\SpecialCharTok{==} \FunctionTok{which.max}\NormalTok{(weak\_comp}\SpecialCharTok{$}\NormalTok{csize))}
+\NormalTok{largest\_component }\OtherTok{\textless{}{-}} \FunctionTok{induced\_subgraph}\NormalTok{(graph\_connected, largest\_nodes)}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{=== LARGEST WEAK COMPONENT STATISTICS ===}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## === LARGEST WEAK COMPONENT STATISTICS ===
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Nodes:"}\NormalTok{, }\FunctionTok{vcount}\NormalTok{(largest\_component), }\StringTok{" | Edges:"}\NormalTok{, }\FunctionTok{ecount}\NormalTok{(largest\_component), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Nodes: 1433  | Edges: 3634
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Density:"}\NormalTok{, }\FunctionTok{round}\NormalTok{(}\FunctionTok{edge\_density}\NormalTok{(largest\_component), }\DecValTok{6}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Density: 0.001771
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Average in{-}degree:"}\NormalTok{, }\FunctionTok{round}\NormalTok{(}\FunctionTok{mean}\NormalTok{(}\FunctionTok{degree}\NormalTok{(largest\_component, }\AttributeTok{mode =} \StringTok{"in"}\NormalTok{)), }\DecValTok{2}\NormalTok{), }\StringTok{" | Average out{-}degree:"}\NormalTok{, }\FunctionTok{round}\NormalTok{(}\FunctionTok{mean}\NormalTok{(}\FunctionTok{degree}\NormalTok{(largest\_component, }\AttributeTok{mode =} \StringTok{"out"}\NormalTok{)),}\DecValTok{2}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Average in-degree: 2.54  | Average out-degree: 2.54
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Average total degree:"}\NormalTok{, }\FunctionTok{round}\NormalTok{(}\FunctionTok{mean}\NormalTok{(}\FunctionTok{degree}\NormalTok{(largest\_component, }\AttributeTok{mode =} \StringTok{"all"}\NormalTok{)), }\DecValTok{2}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Average total degree: 5.07
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Diameter:"}\NormalTok{, }\FunctionTok{diameter}\NormalTok{(largest\_component, }\AttributeTok{directed =} \ConstantTok{FALSE}\NormalTok{), }\StringTok{" | Average path length:"}\NormalTok{, }\FunctionTok{round}\NormalTok{(}\FunctionTok{mean\_distance}\NormalTok{(largest\_component, }\AttributeTok{directed =} \ConstantTok{FALSE}\NormalTok{),}\DecValTok{2}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Diameter: 13  | Average path length: 4.5
+\end{verbatim}
+
+\subsection{6. Centrality Analysis of Largest
+Component}\label{centrality-analysis-of-largest-component}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"=== CENTRALITY (LARGEST COMPONENT) ===}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## === CENTRALITY (LARGEST COMPONENT) ===
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Calculating centralities...}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Calculating centralities...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{c\_deg\_in }\OtherTok{\textless{}{-}} \FunctionTok{degree}\NormalTok{(largest\_component, }\AttributeTok{mode =} \StringTok{"in"}\NormalTok{, }\AttributeTok{normalized =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{c\_deg\_out }\OtherTok{\textless{}{-}} \FunctionTok{degree}\NormalTok{(largest\_component, }\AttributeTok{mode =} \StringTok{"out"}\NormalTok{, }\AttributeTok{normalized =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{c\_deg\_all }\OtherTok{\textless{}{-}} \FunctionTok{degree}\NormalTok{(largest\_component, }\AttributeTok{mode =} \StringTok{"all"}\NormalTok{, }\AttributeTok{normalized =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{c\_between }\OtherTok{\textless{}{-}} \FunctionTok{betweenness}\NormalTok{(largest\_component, }\AttributeTok{directed =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{normalized =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{c\_close\_in }\OtherTok{\textless{}{-}} \FunctionTok{closeness}\NormalTok{(largest\_component, }\AttributeTok{mode =} \StringTok{"in"}\NormalTok{, }\AttributeTok{normalized =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{c\_close\_out }\OtherTok{\textless{}{-}} \FunctionTok{closeness}\NormalTok{(largest\_component, }\AttributeTok{mode =} \StringTok{"out"}\NormalTok{, }\AttributeTok{normalized =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{c\_eigen }\OtherTok{\textless{}{-}} \FunctionTok{eigen\_centrality}\NormalTok{(largest\_component, }\AttributeTok{directed =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{scale =} \ConstantTok{TRUE}\NormalTok{)}\SpecialCharTok{$}\NormalTok{vector}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: The `scale` argument of `eigen_centrality()` is deprecated as of igraph 2.1.1.
+## i eigen_centrality() will always behave as if scale=TRUE were used.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{c\_pagerank }\OtherTok{\textless{}{-}} \FunctionTok{page\_rank}\NormalTok{(largest\_component, }\AttributeTok{directed =} \ConstantTok{TRUE}\NormalTok{)}\SpecialCharTok{$}\NormalTok{vector}
+\NormalTok{c\_hits\_hub }\OtherTok{\textless{}{-}} \FunctionTok{hub\_score}\NormalTok{(largest\_component)}\SpecialCharTok{$}\NormalTok{vector}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: `hub_score()` was deprecated in igraph 2.0.3.
+## i Please use `hits_scores()` instead.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{c\_hits\_auth }\OtherTok{\textless{}{-}} \FunctionTok{authority\_score}\NormalTok{(largest\_component)}\SpecialCharTok{$}\NormalTok{vector}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: `authority_score()` was deprecated in igraph 2.1.0.
+## i Please use `hits_scores()` instead.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{centrality\_summary }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}
+  \AttributeTok{node\_id =} \FunctionTok{V}\NormalTok{(largest\_component)}\SpecialCharTok{$}\NormalTok{name,}
+  \AttributeTok{degree\_in =}\NormalTok{ c\_deg\_in,}
+  \AttributeTok{degree\_out =}\NormalTok{ c\_deg\_out,}
+  \AttributeTok{degree\_all =}\NormalTok{ c\_deg\_all,}
+  \AttributeTok{betweenness =}\NormalTok{ c\_between,}
+  \AttributeTok{closeness\_in =}\NormalTok{ c\_close\_in,}
+  \AttributeTok{closeness\_out =}\NormalTok{ c\_close\_out,}
+  \AttributeTok{eigenvector =}\NormalTok{ c\_eigen,}
+  \AttributeTok{pagerank =}\NormalTok{ c\_pagerank,}
+  \AttributeTok{hub =}\NormalTok{ c\_hits\_hub,}
+  \AttributeTok{authority =}\NormalTok{ c\_hits\_auth}
+\NormalTok{)}
+
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Top 5 In{-}Degree Centrality:}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{); }\FunctionTok{print}\NormalTok{(}\FunctionTok{head}\NormalTok{(centrality\_summary[}\FunctionTok{order}\NormalTok{(centrality\_summary}\SpecialCharTok{$}\NormalTok{degree\_in, }\AttributeTok{decreasing=}\ConstantTok{TRUE}\NormalTok{), }\FunctionTok{c}\NormalTok{(}\StringTok{"node\_id"}\NormalTok{,}\StringTok{"degree\_in"}\NormalTok{)],}\DecValTok{5}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Top 5 In-Degree Centrality:
+\end{verbatim}
+
+\begin{verbatim}
+##       node_id  degree_in
+## P0060   P0060 0.07262570
+## P0001   P0001 0.04399441
+## P0009   P0009 0.04399441
+## P0002   P0002 0.04259777
+## P0199   P0199 0.04259777
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{Top 5 PageRank:}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{); }\FunctionTok{print}\NormalTok{(}\FunctionTok{head}\NormalTok{(centrality\_summary[}\FunctionTok{order}\NormalTok{(centrality\_summary}\SpecialCharTok{$}\NormalTok{pagerank, }\AttributeTok{decreasing=}\ConstantTok{TRUE}\NormalTok{), }\FunctionTok{c}\NormalTok{(}\StringTok{"node\_id"}\NormalTok{,}\StringTok{"pagerank"}\NormalTok{)],}\DecValTok{5}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Top 5 PageRank:
+\end{verbatim}
+
+\begin{verbatim}
+##       node_id   pagerank
+## P0199   P0199 0.04046559
+## P0031   P0031 0.03232105
+## P0741   P0741 0.01974340
+## P0116   P0116 0.01746391
+## P0535   P0535 0.01572970
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{Top 5 Betweenness Centrality:}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{); }\FunctionTok{print}\NormalTok{(}\FunctionTok{head}\NormalTok{(centrality\_summary[}\FunctionTok{order}\NormalTok{(centrality\_summary}\SpecialCharTok{$}\NormalTok{betweenness, }\AttributeTok{decreasing=}\ConstantTok{TRUE}\NormalTok{), }\FunctionTok{c}\NormalTok{(}\StringTok{"node\_id"}\NormalTok{,}\StringTok{"betweenness"}\NormalTok{)],}\DecValTok{5}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Top 5 Betweenness Centrality:
+\end{verbatim}
+
+\begin{verbatim}
+##       node_id betweenness
+## P0011   P0011 0.002580361
+## P0060   P0060 0.002094395
+## P0003   P0003 0.001932865
+## P0002   P0002 0.001732924
+## P0001   P0001 0.001339179
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{Top 5 Authority Score:}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{); }\FunctionTok{print}\NormalTok{(}\FunctionTok{head}\NormalTok{(centrality\_summary[}\FunctionTok{order}\NormalTok{(centrality\_summary}\SpecialCharTok{$}\NormalTok{authority, }\AttributeTok{decreasing=}\ConstantTok{TRUE}\NormalTok{), }\FunctionTok{c}\NormalTok{(}\StringTok{"node\_id"}\NormalTok{,}\StringTok{"authority"}\NormalTok{)],}\DecValTok{5}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Top 5 Authority Score:
+\end{verbatim}
+
+\begin{verbatim}
+##       node_id authority
+## P0009   P0009 1.0000000
+## P0060   P0060 0.9173024
+## P0017   P0017 0.6726492
+## P0014   P0014 0.6544079
+## P0006   P0006 0.6283538
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"=== Betweenness Centrality Distribution (Largest Component) ===}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## === Betweenness Centrality Distribution (Largest Component) ===
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{bet\_stats }\OtherTok{\textless{}{-}} \FunctionTok{summary}\NormalTok{(c\_between)}
+\FunctionTok{print}\NormalTok{(bet\_stats)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+## 0.00e+00 0.00e+00 0.00e+00 2.12e-05 3.66e-06 2.58e-03
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{q95 }\OtherTok{\textless{}{-}} \FunctionTok{quantile}\NormalTok{(c\_between, }\FloatTok{0.95}\NormalTok{)}
+\NormalTok{high\_between\_ids }\OtherTok{\textless{}{-}} \FunctionTok{which}\NormalTok{(c\_between }\SpecialCharTok{\textgreater{}=}\NormalTok{ q95)}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Nodes in top 5\% betweenness:"}\NormalTok{, }\FunctionTok{length}\NormalTok{(high\_between\_ids), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Nodes in top 5% betweenness: 72
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{bet\_df }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{node\_id =} \FunctionTok{V}\NormalTok{(largest\_component)}\SpecialCharTok{$}\NormalTok{name,}
+                     \AttributeTok{betweenness =}\NormalTok{ c\_between,}
+                     \AttributeTok{institution =} \FunctionTok{V}\NormalTok{(largest\_component)}\SpecialCharTok{$}\NormalTok{institution,}
+                     \AttributeTok{subtopic =} \FunctionTok{V}\NormalTok{(largest\_component)}\SpecialCharTok{$}\NormalTok{subtopic)}
+
+\FunctionTok{ggplot}\NormalTok{(bet\_df, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ betweenness)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_histogram}\NormalTok{(}\AttributeTok{bins =} \DecValTok{30}\NormalTok{, }\AttributeTok{fill =} \StringTok{"purple"}\NormalTok{, }\AttributeTok{alpha =} \FloatTok{0.7}\NormalTok{, }\AttributeTok{color =} \StringTok{"white"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Betweenness Centrality Distribution (Largest Component)"}\NormalTok{, }\AttributeTok{x =} \StringTok{"Normalized Betweenness Centrality"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Frequency"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{theme\_minimal}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Combined-analysis_files/figure-latex/betweenness-detail-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{Top 10 bridging nodes (betweenness):}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Top 10 bridging nodes (betweenness):
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(}\FunctionTok{head}\NormalTok{(bet\_df[}\FunctionTok{order}\NormalTok{(bet\_df}\SpecialCharTok{$}\NormalTok{betweenness, }\AttributeTok{decreasing =} \ConstantTok{TRUE}\NormalTok{), }\FunctionTok{c}\NormalTok{(}\StringTok{"node\_id"}\NormalTok{,}\StringTok{"betweenness"}\NormalTok{,}\StringTok{"subtopic"}\NormalTok{,}\StringTok{"institution"}\NormalTok{)],}\DecValTok{10}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       node_id  betweenness                                            subtopic
+## P0011   P0011 0.0025803608                      Machine Learning in Healthcare
+## P0060   P0060 0.0020943953 Artificial Intelligence in Healthcare and Education
+## P0003   P0003 0.0019328651 Artificial Intelligence in Healthcare and Education
+## P0002   P0002 0.0017329242 Artificial Intelligence in Healthcare and Education
+## P0001   P0001 0.0013391788                      Machine Learning in Healthcare
+## P0192   P0192 0.0009925863 Artificial Intelligence in Healthcare and Education
+## P0484   P0484 0.0008632584 Artificial Intelligence in Healthcare and Education
+## P0054   P0054 0.0008526921 Artificial Intelligence in Healthcare and Education
+## P0136   P0136 0.0008494446 Artificial Intelligence in Healthcare and Education
+## P0021   P0021 0.0006611386 Artificial Intelligence in Healthcare and Education
+##                   institution
+## P0011     Stanford University
+## P0060 University Of Cambridge
+## P0003         Yale University
+## P0002      Harvard University
+## P0001     Stanford University
+## P0192  Mayo Clinic In Arizona
+## P0484    Stanford Health Care
+## P0054     Stanford University
+## P0136     Stanford University
+## P0021        Emory University
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"=== Edge Betweenness (Largest Component) ===}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## === Edge Betweenness (Largest Component) ===
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{edge\_bet }\OtherTok{\textless{}{-}} \FunctionTok{edge\_betweenness}\NormalTok{(largest\_component, }\AttributeTok{directed =} \ConstantTok{TRUE}\NormalTok{)}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Number of edges:"}\NormalTok{, }\FunctionTok{length}\NormalTok{(edge\_bet), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Number of edges: 3634
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(}\FunctionTok{summary}\NormalTok{(edge\_bet))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+##    1.000    2.000    5.667   25.071   17.462 2536.235
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{idx\_top\_e }\OtherTok{\textless{}{-}} \FunctionTok{order}\NormalTok{(edge\_bet, }\AttributeTok{decreasing =} \ConstantTok{TRUE}\NormalTok{)[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{10}\NormalTok{]}
+\NormalTok{edge\_pairs }\OtherTok{\textless{}{-}} \FunctionTok{get.edges}\NormalTok{(largest\_component, idx\_top\_e)}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{Top 10 bridging edges: }\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Top 10 bridging edges:
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \FunctionTok{seq\_along}\NormalTok{(idx\_top\_e))\{}
+\NormalTok{  from\_n }\OtherTok{\textless{}{-}} \FunctionTok{V}\NormalTok{(largest\_component)}\SpecialCharTok{$}\NormalTok{name[edge\_pairs[i,}\DecValTok{1}\NormalTok{]]}
+\NormalTok{  to\_n }\OtherTok{\textless{}{-}} \FunctionTok{V}\NormalTok{(largest\_component)}\SpecialCharTok{$}\NormalTok{name[edge\_pairs[i,}\DecValTok{2}\NormalTok{]]}
+  \FunctionTok{cat}\NormalTok{(}\FunctionTok{sprintf}\NormalTok{(}\StringTok{"\%d. \%s {-}\textgreater{} \%s (\%.4f)}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{, i, from\_n, to\_n, edge\_bet[idx\_top\_e[i]]))}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 1. P0001 -> P0003 (2536.2345)
+## 2. P0003 -> P0054 (2051.3298)
+## 3. P0484 -> P0011 (1825.9821)
+## 4. P0192 -> P0136 (1811.0000)
+## 5. P0011 -> P0192 (1789.1667)
+## 6. P0003 -> P0021 (1346.8333)
+## 7. P0002 -> P0107 (1293.0250)
+## 8. P0060 -> P0001 (1211.1667)
+## 9. P0060 -> P0002 (1039.8810)
+## 10. P0011 -> P0003 (1002.4452)
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(}\FunctionTok{data.frame}\NormalTok{(}\AttributeTok{edge\_betweenness =}\NormalTok{ edge\_bet), }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ edge\_betweenness)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_histogram}\NormalTok{(}\AttributeTok{bins =} \DecValTok{50}\NormalTok{, }\AttributeTok{fill =} \StringTok{"orange"}\NormalTok{, }\AttributeTok{alpha =} \FloatTok{0.7}\NormalTok{, }\AttributeTok{color =} \StringTok{"white"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Edge Betweenness Distribution (Largest Component)"}\NormalTok{, }\AttributeTok{x =} \StringTok{"Edge Betweenness"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Frequency"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{theme\_minimal}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Combined-analysis_files/figure-latex/edge-betweenness-1.pdf}
+
+\subsection{7. Community Detection Comparison (Largest
+Component)}\label{community-detection-comparison-largest-component}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"=== COMMUNITY DETECTION (Louvain vs Edge Betweenness) ===}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## === COMMUNITY DETECTION (Louvain vs Edge Betweenness) ===
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{largest\_undirected }\OtherTok{\textless{}{-}} \FunctionTok{as.undirected}\NormalTok{(largest\_component, }\AttributeTok{mode =} \StringTok{"collapse"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: `as.undirected()` was deprecated in igraph 2.1.0.
+## i Please use `as_undirected()` instead.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{louvain\_comm }\OtherTok{\textless{}{-}} \FunctionTok{cluster\_louvain}\NormalTok{(largest\_undirected)}
+\NormalTok{edgebet\_comm }\OtherTok{\textless{}{-}} \FunctionTok{cluster\_edge\_betweenness}\NormalTok{(largest\_undirected, }\AttributeTok{directed =} \ConstantTok{FALSE}\NormalTok{)}
+
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Louvain communities:"}\NormalTok{, }\FunctionTok{length}\NormalTok{(louvain\_comm), }\StringTok{" | Modularity:"}\NormalTok{, }\FunctionTok{round}\NormalTok{(}\FunctionTok{modularity}\NormalTok{(louvain\_comm),}\DecValTok{4}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Louvain communities: 21  | Modularity: 0.576
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Edge Betweenness communities:"}\NormalTok{, }\FunctionTok{length}\NormalTok{(edgebet\_comm), }\StringTok{" | Modularity:"}\NormalTok{, }\FunctionTok{round}\NormalTok{(}\FunctionTok{modularity}\NormalTok{(edgebet\_comm),}\DecValTok{4}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Edge Betweenness communities: 65  | Modularity: 0.5455
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{comm\_compare }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}
+  \AttributeTok{Method =} \FunctionTok{c}\NormalTok{(}\StringTok{"Louvain"}\NormalTok{, }\StringTok{"Edge Betweenness"}\NormalTok{),}
+  \AttributeTok{Communities =} \FunctionTok{c}\NormalTok{(}\FunctionTok{length}\NormalTok{(louvain\_comm), }\FunctionTok{length}\NormalTok{(edgebet\_comm)),}
+  \AttributeTok{Modularity =} \FunctionTok{c}\NormalTok{(}\FunctionTok{modularity}\NormalTok{(louvain\_comm), }\FunctionTok{modularity}\NormalTok{(edgebet\_comm))}
+\NormalTok{)}
+
+\NormalTok{p1 }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(comm\_compare, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ Method, }\AttributeTok{y =}\NormalTok{ Communities, }\AttributeTok{fill =}\NormalTok{ Method)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"identity"}\NormalTok{, }\AttributeTok{alpha =} \FloatTok{0.7}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_fill\_manual}\NormalTok{(}\AttributeTok{values =} \FunctionTok{c}\NormalTok{(}\StringTok{"Louvain"} \OtherTok{=} \StringTok{"lightblue"}\NormalTok{, }\StringTok{"Edge Betweenness"} \OtherTok{=} \StringTok{"lightcoral"}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Number of Communities"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Count"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{theme\_minimal}\NormalTok{() }\SpecialCharTok{+} \FunctionTok{theme}\NormalTok{(}\AttributeTok{legend.position =} \StringTok{"none"}\NormalTok{)}
+
+\NormalTok{p2 }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(comm\_compare, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ Method, }\AttributeTok{y =}\NormalTok{ Modularity, }\AttributeTok{fill =}\NormalTok{ Method)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"identity"}\NormalTok{, }\AttributeTok{alpha =} \FloatTok{0.7}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_fill\_manual}\NormalTok{(}\AttributeTok{values =} \FunctionTok{c}\NormalTok{(}\StringTok{"Louvain"} \OtherTok{=} \StringTok{"lightblue"}\NormalTok{, }\StringTok{"Edge Betweenness"} \OtherTok{=} \StringTok{"lightcoral"}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Modularity Comparison"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Modularity"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{theme\_minimal}\NormalTok{() }\SpecialCharTok{+} \FunctionTok{theme}\NormalTok{(}\AttributeTok{legend.position =} \StringTok{"none"}\NormalTok{)}
+
+\FunctionTok{grid.arrange}\NormalTok{(p1, p2, }\AttributeTok{ncol =} \DecValTok{2}\NormalTok{, }\AttributeTok{top =} \StringTok{"Community Detection Methods Comparison"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Combined-analysis_files/figure-latex/community-detection-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Louvain visualization + PageRank node sizing}
+\NormalTok{pagerank\_vals }\OtherTok{\textless{}{-}} \FunctionTok{page\_rank}\NormalTok{(largest\_component, }\AttributeTok{directed =} \ConstantTok{TRUE}\NormalTok{)}\SpecialCharTok{$}\NormalTok{vector}
+\NormalTok{size\_scaled }\OtherTok{\textless{}{-}} \DecValTok{4} \SpecialCharTok{+} \DecValTok{10} \SpecialCharTok{*}\NormalTok{ (pagerank\_vals }\SpecialCharTok{{-}} \FunctionTok{min}\NormalTok{(pagerank\_vals)) }\SpecialCharTok{/}\NormalTok{ (}\FunctionTok{max}\NormalTok{(pagerank\_vals) }\SpecialCharTok{{-}} \FunctionTok{min}\NormalTok{(pagerank\_vals))}
+\NormalTok{comm\_mem }\OtherTok{\textless{}{-}} \FunctionTok{membership}\NormalTok{(louvain\_comm)}
+\ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(louvain\_comm) }\SpecialCharTok{\textless{}=} \DecValTok{12}\NormalTok{)\{}
+\NormalTok{  comm\_cols }\OtherTok{\textless{}{-}} \FunctionTok{brewer.pal}\NormalTok{(}\FunctionTok{max}\NormalTok{(}\DecValTok{3}\NormalTok{, }\FunctionTok{length}\NormalTok{(louvain\_comm)), }\StringTok{"Set1"}\NormalTok{)}
+\NormalTok{\} }\ControlFlowTok{else}\NormalTok{ \{}
+\NormalTok{  comm\_cols }\OtherTok{\textless{}{-}} \FunctionTok{rainbow}\NormalTok{(}\FunctionTok{length}\NormalTok{(louvain\_comm))}
+\NormalTok{\}}
+\NormalTok{vertex\_cols\_comm }\OtherTok{\textless{}{-}}\NormalTok{ comm\_cols[comm\_mem]}
+\NormalTok{layout\_large }\OtherTok{\textless{}{-}} \FunctionTok{layout\_with\_fr}\NormalTok{(largest\_component, }\AttributeTok{niter =} \DecValTok{800}\NormalTok{)}
+
+\FunctionTok{plot}\NormalTok{(largest\_component, }\AttributeTok{layout =}\NormalTok{ layout\_large,}
+     \AttributeTok{vertex.size =}\NormalTok{ size\_scaled,}
+     \AttributeTok{vertex.label =} \ConstantTok{NA}\NormalTok{,}
+     \AttributeTok{edge.arrow.size =} \FloatTok{0.3}\NormalTok{,}
+     \AttributeTok{edge.width =} \FloatTok{0.5}\NormalTok{,}
+     \AttributeTok{vertex.color =}\NormalTok{ vertex\_cols\_comm,}
+    \AttributeTok{main =} \StringTok{"Largest Component: Louvain Communities + PageRank Node Size"}\NormalTok{,}
+    \AttributeTok{sub =} \FunctionTok{paste}\NormalTok{(}\StringTok{"Communities:"}\NormalTok{, }\FunctionTok{length}\NormalTok{(louvain\_comm), }\StringTok{" Modularity:"}\NormalTok{, }\FunctionTok{round}\NormalTok{(}\FunctionTok{modularity}\NormalTok{(louvain\_comm),}\DecValTok{4}\NormalTok{)))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Combined-analysis_files/figure-latex/community-visualization-1.pdf}
+
+\#\# 8. Centrality Correlations
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"=== CENTRALITY CORRELATION MATRIX ===}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## === CENTRALITY CORRELATION MATRIX ===
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cor\_data }\OtherTok{\textless{}{-}}\NormalTok{ centrality\_summary[, }\FunctionTok{c}\NormalTok{(}\StringTok{"degree\_in"}\NormalTok{,}\StringTok{"degree\_out"}\NormalTok{,}\StringTok{"betweenness"}\NormalTok{,}\StringTok{"closeness\_in"}\NormalTok{,}\StringTok{"closeness\_out"}\NormalTok{,}\StringTok{"eigenvector"}\NormalTok{,}\StringTok{"pagerank"}\NormalTok{,}\StringTok{"authority"}\NormalTok{,}\StringTok{"hub"}\NormalTok{)]}
+\NormalTok{cor\_mat }\OtherTok{\textless{}{-}} \FunctionTok{cor}\NormalTok{(cor\_data, }\AttributeTok{use =} \StringTok{"complete.obs"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in cor(cor_data, use = "complete.obs"): 标准差为零
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(}\FunctionTok{round}\NormalTok{(cor\_mat,}\DecValTok{3}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##               degree_in degree_out betweenness closeness_in closeness_out
+## degree_in         1.000      0.002       0.616       -0.390         0.138
+## degree_out        0.002      1.000       0.173        0.152        -0.262
+## betweenness       0.616      0.173       1.000       -0.260        -0.101
+## closeness_in     -0.390      0.152      -0.260        1.000        -0.277
+## closeness_out     0.138     -0.262      -0.101       -0.277         1.000
+## eigenvector          NA         NA          NA           NA            NA
+## pagerank          0.696     -0.057       0.460       -0.356         0.162
+## authority         0.869      0.029       0.435       -0.311         0.125
+## hub               0.096      0.670       0.110        0.036        -0.170
+##               eigenvector pagerank authority    hub
+## degree_in              NA    0.696     0.869  0.096
+## degree_out             NA   -0.057     0.029  0.670
+## betweenness            NA    0.460     0.435  0.110
+## closeness_in           NA   -0.356    -0.311  0.036
+## closeness_out          NA    0.162     0.125 -0.170
+## eigenvector             1       NA        NA     NA
+## pagerank               NA    1.000     0.498 -0.012
+## authority              NA    0.498     1.000  0.187
+## hub                    NA   -0.012     0.187  1.000
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cor\_melt }\OtherTok{\textless{}{-}} \FunctionTok{melt}\NormalTok{(cor\_mat)}
+
+\FunctionTok{ggplot}\NormalTok{(cor\_melt, }\FunctionTok{aes}\NormalTok{(Var1, Var2, }\AttributeTok{fill =}\NormalTok{ value)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_tile}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{scale\_fill\_gradient2}\NormalTok{(}\AttributeTok{low =} \StringTok{"blue"}\NormalTok{, }\AttributeTok{high =} \StringTok{"red"}\NormalTok{, }\AttributeTok{mid =} \StringTok{"white"}\NormalTok{, }\AttributeTok{midpoint =} \DecValTok{0}\NormalTok{, }\AttributeTok{limit =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{), }\AttributeTok{name =} \StringTok{"Correlation"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{angle =} \DecValTok{45}\NormalTok{, }\AttributeTok{hjust =} \DecValTok{1}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Centrality Correlations (Largest Component)"}\NormalTok{, }\AttributeTok{x =} \StringTok{""}\NormalTok{, }\AttributeTok{y =} \StringTok{""}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_text}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{label =} \FunctionTok{round}\NormalTok{(value,}\DecValTok{2}\NormalTok{)), }\AttributeTok{size =} \DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: Removed 16 rows containing missing values or values outside the scale range
+## (`geom_text()`).
+\end{verbatim}
+
+\includegraphics{Combined-analysis_files/figure-latex/centrality-correlation-1.pdf}
+
+\subsection{9. Isolated vs Connected Nodes
+Comparison}\label{isolated-vs-connected-nodes-comparison}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Load isolated nodes data}
+\NormalTok{nodes\_isolated }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"data/nodes\_isolated.csv"}\NormalTok{)}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"=== ISOLATED NODE STATISTICS ===}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## === ISOLATED NODE STATISTICS ===
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Isolated nodes:"}\NormalTok{, }\FunctionTok{nrow}\NormalTok{(nodes\_isolated), }\StringTok{" | Year range:"}\NormalTok{, }\FunctionTok{min}\NormalTok{(nodes\_isolated}\SpecialCharTok{$}\NormalTok{year,}\AttributeTok{na.rm=}\ConstantTok{TRUE}\NormalTok{), }\StringTok{"{-}"}\NormalTok{, }\FunctionTok{max}\NormalTok{(nodes\_isolated}\SpecialCharTok{$}\NormalTok{year,}\AttributeTok{na.rm=}\ConstantTok{TRUE}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Isolated nodes: 1028  | Year range: 2015 - 2025
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Mean citations (isolated):"}\NormalTok{, }\FunctionTok{round}\NormalTok{(}\FunctionTok{mean}\NormalTok{(nodes\_isolated}\SpecialCharTok{$}\NormalTok{citations, }\AttributeTok{na.rm=}\ConstantTok{TRUE}\NormalTok{),}\DecValTok{2}\NormalTok{), }\StringTok{" | Mean references (isolated):"}\NormalTok{, }\FunctionTok{round}\NormalTok{(}\FunctionTok{mean}\NormalTok{(nodes\_isolated}\SpecialCharTok{$}\NormalTok{references, }\AttributeTok{na.rm=}\ConstantTok{TRUE}\NormalTok{),}\DecValTok{2}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Mean citations (isolated): 9.97  | Mean references (isolated): 22.48
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 连接节点基础统计}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"=== CONNECTED NODE STATISTICS ===}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## === CONNECTED NODE STATISTICS ===
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Connected nodes:"}\NormalTok{, }\FunctionTok{nrow}\NormalTok{(nodes\_connected), }\StringTok{" | Year range:"}\NormalTok{, }\FunctionTok{min}\NormalTok{(nodes\_connected}\SpecialCharTok{$}\NormalTok{year,}\AttributeTok{na.rm=}\ConstantTok{TRUE}\NormalTok{), }\StringTok{"{-}"}\NormalTok{, }\FunctionTok{max}\NormalTok{(nodes\_connected}\SpecialCharTok{$}\NormalTok{year,}\AttributeTok{na.rm=}\ConstantTok{TRUE}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Connected nodes: 1582  | Year range: 2015 - 2025
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Mean citations (connected):"}\NormalTok{, }\FunctionTok{round}\NormalTok{(}\FunctionTok{mean}\NormalTok{(nodes\_connected}\SpecialCharTok{$}\NormalTok{citations, }\AttributeTok{na.rm=}\ConstantTok{TRUE}\NormalTok{),}\DecValTok{2}\NormalTok{), }\StringTok{" | Mean references (connected):"}\NormalTok{, }\FunctionTok{round}\NormalTok{(}\FunctionTok{mean}\NormalTok{(nodes\_connected}\SpecialCharTok{$}\NormalTok{references, }\AttributeTok{na.rm=}\ConstantTok{TRUE}\NormalTok{),}\DecValTok{2}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Mean citations (connected): 50.88  | Mean references (connected): 45.12
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Subtopic frequency comparison}
+\NormalTok{sub\_isolated }\OtherTok{\textless{}{-}} \FunctionTok{table}\NormalTok{(nodes\_isolated}\SpecialCharTok{$}\NormalTok{subtopic)}
+\NormalTok{sub\_connected }\OtherTok{\textless{}{-}} \FunctionTok{table}\NormalTok{(nodes\_connected}\SpecialCharTok{$}\NormalTok{subtopic)}
+
+\NormalTok{sub\_union }\OtherTok{\textless{}{-}} \FunctionTok{unique}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\FunctionTok{names}\NormalTok{(sub\_isolated), }\FunctionTok{names}\NormalTok{(sub\_connected)))}
+\NormalTok{comp\_df }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{subtopic =}\NormalTok{ sub\_union,}
+                      \AttributeTok{isolated =} \FunctionTok{as.numeric}\NormalTok{(sub\_isolated[sub\_union]),}
+                      \AttributeTok{connected =} \FunctionTok{as.numeric}\NormalTok{(sub\_connected[sub\_union]))}
+\NormalTok{comp\_df}\SpecialCharTok{$}\NormalTok{isolated[}\FunctionTok{is.na}\NormalTok{(comp\_df}\SpecialCharTok{$}\NormalTok{isolated)] }\OtherTok{\textless{}{-}} \DecValTok{0}
+\NormalTok{comp\_df}\SpecialCharTok{$}\NormalTok{connected[}\FunctionTok{is.na}\NormalTok{(comp\_df}\SpecialCharTok{$}\NormalTok{connected)] }\OtherTok{\textless{}{-}} \DecValTok{0}
+\NormalTok{comp\_df}\SpecialCharTok{$}\NormalTok{total }\OtherTok{\textless{}{-}}\NormalTok{ comp\_df}\SpecialCharTok{$}\NormalTok{isolated }\SpecialCharTok{+}\NormalTok{ comp\_df}\SpecialCharTok{$}\NormalTok{connected}
+\NormalTok{comp\_df}\SpecialCharTok{$}\NormalTok{isolated\_prop }\OtherTok{\textless{}{-}} \FunctionTok{ifelse}\NormalTok{(comp\_df}\SpecialCharTok{$}\NormalTok{total}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{, comp\_df}\SpecialCharTok{$}\NormalTok{isolated}\SpecialCharTok{/}\NormalTok{comp\_df}\SpecialCharTok{$}\NormalTok{total, }\ConstantTok{NA}\NormalTok{)}
+\NormalTok{comp\_df\_ord }\OtherTok{\textless{}{-}}\NormalTok{ comp\_df[}\FunctionTok{order}\NormalTok{(comp\_df}\SpecialCharTok{$}\NormalTok{isolated\_prop, }\AttributeTok{decreasing =} \ConstantTok{TRUE}\NormalTok{), ]}
+
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Subtopics with highest isolation proportion (total\textgreater{}=5) Top 10:}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Subtopics with highest isolation proportion (total>=5) Top 10:
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(}\FunctionTok{head}\NormalTok{(comp\_df\_ord[comp\_df\_ord}\SpecialCharTok{$}\NormalTok{total}\SpecialCharTok{\textgreater{}=}\DecValTok{5}\NormalTok{, }\FunctionTok{c}\NormalTok{(}\StringTok{"subtopic"}\NormalTok{,}\StringTok{"isolated"}\NormalTok{,}\StringTok{"connected"}\NormalTok{,}\StringTok{"isolated\_prop"}\NormalTok{)],}\DecValTok{10}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                                               subtopic isolated connected
+## 7                      Machine Learning and Algorithms       15         1
+## 8             Machine Learning and Data Classification       34         4
+## 3                     Artificial Intelligence in Games       28         4
+## 9                   Machine Learning in Bioinformatics       26         7
+## 12              Natural Language Processing Techniques      206        78
+## 6                       Artificial Intelligence in Law       44        23
+## 4                Artificial Intelligence in Healthcare       30        18
+## 11               Machine Learning in Materials Science       87        74
+## 10                      Machine Learning in Healthcare      111       167
+## 5  Artificial Intelligence in Healthcare and Education      445      1206
+##    isolated_prop
+## 7      0.9375000
+## 8      0.8947368
+## 3      0.8750000
+## 9      0.7878788
+## 12     0.7253521
+## 6      0.6567164
+## 4      0.6250000
+## 11     0.5403727
+## 10     0.3992806
+## 5      0.2695336
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Visualize top 15 subtopics by total count}
+\NormalTok{comp\_top15 }\OtherTok{\textless{}{-}} \FunctionTok{head}\NormalTok{(comp\_df[}\FunctionTok{order}\NormalTok{(comp\_df}\SpecialCharTok{$}\NormalTok{total, }\AttributeTok{decreasing =} \ConstantTok{TRUE}\NormalTok{), ], }\DecValTok{15}\NormalTok{)}
+\NormalTok{plot\_df }\OtherTok{\textless{}{-}} \FunctionTok{melt}\NormalTok{(comp\_top15[, }\FunctionTok{c}\NormalTok{(}\StringTok{"subtopic"}\NormalTok{,}\StringTok{"isolated"}\NormalTok{,}\StringTok{"connected"}\NormalTok{)], }\AttributeTok{id.vars =} \StringTok{"subtopic"}\NormalTok{, }\AttributeTok{variable.name =} \StringTok{"type"}\NormalTok{, }\AttributeTok{value.name =} \StringTok{"count"}\NormalTok{)}
+
+\FunctionTok{ggplot}\NormalTok{(plot\_df, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \FunctionTok{reorder}\NormalTok{(subtopic, count), }\AttributeTok{y =}\NormalTok{ count, }\AttributeTok{fill =}\NormalTok{ type)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"identity"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{coord\_flip}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{scale\_fill\_manual}\NormalTok{(}\AttributeTok{values =} \FunctionTok{c}\NormalTok{(}\StringTok{"isolated"} \OtherTok{=} \StringTok{"lightcoral"}\NormalTok{, }\StringTok{"connected"} \OtherTok{=} \StringTok{"lightblue"}\NormalTok{), }\AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"Isolated"}\NormalTok{, }\StringTok{"Connected"}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Subtopics: Isolated vs Connected Nodes"}\NormalTok{, }\AttributeTok{subtitle =} \StringTok{"Top 15 by total count"}\NormalTok{, }\AttributeTok{x =} \StringTok{"Subtopic"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Count"}\NormalTok{, }\AttributeTok{fill =} \StringTok{"Node Type"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{() }\SpecialCharTok{+} \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text.y =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{8}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Combined-analysis_files/figure-latex/plot-subtopic-comparison-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Institution frequency comparison}
+\NormalTok{inst\_iso }\OtherTok{\textless{}{-}} \FunctionTok{table}\NormalTok{(nodes\_isolated}\SpecialCharTok{$}\NormalTok{institution)}
+\NormalTok{inst\_conn }\OtherTok{\textless{}{-}} \FunctionTok{table}\NormalTok{(nodes\_connected}\SpecialCharTok{$}\NormalTok{institution)}
+\NormalTok{inst\_union }\OtherTok{\textless{}{-}} \FunctionTok{unique}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\FunctionTok{names}\NormalTok{(inst\_iso), }\FunctionTok{names}\NormalTok{(inst\_conn)))}
+\NormalTok{inst\_df }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{institution =}\NormalTok{ inst\_union,}
+                      \AttributeTok{isolated =} \FunctionTok{as.numeric}\NormalTok{(inst\_iso[inst\_union]),}
+                      \AttributeTok{connected =} \FunctionTok{as.numeric}\NormalTok{(inst\_conn[inst\_union]))}
+\NormalTok{inst\_df}\SpecialCharTok{$}\NormalTok{isolated[}\FunctionTok{is.na}\NormalTok{(inst\_df}\SpecialCharTok{$}\NormalTok{isolated)] }\OtherTok{\textless{}{-}} \DecValTok{0}
+\NormalTok{inst\_df}\SpecialCharTok{$}\NormalTok{connected[}\FunctionTok{is.na}\NormalTok{(inst\_df}\SpecialCharTok{$}\NormalTok{connected)] }\OtherTok{\textless{}{-}} \DecValTok{0}
+\NormalTok{inst\_df}\SpecialCharTok{$}\NormalTok{total }\OtherTok{\textless{}{-}}\NormalTok{ inst\_df}\SpecialCharTok{$}\NormalTok{isolated }\SpecialCharTok{+}\NormalTok{ inst\_df}\SpecialCharTok{$}\NormalTok{connected}
+
+\NormalTok{iso\_top10 }\OtherTok{\textless{}{-}} \FunctionTok{head}\NormalTok{(inst\_df[}\FunctionTok{order}\NormalTok{(inst\_df}\SpecialCharTok{$}\NormalTok{isolated, }\AttributeTok{decreasing=}\ConstantTok{TRUE}\NormalTok{), ],}\DecValTok{10}\NormalTok{)}
+\NormalTok{conn\_top10 }\OtherTok{\textless{}{-}} \FunctionTok{head}\NormalTok{(inst\_df[}\FunctionTok{order}\NormalTok{(inst\_df}\SpecialCharTok{$}\NormalTok{connected, }\AttributeTok{decreasing=}\ConstantTok{TRUE}\NormalTok{), ],}\DecValTok{10}\NormalTok{)}
+
+\NormalTok{iso\_plot }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}
+  \AttributeTok{institution =}\NormalTok{ iso\_top10}\SpecialCharTok{$}\NormalTok{institution,}
+  \AttributeTok{frequency =}\NormalTok{ iso\_top10}\SpecialCharTok{$}\NormalTok{isolated,}
+  \AttributeTok{type =} \StringTok{"Isolated"}
+\NormalTok{)}
+\NormalTok{conn\_plot }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}
+  \AttributeTok{institution =}\NormalTok{ conn\_top10}\SpecialCharTok{$}\NormalTok{institution,}
+  \AttributeTok{frequency =}\NormalTok{ conn\_top10}\SpecialCharTok{$}\NormalTok{connected,}
+  \AttributeTok{type =} \StringTok{"Connected"}
+\NormalTok{)}
+\NormalTok{inst\_plot\_df }\OtherTok{\textless{}{-}} \FunctionTok{rbind}\NormalTok{(iso\_plot, conn\_plot)}
+
+\FunctionTok{ggplot}\NormalTok{(inst\_plot\_df, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \FunctionTok{reorder}\NormalTok{(institution, frequency), }\AttributeTok{y =}\NormalTok{ frequency, }\AttributeTok{fill =}\NormalTok{ type)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"identity"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{coord\_flip}\NormalTok{() }\SpecialCharTok{+} \FunctionTok{facet\_wrap}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\NormalTok{type, }\AttributeTok{scales =} \StringTok{"free"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_fill\_manual}\NormalTok{(}\AttributeTok{values =} \FunctionTok{c}\NormalTok{(}\StringTok{"Isolated"} \OtherTok{=} \StringTok{"lightblue"}\NormalTok{, }\StringTok{"Connected"} \OtherTok{=} \StringTok{"lightsteelblue"}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Institutions: Isolated vs Connected Nodes (Top 10)"}\NormalTok{, }\AttributeTok{x =} \StringTok{"Institution"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Count"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{theme\_minimal}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text.y =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{7}\NormalTok{), }\AttributeTok{legend.position =} \StringTok{"none"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Combined-analysis_files/figure-latex/institution-comparison-1.pdf}
+
+\subsection{10. Overall Summary}\label{overall-summary}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"=== SUMMARY ===}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## === SUMMARY ===
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Raw graph nodes:"}\NormalTok{, }\FunctionTok{vcount}\NormalTok{(graph\_raw), }\StringTok{" | Isolated nodes:"}\NormalTok{, }\FunctionTok{length}\NormalTok{(raw\_isolated), }\StringTok{" ("}\NormalTok{, }\FunctionTok{round}\NormalTok{(}\FunctionTok{length}\NormalTok{(raw\_isolated)}\SpecialCharTok{/}\FunctionTok{vcount}\NormalTok{(graph\_raw)}\SpecialCharTok{*}\DecValTok{100}\NormalTok{,}\DecValTok{2}\NormalTok{), }\StringTok{"\%)}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Raw graph nodes: 2610  | Isolated nodes: 1043  ( 39.96 %)
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Connected directed graph nodes:"}\NormalTok{, }\FunctionTok{vcount}\NormalTok{(graph\_connected), }\StringTok{" | Edges:"}\NormalTok{, }\FunctionTok{ecount}\NormalTok{(graph\_connected), }\StringTok{" | Density:"}\NormalTok{, }\FunctionTok{round}\NormalTok{(}\FunctionTok{edge\_density}\NormalTok{(graph\_connected),}\DecValTok{6}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Connected directed graph nodes: 1582  | Edges: 3730  | Density: 0.001491
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Largest component nodes:"}\NormalTok{, }\FunctionTok{vcount}\NormalTok{(largest\_component), }\StringTok{" | Louvain communities:"}\NormalTok{, }\FunctionTok{length}\NormalTok{(louvain\_comm), }\StringTok{" | Modularity:"}\NormalTok{, }\FunctionTok{round}\NormalTok{(}\FunctionTok{modularity}\NormalTok{(louvain\_comm),}\DecValTok{4}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Largest component nodes: 1433  | Louvain communities: 21  | Modularity: 0.576
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Highest PageRank node:"}\NormalTok{, }\FunctionTok{V}\NormalTok{(largest\_component)}\SpecialCharTok{$}\NormalTok{name[}\FunctionTok{which.max}\NormalTok{(c\_pagerank)], }\StringTok{" ("}\NormalTok{, }\FunctionTok{round}\NormalTok{(}\FunctionTok{max}\NormalTok{(c\_pagerank),}\DecValTok{4}\NormalTok{), }\StringTok{")}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Highest PageRank node: P0199  ( 0.0405 )
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Highest betweenness node:"}\NormalTok{, }\FunctionTok{V}\NormalTok{(largest\_component)}\SpecialCharTok{$}\NormalTok{name[}\FunctionTok{which.max}\NormalTok{(c\_between)], }\StringTok{" ("}\NormalTok{, }\FunctionTok{round}\NormalTok{(}\FunctionTok{max}\NormalTok{(c\_between),}\DecValTok{4}\NormalTok{), }\StringTok{")}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Highest betweenness node: P0011  ( 0.0026 )
+\end{verbatim}
+
+\subsection{Appendix: Deduplication
+Strategy}\label{appendix-deduplication-strategy}
+
+This file integrates \texttt{Basic\ analysis.Rmd} and
+\texttt{Deeper\ analysis.Rmd}: - Removed: duplicated library imports,
+repeated connected graph construction (graph2 / graph\_connected),
+repeated basic network stats and degree stats output. - Kept: advanced
+centrality analysis, component and community detection, isolated vs
+connected comparison, centrality correlations. - Merged: degree
+distributions centralized on the directed connected graph; largest
+component analysis consolidated; visualization simplified to Louvain
+communities + PageRank sizing. - Unified variable naming:
+\texttt{graph\_raw} (raw undirected), \texttt{graph\_connected}
+(directed connected), \texttt{largest\_component} (largest weakly
+connected subgraph).
+
+\end{document}

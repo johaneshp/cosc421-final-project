@@ -1,0 +1,415 @@
+---
+title: "Integrated Network Analysis"
+author: "Jinxi_Hu-48528608, Samarth_Grover-38220463"
+date: "2025-11-09"
+output:
+  pdf_document:
+    latex_engine: xelatex
+    keep_tex: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 1. Environment and Dependencies
+
+```{r libraries, message=FALSE, warning=FALSE}
+library(readr)
+library(igraph)
+library(RColorBrewer)
+library(ggplot2)
+library(reshape2)
+library(scales)
+library(gridExtra)
+set.seed(48528608)
+```
+
+## 2. Raw Data Loading and Preprocessing (before removing isolated nodes)
+
+```{r load-raw}
+# Load raw node and edge data
+a_nodes <- read.csv("data/nodes.csv")
+a_edges <- read.csv("data/edges.csv")
+
+# Keep nodes with non-empty titles
+a_nodes_clean <- subset(a_nodes, !(is.na(title) | trimws(title) == ""))
+
+# Filter valid edges (source and target both in node set)
+a_edges_clean <- subset(a_edges, source %in% a_nodes_clean$local_id & 
+                                  target %in% a_nodes_clean$local_id)
+
+cat("=== RAW DATA ===\n")
+cat("Total nodes (including potential isolated):", nrow(a_nodes_clean), "\n")
+cat("Valid citation edges:", nrow(a_edges_clean), "\n\n")
+
+# Build undirected base graph (for overview and isolated node detection)
+graph_raw <- graph_from_data_frame(a_edges_clean, vertices = a_nodes_clean, directed = FALSE)
+# Remove multi-edges and self-loops
+graph_raw <- simplify(graph_raw, remove.multiple = TRUE, remove.loops = TRUE)
+
+cat("Raw undirected graph nodes:", vcount(graph_raw), "\n")
+cat("Raw undirected graph edges:", ecount(graph_raw), "\n\n")
+
+# Compute isolated nodes
+deg_all_raw <- degree(graph_raw, mode = "all")
+raw_isolated <- V(graph_raw)[deg_all_raw == 0]
+cat("Isolated nodes count:", length(raw_isolated), " (", round(length(raw_isolated)/vcount(graph_raw)*100, 2), "%)\n")
+```
+
+## 3. Connected Data After Removing Isolated Nodes (for directed advanced analysis)
+
+```{r load-connected}
+# Load cleaned connected node/edge data (already separated from isolated set)
+nodes_connected <- read.csv("data/nodes_connected.csv")
+edges_connected <- read.csv("data/edges_connected.csv")
+
+cat("=== CONNECTED DATA ===\n")
+cat("Connected nodes:", nrow(nodes_connected), "\n")
+cat("Connected edges:", nrow(edges_connected), "\n\n")
+
+# Build directed graph
+graph_connected <- graph_from_data_frame(edges_connected, vertices = nodes_connected, directed = TRUE)
+graph_connected <- simplify(graph_connected, remove.multiple = TRUE, remove.loops = TRUE)
+
+cat("Directed graph nodes:", vcount(graph_connected), "\n")
+cat("Directed graph edges:", ecount(graph_connected), "\n")
+cat("Network density:", round(edge_density(graph_connected), 6), "\n")
+cat("Is directed:", is_directed(graph_connected), " | Is weighted:", is_weighted(graph_connected), "\n\n")
+```
+
+## 4. Global Degree Statistics and Distributions (directed connected graph)
+
+```{r global-degree-stats}
+all_deg <- degree(graph_connected, mode = "all")
+in_deg <- degree(graph_connected, mode = "in")
+out_deg <- degree(graph_connected, mode = "out")
+
+cat("=== GLOBAL DEGREE STATISTICS ===\n")
+cat("Mean total degree:", round(mean(all_deg), 2), " | Range:", min(all_deg), "-", max(all_deg), " | SD:", round(sd(all_deg),2), "\n")
+cat("Mean in-degree:", round(mean(in_deg), 2), " | Range:", min(in_deg), "-", max(in_deg), " | SD:", round(sd(in_deg),2), "\n")
+cat("Mean out-degree:", round(mean(out_deg), 2), " | Range:", min(out_deg), "-", max(out_deg), " | SD:", round(sd(out_deg),2), "\n\n")
+
+degree_data <- data.frame(
+  node_id = V(graph_connected)$name,
+  total_degree = all_deg,
+  in_degree = in_deg,
+  out_degree = out_deg,
+  institution = V(graph_connected)$institution,
+  subtopic = V(graph_connected)$subtopic,
+  year = V(graph_connected)$year,
+  citations = V(graph_connected)$citations
+)
+```
+
+```{r hist-in-degree}
+# In-degree distribution
+ggplot(degree_data, aes(x = in_degree)) +
+  geom_histogram(binwidth = 1, fill = "lightblue", alpha = 0.7, color = "white") +
+  labs(title = "In-Degree Distribution", subtitle = paste("Connected nodes n=", vcount(graph_connected)),
+       x = "In-Degree", y = "Frequency") + theme_minimal()
+```
+
+```{r hist-out-degree}
+# Out-degree distribution
+ggplot(degree_data, aes(x = out_degree)) +
+  geom_histogram(binwidth = 1, fill = "lightcoral", alpha = 0.7, color = "white") +
+  labs(title = "Out-Degree Distribution", subtitle = paste("Connected nodes n=", vcount(graph_connected)),
+       x = "Out-Degree", y = "Frequency") + theme_minimal()
+```
+
+```{r hist-total-degree}
+# Total-degree distribution
+ggplot(degree_data, aes(x = total_degree)) +
+  geom_histogram(binwidth = 2, fill = "lightgreen", alpha = 0.7, color = "white") +
+  labs(title = "Total Degree Distribution", subtitle = paste("Connected nodes n=", vcount(graph_connected)),
+       x = "Total Degree", y = "Frequency") + theme_minimal()
+```
+
+```{r degree-comparison}
+degree_long <- melt(degree_data[, c("in_degree", "out_degree", "total_degree")],
+                    variable.name = "degree_type", value.name = "degree_value")
+degree_long$degree_type <- factor(degree_long$degree_type,
+                                  levels = c("in_degree", "out_degree", "total_degree"),
+                                  labels = c("In-Degree", "Out-Degree", "Total Degree"))
+
+ggplot(degree_long, aes(x = degree_value, fill = degree_type)) +
+  geom_histogram(alpha = 0.7, color = "white", bins = 30) +
+  facet_wrap(~degree_type, scales = "free") +
+  scale_fill_manual(values = c("In-Degree" = "lightblue", "Out-Degree" = "lightcoral", "Total Degree" = "lightgreen")) +
+  labs(title = "Degree Distribution Comparison", subtitle = "In-Degree vs Out-Degree vs Total Degree", x = "Degree Value", y = "Frequency") +
+  theme_minimal() + theme(legend.position = "none")
+```
+
+## 5. Component Analysis (directed graph)
+
+```{r component-analysis}
+cat("=== COMPONENT ANALYSIS (DIRECTED GRAPH) ===\n")
+weak_comp <- components(graph_connected, mode = "weak")
+strong_comp <- components(graph_connected, mode = "strong")
+
+cat("Weakly connected components:", weak_comp$no, " | Largest weak component size:", max(weak_comp$csize), " (", round(max(weak_comp$csize)/vcount(graph_connected)*100,2), "%)\n")
+cat("Strongly connected components:", strong_comp$no, " | Largest strong component size:", max(strong_comp$csize), " (", round(max(strong_comp$csize)/vcount(graph_connected)*100,2), "%)\n\n")
+
+cat("Weak component sizes (Top 10):\n")
+print(head(sort(weak_comp$csize, decreasing = TRUE), 10))
+cat("\nStrong component sizes (Top 10):\n")
+print(head(sort(strong_comp$csize, decreasing = TRUE), 10))
+
+largest_nodes <- which(weak_comp$membership == which.max(weak_comp$csize))
+largest_component <- induced_subgraph(graph_connected, largest_nodes)
+cat("\n=== LARGEST WEAK COMPONENT STATISTICS ===\n")
+cat("Nodes:", vcount(largest_component), " | Edges:", ecount(largest_component), "\n")
+cat("Density:", round(edge_density(largest_component), 6), "\n")
+cat("Average in-degree:", round(mean(degree(largest_component, mode = "in")), 2), " | Average out-degree:", round(mean(degree(largest_component, mode = "out")),2), "\n")
+cat("Average total degree:", round(mean(degree(largest_component, mode = "all")), 2), "\n")
+cat("Diameter:", diameter(largest_component, directed = FALSE), " | Average path length:", round(mean_distance(largest_component, directed = FALSE),2), "\n")
+```
+
+## 6. Centrality Analysis of Largest Component
+
+```{r centrality-largest}
+cat("=== CENTRALITY (LARGEST COMPONENT) ===\n")
+cat("Calculating centralities...\n")
+
+c_deg_in <- degree(largest_component, mode = "in", normalized = TRUE)
+c_deg_out <- degree(largest_component, mode = "out", normalized = TRUE)
+c_deg_all <- degree(largest_component, mode = "all", normalized = TRUE)
+c_between <- betweenness(largest_component, directed = TRUE, normalized = TRUE)
+c_close_in <- closeness(largest_component, mode = "in", normalized = TRUE)
+c_close_out <- closeness(largest_component, mode = "out", normalized = TRUE)
+c_eigen <- eigen_centrality(largest_component, directed = TRUE, scale = TRUE)$vector
+c_pagerank <- page_rank(largest_component, directed = TRUE)$vector
+c_hits_hub <- hub_score(largest_component)$vector
+c_hits_auth <- authority_score(largest_component)$vector
+
+centrality_summary <- data.frame(
+  node_id = V(largest_component)$name,
+  degree_in = c_deg_in,
+  degree_out = c_deg_out,
+  degree_all = c_deg_all,
+  betweenness = c_between,
+  closeness_in = c_close_in,
+  closeness_out = c_close_out,
+  eigenvector = c_eigen,
+  pagerank = c_pagerank,
+  hub = c_hits_hub,
+  authority = c_hits_auth
+)
+
+cat("Top 5 In-Degree Centrality:\n"); print(head(centrality_summary[order(centrality_summary$degree_in, decreasing=TRUE), c("node_id","degree_in")],5))
+cat("\nTop 5 PageRank:\n"); print(head(centrality_summary[order(centrality_summary$pagerank, decreasing=TRUE), c("node_id","pagerank")],5))
+cat("\nTop 5 Betweenness Centrality:\n"); print(head(centrality_summary[order(centrality_summary$betweenness, decreasing=TRUE), c("node_id","betweenness")],5))
+cat("\nTop 5 Authority Score:\n"); print(head(centrality_summary[order(centrality_summary$authority, decreasing=TRUE), c("node_id","authority")],5))
+```
+
+```{r betweenness-detail}
+cat("=== Betweenness Centrality Distribution (Largest Component) ===\n")
+bet_stats <- summary(c_between)
+print(bet_stats)
+q95 <- quantile(c_between, 0.95)
+high_between_ids <- which(c_between >= q95)
+cat("Nodes in top 5% betweenness:", length(high_between_ids), "\n")
+
+bet_df <- data.frame(node_id = V(largest_component)$name,
+                     betweenness = c_between,
+                     institution = V(largest_component)$institution,
+                     subtopic = V(largest_component)$subtopic)
+
+ggplot(bet_df, aes(x = betweenness)) +
+  geom_histogram(bins = 30, fill = "purple", alpha = 0.7, color = "white") +
+  labs(title = "Betweenness Centrality Distribution (Largest Component)", x = "Normalized Betweenness Centrality", y = "Frequency") + theme_minimal()
+
+cat("\nTop 10 bridging nodes (betweenness):\n")
+print(head(bet_df[order(bet_df$betweenness, decreasing = TRUE), c("node_id","betweenness","subtopic","institution")],10))
+```
+
+```{r edge-betweenness}
+cat("=== Edge Betweenness (Largest Component) ===\n")
+edge_bet <- edge_betweenness(largest_component, directed = TRUE)
+cat("Number of edges:", length(edge_bet), "\n")
+print(summary(edge_bet))
+
+idx_top_e <- order(edge_bet, decreasing = TRUE)[1:10]
+edge_pairs <- get.edges(largest_component, idx_top_e)
+cat("\nTop 10 bridging edges: \n")
+for(i in seq_along(idx_top_e)){
+  from_n <- V(largest_component)$name[edge_pairs[i,1]]
+  to_n <- V(largest_component)$name[edge_pairs[i,2]]
+  cat(sprintf("%d. %s -> %s (%.4f)\n", i, from_n, to_n, edge_bet[idx_top_e[i]]))
+}
+
+ggplot(data.frame(edge_betweenness = edge_bet), aes(x = edge_betweenness)) +
+  geom_histogram(bins = 50, fill = "orange", alpha = 0.7, color = "white") +
+  labs(title = "Edge Betweenness Distribution (Largest Component)", x = "Edge Betweenness", y = "Frequency") + theme_minimal()
+```
+
+## 7. Community Detection Comparison (Largest Component)
+
+```{r community-detection}
+cat("=== COMMUNITY DETECTION (Louvain vs Edge Betweenness) ===\n")
+largest_undirected <- as.undirected(largest_component, mode = "collapse")
+
+louvain_comm <- cluster_louvain(largest_undirected)
+edgebet_comm <- cluster_edge_betweenness(largest_undirected, directed = FALSE)
+
+cat("Louvain communities:", length(louvain_comm), " | Modularity:", round(modularity(louvain_comm),4), "\n")
+cat("Edge Betweenness communities:", length(edgebet_comm), " | Modularity:", round(modularity(edgebet_comm),4), "\n")
+
+comm_compare <- data.frame(
+  Method = c("Louvain", "Edge Betweenness"),
+  Communities = c(length(louvain_comm), length(edgebet_comm)),
+  Modularity = c(modularity(louvain_comm), modularity(edgebet_comm))
+)
+
+p1 <- ggplot(comm_compare, aes(x = Method, y = Communities, fill = Method)) +
+  geom_bar(stat = "identity", alpha = 0.7) +
+  scale_fill_manual(values = c("Louvain" = "lightblue", "Edge Betweenness" = "lightcoral")) +
+  labs(title = "Number of Communities", y = "Count") + theme_minimal() + theme(legend.position = "none")
+
+p2 <- ggplot(comm_compare, aes(x = Method, y = Modularity, fill = Method)) +
+  geom_bar(stat = "identity", alpha = 0.7) +
+  scale_fill_manual(values = c("Louvain" = "lightblue", "Edge Betweenness" = "lightcoral")) +
+  labs(title = "Modularity Comparison", y = "Modularity") + theme_minimal() + theme(legend.position = "none")
+
+grid.arrange(p1, p2, ncol = 2, top = "Community Detection Methods Comparison")
+```
+
+```{r community-visualization, fig.height=6, fig.width=7}
+# Louvain visualization + PageRank node sizing
+pagerank_vals <- page_rank(largest_component, directed = TRUE)$vector
+size_scaled <- 4 + 10 * (pagerank_vals - min(pagerank_vals)) / (max(pagerank_vals) - min(pagerank_vals))
+comm_mem <- membership(louvain_comm)
+if(length(louvain_comm) <= 12){
+  comm_cols <- brewer.pal(max(3, length(louvain_comm)), "Set1")
+} else {
+  comm_cols <- rainbow(length(louvain_comm))
+}
+vertex_cols_comm <- comm_cols[comm_mem]
+layout_large <- layout_with_fr(largest_component, niter = 800)
+
+plot(largest_component, layout = layout_large,
+     vertex.size = size_scaled,
+     vertex.label = NA,
+     edge.arrow.size = 0.3,
+     edge.width = 0.5,
+     vertex.color = vertex_cols_comm,
+    main = "Largest Component: Louvain Communities + PageRank Node Size",
+    sub = paste("Communities:", length(louvain_comm), " Modularity:", round(modularity(louvain_comm),4)))
+```
+
+  ## 8. Centrality Correlations
+
+```{r centrality-correlation}
+cat("=== CENTRALITY CORRELATION MATRIX ===\n")
+cor_data <- centrality_summary[, c("degree_in","degree_out","betweenness","closeness_in","closeness_out","eigenvector","pagerank","authority","hub")]
+cor_mat <- cor(cor_data, use = "complete.obs")
+print(round(cor_mat,3))
+
+cor_melt <- melt(cor_mat)
+
+ggplot(cor_melt, aes(Var1, Var2, fill = value)) +
+  geom_tile() +
+  scale_fill_gradient2(low = "blue", high = "red", mid = "white", midpoint = 0, limit = c(-1,1), name = "Correlation") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(title = "Centrality Correlations (Largest Component)", x = "", y = "") +
+  geom_text(aes(label = round(value,2)), size = 3)
+```
+
+## 9. Isolated vs Connected Nodes Comparison
+
+```{r isolated-vs-connected}
+# Load isolated nodes data
+nodes_isolated <- read.csv("data/nodes_isolated.csv")
+cat("=== ISOLATED NODE STATISTICS ===\n")
+cat("Isolated nodes:", nrow(nodes_isolated), " | Year range:", min(nodes_isolated$year,na.rm=TRUE), "-", max(nodes_isolated$year,na.rm=TRUE), "\n")
+cat("Mean citations (isolated):", round(mean(nodes_isolated$citations, na.rm=TRUE),2), " | Mean references (isolated):", round(mean(nodes_isolated$references, na.rm=TRUE),2), "\n\n")
+
+# 连接节点基础统计
+cat("=== CONNECTED NODE STATISTICS ===\n")
+cat("Connected nodes:", nrow(nodes_connected), " | Year range:", min(nodes_connected$year,na.rm=TRUE), "-", max(nodes_connected$year,na.rm=TRUE), "\n")
+cat("Mean citations (connected):", round(mean(nodes_connected$citations, na.rm=TRUE),2), " | Mean references (connected):", round(mean(nodes_connected$references, na.rm=TRUE),2), "\n\n")
+
+# Subtopic frequency comparison
+sub_isolated <- table(nodes_isolated$subtopic)
+sub_connected <- table(nodes_connected$subtopic)
+
+sub_union <- unique(c(names(sub_isolated), names(sub_connected)))
+comp_df <- data.frame(subtopic = sub_union,
+                      isolated = as.numeric(sub_isolated[sub_union]),
+                      connected = as.numeric(sub_connected[sub_union]))
+comp_df$isolated[is.na(comp_df$isolated)] <- 0
+comp_df$connected[is.na(comp_df$connected)] <- 0
+comp_df$total <- comp_df$isolated + comp_df$connected
+comp_df$isolated_prop <- ifelse(comp_df$total>0, comp_df$isolated/comp_df$total, NA)
+comp_df_ord <- comp_df[order(comp_df$isolated_prop, decreasing = TRUE), ]
+
+cat("Subtopics with highest isolation proportion (total>=5) Top 10:\n")
+print(head(comp_df_ord[comp_df_ord$total>=5, c("subtopic","isolated","connected","isolated_prop")],10))
+```
+
+```{r plot-subtopic-comparison}
+# Visualize top 15 subtopics by total count
+comp_top15 <- head(comp_df[order(comp_df$total, decreasing = TRUE), ], 15)
+plot_df <- melt(comp_top15[, c("subtopic","isolated","connected")], id.vars = "subtopic", variable.name = "type", value.name = "count")
+
+ggplot(plot_df, aes(x = reorder(subtopic, count), y = count, fill = type)) +
+  geom_bar(stat = "identity") + coord_flip() +
+  scale_fill_manual(values = c("isolated" = "lightcoral", "connected" = "lightblue"), labels = c("Isolated", "Connected")) +
+  labs(title = "Subtopics: Isolated vs Connected Nodes", subtitle = "Top 15 by total count", x = "Subtopic", y = "Count", fill = "Node Type") +
+  theme_minimal() + theme(axis.text.y = element_text(size = 8))
+```
+
+```{r institution-comparison}
+# Institution frequency comparison
+inst_iso <- table(nodes_isolated$institution)
+inst_conn <- table(nodes_connected$institution)
+inst_union <- unique(c(names(inst_iso), names(inst_conn)))
+inst_df <- data.frame(institution = inst_union,
+                      isolated = as.numeric(inst_iso[inst_union]),
+                      connected = as.numeric(inst_conn[inst_union]))
+inst_df$isolated[is.na(inst_df$isolated)] <- 0
+inst_df$connected[is.na(inst_df$connected)] <- 0
+inst_df$total <- inst_df$isolated + inst_df$connected
+
+iso_top10 <- head(inst_df[order(inst_df$isolated, decreasing=TRUE), ],10)
+conn_top10 <- head(inst_df[order(inst_df$connected, decreasing=TRUE), ],10)
+
+iso_plot <- data.frame(
+  institution = iso_top10$institution,
+  frequency = iso_top10$isolated,
+  type = "Isolated"
+)
+conn_plot <- data.frame(
+  institution = conn_top10$institution,
+  frequency = conn_top10$connected,
+  type = "Connected"
+)
+inst_plot_df <- rbind(iso_plot, conn_plot)
+
+ggplot(inst_plot_df, aes(x = reorder(institution, frequency), y = frequency, fill = type)) +
+  geom_bar(stat = "identity") + coord_flip() + facet_wrap(~type, scales = "free") +
+  scale_fill_manual(values = c("Isolated" = "lightblue", "Connected" = "lightsteelblue")) +
+  labs(title = "Institutions: Isolated vs Connected Nodes (Top 10)", x = "Institution", y = "Count") + theme_minimal() +
+  theme(axis.text.y = element_text(size = 7), legend.position = "none")
+```
+
+## 10. Overall Summary
+
+```{r summary}
+cat("=== SUMMARY ===\n")
+cat("Raw graph nodes:", vcount(graph_raw), " | Isolated nodes:", length(raw_isolated), " (", round(length(raw_isolated)/vcount(graph_raw)*100,2), "%)\n")
+cat("Connected directed graph nodes:", vcount(graph_connected), " | Edges:", ecount(graph_connected), " | Density:", round(edge_density(graph_connected),6), "\n")
+cat("Largest component nodes:", vcount(largest_component), " | Louvain communities:", length(louvain_comm), " | Modularity:", round(modularity(louvain_comm),4), "\n")
+cat("Highest PageRank node:", V(largest_component)$name[which.max(c_pagerank)], " (", round(max(c_pagerank),4), ")\n")
+cat("Highest betweenness node:", V(largest_component)$name[which.max(c_between)], " (", round(max(c_between),4), ")\n")
+```
+
+## Appendix: Deduplication Strategy
+
+This file integrates `Basic analysis.Rmd` and `Deeper analysis.Rmd`:
+- Removed: duplicated library imports, repeated connected graph construction (graph2 / graph_connected), repeated basic network stats and degree stats output.
+- Kept: advanced centrality analysis, component and community detection, isolated vs connected comparison, centrality correlations.
+- Merged: degree distributions centralized on the directed connected graph; largest component analysis consolidated; visualization simplified to Louvain communities + PageRank sizing.
+- Unified variable naming: `graph_raw` (raw undirected), `graph_connected` (directed connected), `largest_component` (largest weakly connected subgraph).
