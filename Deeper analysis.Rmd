@@ -300,7 +300,6 @@ centrality_summary <- data.frame(
   hub = hub_cent,
   authority = authority_cent
 )
-
 # Print top nodes by different centrality measures
 cat("TOP 5 NODES BY DIFFERENT CENTRALITY MEASURES:\n\n")
 
@@ -532,4 +531,303 @@ ggplot(cor_melted, aes(Var1, Var2, fill = value)) +
   labs(title = "Centrality Measures Correlation Matrix",
        x = "", y = "") +
   geom_text(aes(label = round(value, 2)), size = 3)
+```
+
+## Largest Component Visualization (Jinxi Hu)
+
+```{r largest-component-basic-plot}
+cat("=== LARGEST COMPONENT VISUALIZATION ===\n")
+
+# Basic layout for consistent visualization across all plots
+cat("Calculating network layout (this may take a moment)...\n")
+layout_large <- layout_with_fr(largest_component, 
+                              weights = NULL, 
+                              niter = 1000, 
+                              start.temp = sqrt(vcount(largest_component)))
+
+cat("Layout calculation completed!\n")
+cat("Plotting largest component with different color schemes...\n\n")
+
+# Basic plot with default colors
+plot(largest_component, 
+     layout = layout_large,
+     vertex.size = 4, 
+     vertex.label = NA,
+     edge.arrow.size = 0.3,
+     edge.width = 0.5,
+     edge.color = "gray70",
+     vertex.color = "lightblue",
+     vertex.frame.color = "white",
+     main = "Largest Component - Basic View",
+     sub = paste("Nodes:", vcount(largest_component), 
+                "| Edges:", ecount(largest_component)))
+```
+
+```{r largest-component-by-subtopic}
+# Plot colored by research subtopic
+cat("1. VISUALIZATION BY RESEARCH SUBTOPIC\n")
+
+# Get unique subtopics and create color palette
+subtopics_large <- V(largest_component)$subtopic
+unique_subtopics <- unique(subtopics_large)
+n_subtopics <- length(unique_subtopics)
+
+cat("Number of unique subtopics in largest component:", n_subtopics, "\n")
+
+# Create color palette for subtopics
+if(n_subtopics <= 12) {
+  colors_subtopic <- RColorBrewer::brewer.pal(max(3, n_subtopics), "Set3")
+} else {
+  # For more than 12 subtopics, use rainbow colors
+  colors_subtopic <- rainbow(n_subtopics)
+}
+
+# Create named color vector to ensure consistent mapping
+names(colors_subtopic) <- unique_subtopics
+
+# Assign colors to nodes using the named vector
+vertex_colors_subtopic <- colors_subtopic[subtopics_large]
+
+# Plot by subtopic
+plot(largest_component, 
+     layout = layout_large,
+     vertex.size = 4, 
+     vertex.label = NA,
+     edge.arrow.size = 0.3,
+     edge.width = 0.5,
+     edge.color = "gray70",
+     vertex.color = vertex_colors_subtopic,
+     vertex.frame.color = "white",
+     main = "Largest Component - Colored by Research Subtopic",
+     sub = paste("Nodes:", vcount(largest_component), 
+                "| Subtopics:", n_subtopics))
+
+# Add legend for subtopics (show top 10 only if too many)
+if(n_subtopics > 10) {
+  # Show only the most frequent subtopics
+  top_subtopics <- names(sort(table(subtopics_large), decreasing = TRUE))[1:10]
+  legend_subtopics <- c(top_subtopics, "Others...")
+  legend_colors <- c(colors_subtopic[top_subtopics], "gray")
+} else {
+  legend_subtopics <- unique_subtopics
+  legend_colors <- colors_subtopic[unique_subtopics]
+}
+
+legend("topright", 
+       legend = legend_subtopics,
+       fill = legend_colors,
+       cex = 0.6,
+       title = "Research Subtopic",
+       bg = "white")
+
+# Print subtopic distribution
+cat("\nSubtopic distribution in largest component:\n")
+subtopic_dist <- sort(table(subtopics_large), decreasing = TRUE)
+print(head(subtopic_dist, 10))
+```
+
+```{r largest-component-by-institution}
+# Plot colored by institution
+cat("\n2. VISUALIZATION BY INSTITUTION\n")
+
+# Get unique institutions and create color palette
+institutions_large <- V(largest_component)$institution
+unique_institutions <- unique(institutions_large)
+n_institutions <- length(unique_institutions)
+
+cat("Number of unique institutions in largest component:", n_institutions, "\n")
+
+# Get top 10 institutions by frequency first
+institution_counts <- sort(table(institutions_large), decreasing = TRUE)
+if(n_institutions > 10) {
+  top_institutions <- names(institution_counts)[1:10]
+} else {
+  top_institutions <- names(institution_counts)
+}
+
+# Create color palette for institutions with better differentiation
+if(length(top_institutions) <= 12) {
+  # Use highly contrasting colors with maximum visual separation
+  colors_for_top <- c("#FF0000", "#0000FF", "#00AA00", "#FF8000", "#8000FF", 
+                     "#00CCCC", "#FF1493", "#32CD32", "#FFD700", "#8B4513", 
+                     "#FF69B4", "#4169E1")
+  colors_top_institutions <- colors_for_top[1:length(top_institutions)]
+  names(colors_top_institutions) <- top_institutions
+} else {
+  # For more than 12 institutions, use diverse colors with better spacing
+  colors_top_institutions <- rainbow(length(top_institutions), s = 1, v = 0.8)
+  names(colors_top_institutions) <- top_institutions
+}
+
+# Assign colors to nodes
+vertex_colors_display <- rep("gray", length(institutions_large))
+for(i in 1:length(institutions_large)) {
+  if(institutions_large[i] %in% top_institutions) {
+    vertex_colors_display[i] <- colors_top_institutions[institutions_large[i]]
+  }
+}
+
+# Plot by institution
+plot(largest_component, 
+     layout = layout_large,
+     vertex.size = 4, 
+     vertex.label = NA,
+     edge.arrow.size = 0.3,
+     edge.width = 0.5,
+     edge.color = "gray70",
+     vertex.color = vertex_colors_display,
+     vertex.frame.color = "white",
+     main = "Largest Component - Colored by Institution",
+     sub = paste("Nodes:", vcount(largest_component), 
+                "| Institutions:", n_institutions))
+
+# Add legend for institutions
+if(n_institutions > 10) {
+  legend_institutions <- c(top_institutions, "Others...")
+  legend_colors_inst <- c(colors_top_institutions[top_institutions], "gray")
+} else {
+  legend_institutions <- top_institutions
+  legend_colors_inst <- colors_top_institutions[top_institutions]
+}
+
+legend("topright", 
+       legend = legend_institutions,
+       fill = legend_colors_inst,
+       cex = 0.6,
+       title = "Institution",
+       bg = "white")
+
+# Print institution distribution
+cat("\nInstitution distribution in largest component:\n")
+institution_dist <- sort(table(institutions_large), decreasing = TRUE)
+print(head(institution_dist, 10))
+```
+
+```{r largest-component-by-community}
+# Plot colored by Louvain communities
+cat("\n3. VISUALIZATION BY LOUVAIN COMMUNITIES\n")
+
+# Get community membership (already calculated in previous chunk)
+community_membership <- membership(louvain_communities)
+n_communities <- length(louvain_communities)
+
+cat("Number of Louvain communities:", n_communities, "\n")
+cat("Modularity score:", round(modularity(louvain_communities), 4), "\n")
+
+# Create color palette for communities
+if(n_communities <= 12) {
+  colors_community <- RColorBrewer::brewer.pal(max(3, n_communities), "Set1")
+} else {
+  colors_community <- rainbow(n_communities)
+}
+
+# Assign colors to nodes based on community membership
+vertex_colors_community <- colors_community[community_membership]
+
+# Plot by community
+plot(largest_component_undirected,  # Use undirected version for community plot
+     layout = layout_large,
+     vertex.size = 4, 
+     vertex.label = NA,
+     edge.width = 0.5,
+     edge.color = "gray70",
+     vertex.color = vertex_colors_community,
+     vertex.frame.color = "white",
+     main = "Largest Component - Colored by Louvain Communities",
+     sub = paste("Nodes:", vcount(largest_component), 
+                "| Communities:", n_communities, 
+                "| Modularity:", round(modularity(louvain_communities), 3)))
+
+# Add legend for communities
+legend("topright", 
+       legend = paste("Community", 1:min(n_communities, 10)),
+       fill = colors_community[1:min(n_communities, 10)],
+       cex = 0.6,
+       title = "Louvain Community",
+       bg = "white")
+
+# Print community size distribution
+cat("\nCommunity size distribution:\n")
+community_sizes <- sort(sizes(louvain_communities), decreasing = TRUE)
+print(community_sizes)
+```
+
+```{r largest-component-weighted-by-centrality}
+# Plot with node sizes representing centrality measures
+cat("\n4. VISUALIZATION WITH CENTRALITY-WEIGHTED NODE SIZES\n")
+
+# Use PageRank centrality for node sizes
+pagerank_values <- page_rank(largest_component, directed = TRUE)$vector
+# Scale node sizes appropriately (between 2 and 15)
+node_sizes <- 2 + 13 * (pagerank_values - min(pagerank_values)) / 
+              (max(pagerank_values) - min(pagerank_values))
+
+# Plot with PageRank-weighted sizes and community colors
+plot(largest_component, 
+     layout = layout_large,
+     vertex.size = node_sizes, 
+     vertex.label = NA,
+     edge.arrow.size = 0.3,
+     edge.width = 0.5,
+     edge.color = "gray70",
+     vertex.color = vertex_colors_community,
+     vertex.frame.color = "white",
+     main = "Largest Component - Communities with PageRank-weighted Sizes",
+     sub = paste("Node size ∝ PageRank centrality | Communities by Louvain algorithm"))
+
+# Add legends
+legend("topleft", 
+       legend = c("Smallest PageRank", "Largest PageRank"),
+       pch = 21,
+       pt.cex = c(0.5, 2),
+       pt.bg = "lightblue",
+       title = "Node Size",
+       bg = "white",
+       cex = 0.8)
+
+legend("topright", 
+       legend = paste("Community", 1:min(n_communities, 8)),
+       fill = colors_community[1:min(n_communities, 8)],
+       cex = 0.6,
+       title = "Louvain Community",
+       bg = "white")
+
+# Print top PageRank nodes
+cat("\nTop 10 nodes by PageRank centrality:\n")
+top_pagerank_nodes <- order(pagerank_values, decreasing = TRUE)[1:10]
+pagerank_summary <- data.frame(
+  node_id = V(largest_component)$name[top_pagerank_nodes],
+  pagerank = round(pagerank_values[top_pagerank_nodes], 4),
+  community = community_membership[top_pagerank_nodes],
+  subtopic = V(largest_component)$subtopic[top_pagerank_nodes],
+  institution = V(largest_component)$institution[top_pagerank_nodes]
+)
+print(pagerank_summary)
+```
+
+```{r component-analysis-summary}
+cat("\n=== LARGEST COMPONENT ANALYSIS SUMMARY ===\n")
+
+# Summary statistics
+cat("STRUCTURAL PROPERTIES:\n")
+cat("- Nodes:", vcount(largest_component), "\n")
+cat("- Edges:", ecount(largest_component), "\n")
+cat("- Density:", round(edge_density(largest_component), 6), "\n")
+cat("- Average clustering coefficient:", round(transitivity(largest_component, type = "average"), 4), "\n")
+cat("- Diameter:", diameter(largest_component, directed = FALSE), "\n")
+cat("- Average path length:", round(mean_distance(largest_component, directed = FALSE), 2), "\n\n")
+
+cat("DIVERSITY MEASURES:\n")
+cat("- Research subtopics:", length(unique(subtopics_large)), "\n")
+cat("- Institutions:", length(unique(institutions_large)), "\n")
+cat("- Louvain communities:", n_communities, "\n")
+cat("- Community modularity:", round(modularity(louvain_communities), 4), "\n\n")
+
+cat("CENTRALITY HIGHLIGHTS:\n")
+cat("- Highest PageRank node:", V(largest_component)$name[which.max(pagerank_values)], 
+    "(", round(max(pagerank_values), 4), ")\n")
+cat("- Highest betweenness node:", V(largest_component)$name[which.max(betweenness_cent)], 
+    "(", round(max(betweenness_cent), 4), ")\n")
+cat("- Most cited node (in-degree):", V(largest_component)$name[which.max(degree_cent_in)], 
+    "(", max(degree(largest_component, mode = "in")), " citations)\n")
 ```

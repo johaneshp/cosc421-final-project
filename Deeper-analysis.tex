@@ -1096,7 +1096,6 @@ Hu)}\label{advanced-analysis-of-largest-component-jinxi-hu}
   \AttributeTok{hub =}\NormalTok{ hub\_cent,}
   \AttributeTok{authority =}\NormalTok{ authority\_cent}
 \NormalTok{)}
-
 \CommentTok{\# Print top nodes by different centrality measures}
 \FunctionTok{cat}\NormalTok{(}\StringTok{"TOP 5 NODES BY DIFFERENT CENTRALITY MEASURES:}\SpecialCharTok{\textbackslash{}n\textbackslash{}n}\StringTok{"}\NormalTok{)}
 \end{Highlighting}
@@ -1917,5 +1916,711 @@ Hu)}\label{advanced-analysis-of-largest-component-jinxi-hu}
 \end{verbatim}
 
 \includegraphics{Deeper-analysis_files/figure-latex/centrality-correlation-analysis-1.pdf}
+
+\subsection{Largest Component Visualization (Jinxi
+Hu)}\label{largest-component-visualization-jinxi-hu}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"=== LARGEST COMPONENT VISUALIZATION ===}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## === LARGEST COMPONENT VISUALIZATION ===
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Basic layout for consistent visualization across all plots}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Calculating network layout (this may take a moment)...}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Calculating network layout (this may take a moment)...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{layout\_large }\OtherTok{\textless{}{-}} \FunctionTok{layout\_with\_fr}\NormalTok{(largest\_component, }
+                              \AttributeTok{weights =} \ConstantTok{NULL}\NormalTok{, }
+                              \AttributeTok{niter =} \DecValTok{1000}\NormalTok{, }
+                              \AttributeTok{start.temp =} \FunctionTok{sqrt}\NormalTok{(}\FunctionTok{vcount}\NormalTok{(largest\_component)))}
+
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Layout calculation completed!}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Layout calculation completed!
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Plotting largest component with different color schemes...}\SpecialCharTok{\textbackslash{}n\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Plotting largest component with different color schemes...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Basic plot with default colors}
+\FunctionTok{plot}\NormalTok{(largest\_component, }
+     \AttributeTok{layout =}\NormalTok{ layout\_large,}
+     \AttributeTok{vertex.size =} \DecValTok{4}\NormalTok{, }
+     \AttributeTok{vertex.label =} \ConstantTok{NA}\NormalTok{,}
+     \AttributeTok{edge.arrow.size =} \FloatTok{0.3}\NormalTok{,}
+     \AttributeTok{edge.width =} \FloatTok{0.5}\NormalTok{,}
+     \AttributeTok{edge.color =} \StringTok{"gray70"}\NormalTok{,}
+     \AttributeTok{vertex.color =} \StringTok{"lightblue"}\NormalTok{,}
+     \AttributeTok{vertex.frame.color =} \StringTok{"white"}\NormalTok{,}
+     \AttributeTok{main =} \StringTok{"Largest Component {-} Basic View"}\NormalTok{,}
+     \AttributeTok{sub =} \FunctionTok{paste}\NormalTok{(}\StringTok{"Nodes:"}\NormalTok{, }\FunctionTok{vcount}\NormalTok{(largest\_component), }
+                \StringTok{"| Edges:"}\NormalTok{, }\FunctionTok{ecount}\NormalTok{(largest\_component)))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Deeper-analysis_files/figure-latex/largest-component-basic-plot-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Plot colored by research subtopic}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"1. VISUALIZATION BY RESEARCH SUBTOPIC}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 1. VISUALIZATION BY RESEARCH SUBTOPIC
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Get unique subtopics and create color palette}
+\NormalTok{subtopics\_large }\OtherTok{\textless{}{-}} \FunctionTok{V}\NormalTok{(largest\_component)}\SpecialCharTok{$}\NormalTok{subtopic}
+\NormalTok{unique\_subtopics }\OtherTok{\textless{}{-}} \FunctionTok{unique}\NormalTok{(subtopics\_large)}
+\NormalTok{n\_subtopics }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(unique\_subtopics)}
+
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Number of unique subtopics in largest component:"}\NormalTok{, n\_subtopics, }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Number of unique subtopics in largest component: 9
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Create color palette for subtopics}
+\ControlFlowTok{if}\NormalTok{(n\_subtopics }\SpecialCharTok{\textless{}=} \DecValTok{12}\NormalTok{) \{}
+\NormalTok{  colors\_subtopic }\OtherTok{\textless{}{-}}\NormalTok{ RColorBrewer}\SpecialCharTok{::}\FunctionTok{brewer.pal}\NormalTok{(}\FunctionTok{max}\NormalTok{(}\DecValTok{3}\NormalTok{, n\_subtopics), }\StringTok{"Set3"}\NormalTok{)}
+\NormalTok{\} }\ControlFlowTok{else}\NormalTok{ \{}
+  \CommentTok{\# For more than 12 subtopics, use rainbow colors}
+\NormalTok{  colors\_subtopic }\OtherTok{\textless{}{-}} \FunctionTok{rainbow}\NormalTok{(n\_subtopics)}
+\NormalTok{\}}
+
+\CommentTok{\# Create named color vector to ensure consistent mapping}
+\FunctionTok{names}\NormalTok{(colors\_subtopic) }\OtherTok{\textless{}{-}}\NormalTok{ unique\_subtopics}
+
+\CommentTok{\# Assign colors to nodes using the named vector}
+\NormalTok{vertex\_colors\_subtopic }\OtherTok{\textless{}{-}}\NormalTok{ colors\_subtopic[subtopics\_large]}
+
+\CommentTok{\# Plot by subtopic}
+\FunctionTok{plot}\NormalTok{(largest\_component, }
+     \AttributeTok{layout =}\NormalTok{ layout\_large,}
+     \AttributeTok{vertex.size =} \DecValTok{4}\NormalTok{, }
+     \AttributeTok{vertex.label =} \ConstantTok{NA}\NormalTok{,}
+     \AttributeTok{edge.arrow.size =} \FloatTok{0.3}\NormalTok{,}
+     \AttributeTok{edge.width =} \FloatTok{0.5}\NormalTok{,}
+     \AttributeTok{edge.color =} \StringTok{"gray70"}\NormalTok{,}
+     \AttributeTok{vertex.color =}\NormalTok{ vertex\_colors\_subtopic,}
+     \AttributeTok{vertex.frame.color =} \StringTok{"white"}\NormalTok{,}
+     \AttributeTok{main =} \StringTok{"Largest Component {-} Colored by Research Subtopic"}\NormalTok{,}
+     \AttributeTok{sub =} \FunctionTok{paste}\NormalTok{(}\StringTok{"Nodes:"}\NormalTok{, }\FunctionTok{vcount}\NormalTok{(largest\_component), }
+                \StringTok{"| Subtopics:"}\NormalTok{, n\_subtopics))}
+
+\CommentTok{\# Add legend for subtopics (show top 10 only if too many)}
+\ControlFlowTok{if}\NormalTok{(n\_subtopics }\SpecialCharTok{\textgreater{}} \DecValTok{10}\NormalTok{) \{}
+  \CommentTok{\# Show only the most frequent subtopics}
+\NormalTok{  top\_subtopics }\OtherTok{\textless{}{-}} \FunctionTok{names}\NormalTok{(}\FunctionTok{sort}\NormalTok{(}\FunctionTok{table}\NormalTok{(subtopics\_large), }\AttributeTok{decreasing =} \ConstantTok{TRUE}\NormalTok{))[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{10}\NormalTok{]}
+\NormalTok{  legend\_subtopics }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(top\_subtopics, }\StringTok{"Others..."}\NormalTok{)}
+\NormalTok{  legend\_colors }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(colors\_subtopic[top\_subtopics], }\StringTok{"gray"}\NormalTok{)}
+\NormalTok{\} }\ControlFlowTok{else}\NormalTok{ \{}
+\NormalTok{  legend\_subtopics }\OtherTok{\textless{}{-}}\NormalTok{ unique\_subtopics}
+\NormalTok{  legend\_colors }\OtherTok{\textless{}{-}}\NormalTok{ colors\_subtopic[unique\_subtopics]}
+\NormalTok{\}}
+
+\FunctionTok{legend}\NormalTok{(}\StringTok{"topright"}\NormalTok{, }
+       \AttributeTok{legend =}\NormalTok{ legend\_subtopics,}
+       \AttributeTok{fill =}\NormalTok{ legend\_colors,}
+       \AttributeTok{cex =} \FloatTok{0.6}\NormalTok{,}
+       \AttributeTok{title =} \StringTok{"Research Subtopic"}\NormalTok{,}
+       \AttributeTok{bg =} \StringTok{"white"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Deeper-analysis_files/figure-latex/largest-component-by-subtopic-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Print subtopic distribution}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{Subtopic distribution in largest component:}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Subtopic distribution in largest component:
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{subtopic\_dist }\OtherTok{\textless{}{-}} \FunctionTok{sort}\NormalTok{(}\FunctionTok{table}\NormalTok{(subtopics\_large), }\AttributeTok{decreasing =} \ConstantTok{TRUE}\NormalTok{)}
+\FunctionTok{print}\NormalTok{(}\FunctionTok{head}\NormalTok{(subtopic\_dist, }\DecValTok{10}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## subtopics_large
+## Artificial Intelligence in Healthcare and Education 
+##                                                1171 
+##                      Machine Learning in Healthcare 
+##                                                 153 
+##               Machine Learning in Materials Science 
+##                                                  49 
+##              Natural Language Processing Techniques 
+##                                                  21 
+##               Artificial Intelligence in Healthcare 
+##                                                  17 
+##                      Artificial Intelligence in Law 
+##                                                  16 
+##                  Machine Learning in Bioinformatics 
+##                                                   3 
+##            Machine Learning and Data Classification 
+##                                                   2 
+##                    Artificial Intelligence in Games 
+##                                                   1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Plot colored by institution}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{2. VISUALIZATION BY INSTITUTION}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## 2. VISUALIZATION BY INSTITUTION
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Get unique institutions and create color palette}
+\NormalTok{institutions\_large }\OtherTok{\textless{}{-}} \FunctionTok{V}\NormalTok{(largest\_component)}\SpecialCharTok{$}\NormalTok{institution}
+\NormalTok{unique\_institutions }\OtherTok{\textless{}{-}} \FunctionTok{unique}\NormalTok{(institutions\_large)}
+\NormalTok{n\_institutions }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(unique\_institutions)}
+
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Number of unique institutions in largest component:"}\NormalTok{, n\_institutions, }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Number of unique institutions in largest component: 508
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Get top 10 institutions by frequency first}
+\NormalTok{institution\_counts }\OtherTok{\textless{}{-}} \FunctionTok{sort}\NormalTok{(}\FunctionTok{table}\NormalTok{(institutions\_large), }\AttributeTok{decreasing =} \ConstantTok{TRUE}\NormalTok{)}
+\ControlFlowTok{if}\NormalTok{(n\_institutions }\SpecialCharTok{\textgreater{}} \DecValTok{10}\NormalTok{) \{}
+\NormalTok{  top\_institutions }\OtherTok{\textless{}{-}} \FunctionTok{names}\NormalTok{(institution\_counts)[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{10}\NormalTok{]}
+\NormalTok{\} }\ControlFlowTok{else}\NormalTok{ \{}
+\NormalTok{  top\_institutions }\OtherTok{\textless{}{-}} \FunctionTok{names}\NormalTok{(institution\_counts)}
+\NormalTok{\}}
+
+\CommentTok{\# Create color palette for institutions with better differentiation}
+\ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(top\_institutions) }\SpecialCharTok{\textless{}=} \DecValTok{12}\NormalTok{) \{}
+  \CommentTok{\# Use highly contrasting colors with maximum visual separation}
+\NormalTok{  colors\_for\_top }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"\#FF0000"}\NormalTok{, }\StringTok{"\#0000FF"}\NormalTok{, }\StringTok{"\#00AA00"}\NormalTok{, }\StringTok{"\#FF8000"}\NormalTok{, }\StringTok{"\#8000FF"}\NormalTok{, }
+                     \StringTok{"\#00CCCC"}\NormalTok{, }\StringTok{"\#FF1493"}\NormalTok{, }\StringTok{"\#32CD32"}\NormalTok{, }\StringTok{"\#FFD700"}\NormalTok{, }\StringTok{"\#8B4513"}\NormalTok{, }
+                     \StringTok{"\#FF69B4"}\NormalTok{, }\StringTok{"\#4169E1"}\NormalTok{)}
+\NormalTok{  colors\_top\_institutions }\OtherTok{\textless{}{-}}\NormalTok{ colors\_for\_top[}\DecValTok{1}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(top\_institutions)]}
+  \FunctionTok{names}\NormalTok{(colors\_top\_institutions) }\OtherTok{\textless{}{-}}\NormalTok{ top\_institutions}
+\NormalTok{\} }\ControlFlowTok{else}\NormalTok{ \{}
+  \CommentTok{\# For more than 12 institutions, use diverse colors with better spacing}
+\NormalTok{  colors\_top\_institutions }\OtherTok{\textless{}{-}} \FunctionTok{rainbow}\NormalTok{(}\FunctionTok{length}\NormalTok{(top\_institutions), }\AttributeTok{s =} \DecValTok{1}\NormalTok{, }\AttributeTok{v =} \FloatTok{0.8}\NormalTok{)}
+  \FunctionTok{names}\NormalTok{(colors\_top\_institutions) }\OtherTok{\textless{}{-}}\NormalTok{ top\_institutions}
+\NormalTok{\}}
+
+\CommentTok{\# Assign colors to nodes}
+\NormalTok{vertex\_colors\_display }\OtherTok{\textless{}{-}} \FunctionTok{rep}\NormalTok{(}\StringTok{"gray"}\NormalTok{, }\FunctionTok{length}\NormalTok{(institutions\_large))}
+\ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(institutions\_large)) \{}
+  \ControlFlowTok{if}\NormalTok{(institutions\_large[i] }\SpecialCharTok{\%in\%}\NormalTok{ top\_institutions) \{}
+\NormalTok{    vertex\_colors\_display[i] }\OtherTok{\textless{}{-}}\NormalTok{ colors\_top\_institutions[institutions\_large[i]]}
+\NormalTok{  \}}
+\NormalTok{\}}
+
+\CommentTok{\# Plot by institution}
+\FunctionTok{plot}\NormalTok{(largest\_component, }
+     \AttributeTok{layout =}\NormalTok{ layout\_large,}
+     \AttributeTok{vertex.size =} \DecValTok{4}\NormalTok{, }
+     \AttributeTok{vertex.label =} \ConstantTok{NA}\NormalTok{,}
+     \AttributeTok{edge.arrow.size =} \FloatTok{0.3}\NormalTok{,}
+     \AttributeTok{edge.width =} \FloatTok{0.5}\NormalTok{,}
+     \AttributeTok{edge.color =} \StringTok{"gray70"}\NormalTok{,}
+     \AttributeTok{vertex.color =}\NormalTok{ vertex\_colors\_display,}
+     \AttributeTok{vertex.frame.color =} \StringTok{"white"}\NormalTok{,}
+     \AttributeTok{main =} \StringTok{"Largest Component {-} Colored by Institution"}\NormalTok{,}
+     \AttributeTok{sub =} \FunctionTok{paste}\NormalTok{(}\StringTok{"Nodes:"}\NormalTok{, }\FunctionTok{vcount}\NormalTok{(largest\_component), }
+                \StringTok{"| Institutions:"}\NormalTok{, n\_institutions))}
+
+\CommentTok{\# Add legend for institutions}
+\ControlFlowTok{if}\NormalTok{(n\_institutions }\SpecialCharTok{\textgreater{}} \DecValTok{10}\NormalTok{) \{}
+\NormalTok{  legend\_institutions }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(top\_institutions, }\StringTok{"Others..."}\NormalTok{)}
+\NormalTok{  legend\_colors\_inst }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(colors\_top\_institutions[top\_institutions], }\StringTok{"gray"}\NormalTok{)}
+\NormalTok{\} }\ControlFlowTok{else}\NormalTok{ \{}
+\NormalTok{  legend\_institutions }\OtherTok{\textless{}{-}}\NormalTok{ top\_institutions}
+\NormalTok{  legend\_colors\_inst }\OtherTok{\textless{}{-}}\NormalTok{ colors\_top\_institutions[top\_institutions]}
+\NormalTok{\}}
+
+\FunctionTok{legend}\NormalTok{(}\StringTok{"topright"}\NormalTok{, }
+       \AttributeTok{legend =}\NormalTok{ legend\_institutions,}
+       \AttributeTok{fill =}\NormalTok{ legend\_colors\_inst,}
+       \AttributeTok{cex =} \FloatTok{0.6}\NormalTok{,}
+       \AttributeTok{title =} \StringTok{"Institution"}\NormalTok{,}
+       \AttributeTok{bg =} \StringTok{"white"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Deeper-analysis_files/figure-latex/largest-component-by-institution-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Print institution distribution}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{Institution distribution in largest component:}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Institution distribution in largest component:
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{institution\_dist }\OtherTok{\textless{}{-}} \FunctionTok{sort}\NormalTok{(}\FunctionTok{table}\NormalTok{(institutions\_large), }\AttributeTok{decreasing =} \ConstantTok{TRUE}\NormalTok{)}
+\FunctionTok{print}\NormalTok{(}\FunctionTok{head}\NormalTok{(institution\_dist, }\DecValTok{10}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## institutions_large
+##                   Stanford University                    Harvard University 
+##                                   115                                    88 
+##               Imperial College London                  University Of Oxford 
+##                                    63                                    59 
+##               University Of Cambridge Massachusetts Institute Of Technology 
+##                                    48                                    38 
+##      National University Of Singapore             University College London 
+##                                    33                                    25 
+##          Brigham And Women'S Hospital  Beth Israel Deaconess Medical Center 
+##                                    24                                    19
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Plot colored by Louvain communities}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{3. VISUALIZATION BY LOUVAIN COMMUNITIES}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## 3. VISUALIZATION BY LOUVAIN COMMUNITIES
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Get community membership (already calculated in previous chunk)}
+\NormalTok{community\_membership }\OtherTok{\textless{}{-}} \FunctionTok{membership}\NormalTok{(louvain\_communities)}
+\NormalTok{n\_communities }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(louvain\_communities)}
+
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Number of Louvain communities:"}\NormalTok{, n\_communities, }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Number of Louvain communities: 21
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Modularity score:"}\NormalTok{, }\FunctionTok{round}\NormalTok{(}\FunctionTok{modularity}\NormalTok{(louvain\_communities), }\DecValTok{4}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Modularity score: 0.576
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Create color palette for communities}
+\ControlFlowTok{if}\NormalTok{(n\_communities }\SpecialCharTok{\textless{}=} \DecValTok{12}\NormalTok{) \{}
+\NormalTok{  colors\_community }\OtherTok{\textless{}{-}}\NormalTok{ RColorBrewer}\SpecialCharTok{::}\FunctionTok{brewer.pal}\NormalTok{(}\FunctionTok{max}\NormalTok{(}\DecValTok{3}\NormalTok{, n\_communities), }\StringTok{"Set1"}\NormalTok{)}
+\NormalTok{\} }\ControlFlowTok{else}\NormalTok{ \{}
+\NormalTok{  colors\_community }\OtherTok{\textless{}{-}} \FunctionTok{rainbow}\NormalTok{(n\_communities)}
+\NormalTok{\}}
+
+\CommentTok{\# Assign colors to nodes based on community membership}
+\NormalTok{vertex\_colors\_community }\OtherTok{\textless{}{-}}\NormalTok{ colors\_community[community\_membership]}
+
+\CommentTok{\# Plot by community}
+\FunctionTok{plot}\NormalTok{(largest\_component\_undirected,  }\CommentTok{\# Use undirected version for community plot}
+     \AttributeTok{layout =}\NormalTok{ layout\_large,}
+     \AttributeTok{vertex.size =} \DecValTok{4}\NormalTok{, }
+     \AttributeTok{vertex.label =} \ConstantTok{NA}\NormalTok{,}
+     \AttributeTok{edge.width =} \FloatTok{0.5}\NormalTok{,}
+     \AttributeTok{edge.color =} \StringTok{"gray70"}\NormalTok{,}
+     \AttributeTok{vertex.color =}\NormalTok{ vertex\_colors\_community,}
+     \AttributeTok{vertex.frame.color =} \StringTok{"white"}\NormalTok{,}
+     \AttributeTok{main =} \StringTok{"Largest Component {-} Colored by Louvain Communities"}\NormalTok{,}
+     \AttributeTok{sub =} \FunctionTok{paste}\NormalTok{(}\StringTok{"Nodes:"}\NormalTok{, }\FunctionTok{vcount}\NormalTok{(largest\_component), }
+                \StringTok{"| Communities:"}\NormalTok{, n\_communities, }
+                \StringTok{"| Modularity:"}\NormalTok{, }\FunctionTok{round}\NormalTok{(}\FunctionTok{modularity}\NormalTok{(louvain\_communities), }\DecValTok{3}\NormalTok{)))}
+
+\CommentTok{\# Add legend for communities}
+\FunctionTok{legend}\NormalTok{(}\StringTok{"topright"}\NormalTok{, }
+       \AttributeTok{legend =} \FunctionTok{paste}\NormalTok{(}\StringTok{"Community"}\NormalTok{, }\DecValTok{1}\SpecialCharTok{:}\FunctionTok{min}\NormalTok{(n\_communities, }\DecValTok{10}\NormalTok{)),}
+       \AttributeTok{fill =}\NormalTok{ colors\_community[}\DecValTok{1}\SpecialCharTok{:}\FunctionTok{min}\NormalTok{(n\_communities, }\DecValTok{10}\NormalTok{)],}
+       \AttributeTok{cex =} \FloatTok{0.6}\NormalTok{,}
+       \AttributeTok{title =} \StringTok{"Louvain Community"}\NormalTok{,}
+       \AttributeTok{bg =} \StringTok{"white"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Deeper-analysis_files/figure-latex/largest-component-by-community-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Print community size distribution}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{Community size distribution:}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Community size distribution:
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{community\_sizes }\OtherTok{\textless{}{-}} \FunctionTok{sort}\NormalTok{(}\FunctionTok{sizes}\NormalTok{(louvain\_communities), }\AttributeTok{decreasing =} \ConstantTok{TRUE}\NormalTok{)}
+\FunctionTok{print}\NormalTok{(community\_sizes)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Community sizes
+##   1   5   9   7   8   2   4  11  10  12   3   6  14  18  20  15  19  13  17  21 
+## 219 137 137 129 121  99  93  88  66  48  46  44  41  38  38  34  19  15   9   8 
+##  16 
+##   4
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Plot with node sizes representing centrality measures}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{4. VISUALIZATION WITH CENTRALITY{-}WEIGHTED NODE SIZES}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## 4. VISUALIZATION WITH CENTRALITY-WEIGHTED NODE SIZES
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Use PageRank centrality for node sizes}
+\NormalTok{pagerank\_values }\OtherTok{\textless{}{-}} \FunctionTok{page\_rank}\NormalTok{(largest\_component, }\AttributeTok{directed =} \ConstantTok{TRUE}\NormalTok{)}\SpecialCharTok{$}\NormalTok{vector}
+\CommentTok{\# Scale node sizes appropriately (between 2 and 15)}
+\NormalTok{node\_sizes }\OtherTok{\textless{}{-}} \DecValTok{2} \SpecialCharTok{+} \DecValTok{13} \SpecialCharTok{*}\NormalTok{ (pagerank\_values }\SpecialCharTok{{-}} \FunctionTok{min}\NormalTok{(pagerank\_values)) }\SpecialCharTok{/} 
+\NormalTok{              (}\FunctionTok{max}\NormalTok{(pagerank\_values) }\SpecialCharTok{{-}} \FunctionTok{min}\NormalTok{(pagerank\_values))}
+
+\CommentTok{\# Plot with PageRank{-}weighted sizes and community colors}
+\FunctionTok{plot}\NormalTok{(largest\_component, }
+     \AttributeTok{layout =}\NormalTok{ layout\_large,}
+     \AttributeTok{vertex.size =}\NormalTok{ node\_sizes, }
+     \AttributeTok{vertex.label =} \ConstantTok{NA}\NormalTok{,}
+     \AttributeTok{edge.arrow.size =} \FloatTok{0.3}\NormalTok{,}
+     \AttributeTok{edge.width =} \FloatTok{0.5}\NormalTok{,}
+     \AttributeTok{edge.color =} \StringTok{"gray70"}\NormalTok{,}
+     \AttributeTok{vertex.color =}\NormalTok{ vertex\_colors\_community,}
+     \AttributeTok{vertex.frame.color =} \StringTok{"white"}\NormalTok{,}
+     \AttributeTok{main =} \StringTok{"Largest Component {-} Communities with PageRank{-}weighted Sizes"}\NormalTok{,}
+     \AttributeTok{sub =} \FunctionTok{paste}\NormalTok{(}\StringTok{"Node size ∝ PageRank centrality | Communities by Louvain algorithm"}\NormalTok{))}
+
+\CommentTok{\# Add legends}
+\FunctionTok{legend}\NormalTok{(}\StringTok{"topleft"}\NormalTok{, }
+       \AttributeTok{legend =} \FunctionTok{c}\NormalTok{(}\StringTok{"Smallest PageRank"}\NormalTok{, }\StringTok{"Largest PageRank"}\NormalTok{),}
+       \AttributeTok{pch =} \DecValTok{21}\NormalTok{,}
+       \AttributeTok{pt.cex =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.5}\NormalTok{, }\DecValTok{2}\NormalTok{),}
+       \AttributeTok{pt.bg =} \StringTok{"lightblue"}\NormalTok{,}
+       \AttributeTok{title =} \StringTok{"Node Size"}\NormalTok{,}
+       \AttributeTok{bg =} \StringTok{"white"}\NormalTok{,}
+       \AttributeTok{cex =} \FloatTok{0.8}\NormalTok{)}
+
+\FunctionTok{legend}\NormalTok{(}\StringTok{"topright"}\NormalTok{, }
+       \AttributeTok{legend =} \FunctionTok{paste}\NormalTok{(}\StringTok{"Community"}\NormalTok{, }\DecValTok{1}\SpecialCharTok{:}\FunctionTok{min}\NormalTok{(n\_communities, }\DecValTok{8}\NormalTok{)),}
+       \AttributeTok{fill =}\NormalTok{ colors\_community[}\DecValTok{1}\SpecialCharTok{:}\FunctionTok{min}\NormalTok{(n\_communities, }\DecValTok{8}\NormalTok{)],}
+       \AttributeTok{cex =} \FloatTok{0.6}\NormalTok{,}
+       \AttributeTok{title =} \StringTok{"Louvain Community"}\NormalTok{,}
+       \AttributeTok{bg =} \StringTok{"white"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Deeper-analysis_files/figure-latex/largest-component-weighted-by-centrality-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Print top PageRank nodes}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{Top 10 nodes by PageRank centrality:}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Top 10 nodes by PageRank centrality:
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{top\_pagerank\_nodes }\OtherTok{\textless{}{-}} \FunctionTok{order}\NormalTok{(pagerank\_values, }\AttributeTok{decreasing =} \ConstantTok{TRUE}\NormalTok{)[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{10}\NormalTok{]}
+\NormalTok{pagerank\_summary }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}
+  \AttributeTok{node\_id =} \FunctionTok{V}\NormalTok{(largest\_component)}\SpecialCharTok{$}\NormalTok{name[top\_pagerank\_nodes],}
+  \AttributeTok{pagerank =} \FunctionTok{round}\NormalTok{(pagerank\_values[top\_pagerank\_nodes], }\DecValTok{4}\NormalTok{),}
+  \AttributeTok{community =}\NormalTok{ community\_membership[top\_pagerank\_nodes],}
+  \AttributeTok{subtopic =} \FunctionTok{V}\NormalTok{(largest\_component)}\SpecialCharTok{$}\NormalTok{subtopic[top\_pagerank\_nodes],}
+  \AttributeTok{institution =} \FunctionTok{V}\NormalTok{(largest\_component)}\SpecialCharTok{$}\NormalTok{institution[top\_pagerank\_nodes]}
+\NormalTok{)}
+\FunctionTok{print}\NormalTok{(pagerank\_summary)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       node_id pagerank community
+## P0199   P0199   0.0405         7
+## P0031   P0031   0.0323         5
+## P0741   P0741   0.0197         7
+## P0116   P0116   0.0175         7
+## P0535   P0535   0.0157        11
+## P0012   P0012   0.0138         7
+## P0060   P0060   0.0125         1
+## P0002   P0002   0.0114         2
+## P0015   P0015   0.0110         4
+## P1179   P1179   0.0104        11
+##                                                  subtopic
+## P0199 Artificial Intelligence in Healthcare and Education
+## P0031 Artificial Intelligence in Healthcare and Education
+## P0741 Artificial Intelligence in Healthcare and Education
+## P0116 Artificial Intelligence in Healthcare and Education
+## P0535 Artificial Intelligence in Healthcare and Education
+## P0012                      Machine Learning in Healthcare
+## P0060 Artificial Intelligence in Healthcare and Education
+## P0002 Artificial Intelligence in Healthcare and Education
+## P0015 Artificial Intelligence in Healthcare and Education
+## P1179               Artificial Intelligence in Healthcare
+##                            institution
+## P0199               Harvard University
+## P0031          Imperial College London
+## P0741               Harvard University
+## P0116              Stanford University
+## P0535           University Of Michigan
+## P0012               Harvard University
+## P0060          University Of Cambridge
+## P0002               Harvard University
+## P0015 National University Of Singapore
+## P1179 National University Of Singapore
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{=== LARGEST COMPONENT ANALYSIS SUMMARY ===}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## === LARGEST COMPONENT ANALYSIS SUMMARY ===
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Summary statistics}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"STRUCTURAL PROPERTIES:}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## STRUCTURAL PROPERTIES:
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"{-} Nodes:"}\NormalTok{, }\FunctionTok{vcount}\NormalTok{(largest\_component), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## - Nodes: 1433
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"{-} Edges:"}\NormalTok{, }\FunctionTok{ecount}\NormalTok{(largest\_component), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## - Edges: 3634
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"{-} Density:"}\NormalTok{, }\FunctionTok{round}\NormalTok{(}\FunctionTok{edge\_density}\NormalTok{(largest\_component), }\DecValTok{6}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## - Density: 0.001771
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"{-} Average clustering coefficient:"}\NormalTok{, }\FunctionTok{round}\NormalTok{(}\FunctionTok{transitivity}\NormalTok{(largest\_component, }\AttributeTok{type =} \StringTok{"average"}\NormalTok{), }\DecValTok{4}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## - Average clustering coefficient: 0.1433
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"{-} Diameter:"}\NormalTok{, }\FunctionTok{diameter}\NormalTok{(largest\_component, }\AttributeTok{directed =} \ConstantTok{FALSE}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## - Diameter: 13
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"{-} Average path length:"}\NormalTok{, }\FunctionTok{round}\NormalTok{(}\FunctionTok{mean\_distance}\NormalTok{(largest\_component, }\AttributeTok{directed =} \ConstantTok{FALSE}\NormalTok{), }\DecValTok{2}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## - Average path length: 4.5
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"DIVERSITY MEASURES:}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## DIVERSITY MEASURES:
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"{-} Research subtopics:"}\NormalTok{, }\FunctionTok{length}\NormalTok{(}\FunctionTok{unique}\NormalTok{(subtopics\_large)), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## - Research subtopics: 9
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"{-} Institutions:"}\NormalTok{, }\FunctionTok{length}\NormalTok{(}\FunctionTok{unique}\NormalTok{(institutions\_large)), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## - Institutions: 508
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"{-} Louvain communities:"}\NormalTok{, n\_communities, }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## - Louvain communities: 21
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"{-} Community modularity:"}\NormalTok{, }\FunctionTok{round}\NormalTok{(}\FunctionTok{modularity}\NormalTok{(louvain\_communities), }\DecValTok{4}\NormalTok{), }\StringTok{"}\SpecialCharTok{\textbackslash{}n\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## - Community modularity: 0.576
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"CENTRALITY HIGHLIGHTS:}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## CENTRALITY HIGHLIGHTS:
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"{-} Highest PageRank node:"}\NormalTok{, }\FunctionTok{V}\NormalTok{(largest\_component)}\SpecialCharTok{$}\NormalTok{name[}\FunctionTok{which.max}\NormalTok{(pagerank\_values)], }
+    \StringTok{"("}\NormalTok{, }\FunctionTok{round}\NormalTok{(}\FunctionTok{max}\NormalTok{(pagerank\_values), }\DecValTok{4}\NormalTok{), }\StringTok{")}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## - Highest PageRank node: P0199 ( 0.0405 )
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"{-} Highest betweenness node:"}\NormalTok{, }\FunctionTok{V}\NormalTok{(largest\_component)}\SpecialCharTok{$}\NormalTok{name[}\FunctionTok{which.max}\NormalTok{(betweenness\_cent)], }
+    \StringTok{"("}\NormalTok{, }\FunctionTok{round}\NormalTok{(}\FunctionTok{max}\NormalTok{(betweenness\_cent), }\DecValTok{4}\NormalTok{), }\StringTok{")}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## - Highest betweenness node: P0011 ( 0.0026 )
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"{-} Most cited node (in{-}degree):"}\NormalTok{, }\FunctionTok{V}\NormalTok{(largest\_component)}\SpecialCharTok{$}\NormalTok{name[}\FunctionTok{which.max}\NormalTok{(degree\_cent\_in)], }
+    \StringTok{"("}\NormalTok{, }\FunctionTok{max}\NormalTok{(}\FunctionTok{degree}\NormalTok{(largest\_component, }\AttributeTok{mode =} \StringTok{"in"}\NormalTok{)), }\StringTok{" citations)}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## - Most cited node (in-degree): P0060 ( 104  citations)
+\end{verbatim}
 
 \end{document}
