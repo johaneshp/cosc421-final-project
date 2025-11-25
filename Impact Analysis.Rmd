@@ -75,48 +75,52 @@ nodes_analysis$eigenvector <- V(graph)$eigenvector
 ```{r most-impactful-paper}
 cat("=== Most Impactful Paper Analysis ===\n\n")
 
-# Find most impactful papers by different metrics
+# Find most impactful papers using PageRank as the primary metric
+top_by_pagerank <- nodes_analysis[order(nodes_analysis$pagerank, decreasing = TRUE), ][1:15, ]
+
+# Additional metrics for comparison (but PageRank is the main criterion)
 top_by_citations <- nodes_analysis[order(nodes_analysis$citations, decreasing = TRUE), ][1:10, ]
 top_by_indegree <- nodes_analysis[order(nodes_analysis$in_degree, decreasing = TRUE), ][1:10, ]
-top_by_pagerank <- nodes_analysis[order(nodes_analysis$pagerank, decreasing = TRUE), ][1:10, ]
-top_by_betweenness <- nodes_analysis[order(nodes_analysis$betweenness, decreasing = TRUE), ][1:10, ]
 
-# Create comprehensive impact score (normalized weighted average)
-nodes_analysis$impact_score <- scale(nodes_analysis$citations)[,1] * 0.3 +
-                              scale(nodes_analysis$in_degree)[,1] * 0.25 +
-                              scale(nodes_analysis$pagerank)[,1] * 0.25 +
-                              scale(nodes_analysis$betweenness)[,1] * 0.2
+# Use PageRank as the primary impact measure
+top_impact <- top_by_pagerank
 
-top_impact <- nodes_analysis[order(nodes_analysis$impact_score, decreasing = TRUE), ][1:15, ]
+cat("Most impactful papers ranked by PageRank:\n")
+# Truncate long titles and institution names for better display
+top_impact_display <- top_impact[1:10, ]
+top_impact_display$title_short <- substr(top_impact_display$title, 1, 50)
+top_impact_display$institution_short <- substr(top_impact_display$institution, 1, 20)
+top_impact_display$pagerank_rounded <- round(top_impact_display$pagerank, 6)
 
-cat("Top 5 papers by citation count:\n")
-kable(top_by_citations[1:5, c("title", "year", "citations", "institution", "subtopic")])
+kable(top_impact_display[, c("title_short", "year", "pagerank_rounded", "citations", "in_degree", "institution_short")],
+      col.names = c("Title", "Year", "PageRank", "Citations", "In-Degree", "Institution"))
 
-cat("\nTop 5 papers by PageRank:\n")
-kable(top_by_pagerank[1:5, c("title", "year", "pagerank", "citations", "institution", "subtopic")])
+cat("\nTop 5 papers by citation count (for comparison):\n")
+top_citations_display <- top_by_citations[1:5, ]
+top_citations_display$title_short <- substr(top_citations_display$title, 1, 50)
+top_citations_display$institution_short <- substr(top_citations_display$institution, 1, 20)
 
-cat("\nTop 5 papers by comprehensive impact score:\n")
-kable(top_impact[1:5, c("title", "year", "impact_score", "citations", "in_degree", "institution", "subtopic")])
+kable(top_citations_display[, c("title_short", "year", "citations", "institution_short")],
+      col.names = c("Title", "Year", "Citations", "Institution"))
 
-# Visualize impact metrics
+# Visualize impact metrics with PageRank as primary focus
 impact_comparison <- data.frame(
   Paper = paste("Paper", 1:10),
   Title_Short = substr(top_impact$title[1:10], 1, 40),
-  Citations = top_impact$citations[1:10],
-  InDegree = top_impact$in_degree[1:10],
   PageRank = top_impact$pagerank[1:10] * 1000, # scaled for visualization
-  Betweenness = top_impact$betweenness[1:10] * 100 # scaled for visualization
+  Citations = top_impact$citations[1:10],
+  InDegree = top_impact$in_degree[1:10]
 )
 
-impact_melted <- reshape2::melt(impact_comparison[, c("Paper", "Citations", "InDegree", "PageRank", "Betweenness")], 
+impact_melted <- reshape2::melt(impact_comparison[, c("Paper", "PageRank", "Citations", "InDegree")], 
                                id.vars = "Paper")
 
 p1 <- ggplot(impact_melted, aes(x = Paper, y = value, fill = variable)) +
   geom_bar(stat = "identity", position = "dodge") +
   coord_flip() +
-  labs(title = "Top 10 Papers by Different Impact Metrics",
-       subtitle = "PageRank and Betweenness scaled for visualization",
-       x = "Papers (ranked by composite impact score)",
+  labs(title = "Top 10 Papers by PageRank (Primary Metric)",
+       subtitle = "PageRank scaled for visualization, with citations and in-degree for comparison",
+       x = "Papers (ranked by PageRank)",
        y = "Metric Value",
        fill = "Metric") +
   theme_minimal() +
@@ -462,8 +466,9 @@ print(p8)
 cat("=== Analysis Summary ===\n\n")
 
 cat("1. Most impactful paper:\n")
-cat("   - Highest comprehensive impact score:", top_impact$title[1], "\n")
+cat("   - Highest PageRank score:", top_impact$title[1], "\n")
 cat("   - Publication year:", top_impact$year[1], "\n")
+cat("   - PageRank value:", round(top_impact$pagerank[1], 6), "\n")
 cat("   - Citation count:", top_impact$citations[1], "\n\n")
 
 if(nrow(earliest_high_impact) > 0) {
