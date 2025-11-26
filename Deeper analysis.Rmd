@@ -454,8 +454,7 @@ cat("\n=== COMMUNITY DETECTION - METHOD 2: EDGE BETWEENNESS ===\n")
 cat("Running edge betweenness community detection...\n")
 
 # This method removes edges with highest betweenness iteratively
-edge_betweenness_communities <- cluster_edge_betweenness(largest_component_undirected, 
-                                                        directed = FALSE)
+edge_betweenness_communities <- cluster_edge_betweenness(largest_component_undirected, directed = FALSE)
 
 cat("Edge betweenness algorithm completed!\n")
 cat("Number of communities found:", length(edge_betweenness_communities), "\n")
@@ -502,6 +501,95 @@ p2 <- ggplot(community_comparison, aes(x = Method, y = Modularity, fill = Method
 # Display plots side by side
 grid.arrange(p1, p2, ncol = 2, 
              top = "Community Detection Methods Comparison")
+```
+
+## Community Structure on Full Directed Graph (Louvain + Infomap) (Louvain + Infomap)
+
+```{r community-full-directed}
+cat("\n=== COMMUNITY STRUCTURE ON FULL DIRECTED GRAPH ===\n")
+
+# Use the full connected directed graph
+graph_dir <- graph_connected
+graph_undir <- as.undirected(graph_dir, mode = "collapse")
+
+# Louvain (on undirected projection) and Infomap (directed)
+louvain_full <- cluster_louvain(graph_undir)
+infomap_full <- cluster_infomap(graph_dir)
+
+cat("Louvain communities:", length(louvain_full), 
+    "| Modularity:", round(modularity(louvain_full), 4), "\n")
+cat("Infomap communities:", length(infomap_full), 
+    "| Codelength:", round(infomap_full$codelength, 4), "\n\n")
+
+cat("Top 10 Louvain community sizes:\n")
+print(head(sort(sizes(louvain_full), decreasing = TRUE), 10))
+cat("\nTop 10 Infomap community sizes:\n")
+print(head(sort(sizes(infomap_full), decreasing = TRUE), 10))
+```
+
+```{r community-assortativity-heatmap}
+cat("\n=== MIXING AND ASSORTATIVITY (DIRECTED) ===\n")
+
+# Build membership dataframe for downstream analysis
+community_df <- data.frame(
+  node_id = V(graph_dir)$name,
+  institution = V(graph_dir)$institution,
+  subtopic = V(graph_dir)$subtopic,
+  louvain = membership(louvain_full),
+  infomap = membership(infomap_full)
+)
+
+# Assortativity by institution and subtopic on directed graph
+inst_factor <- as.factor(community_df$institution)
+subtopic_factor <- as.factor(community_df$subtopic)
+
+assort_inst <- assortativity_nominal(graph_dir, inst_factor, directed = TRUE)
+assort_subtopic <- assortativity_nominal(graph_dir, subtopic_factor, directed = TRUE)
+
+cat("Assortativity (institution):", round(assort_inst, 3), "\n")
+cat("Assortativity (subtopic):", round(assort_subtopic, 3), "\n\n")
+
+# Heatmaps: community vs institution/subtopic (Louvain membership)
+cat("Building heatmaps for Louvain communities vs institution/subtopic...\n")
+
+# Limit categories for readability
+top_inst <- names(sort(table(community_df$institution), decreasing = TRUE))[1:min(15, length(unique(community_df$institution)))]
+top_subtopic <- names(sort(table(community_df$subtopic), decreasing = TRUE))[1:min(15, length(unique(community_df$subtopic)))]
+
+# Community ordering by size
+comm_order <- names(sort(sizes(louvain_full), decreasing = TRUE))
+
+# Institution heatmap (row-normalized to show composition per community)
+inst_table <- table(community_df$louvain, factor(community_df$institution, levels = top_inst))
+inst_prop <- prop.table(inst_table, 1)
+inst_melt <- melt(inst_prop)
+inst_melt$Community <- factor(inst_melt$Var1, levels = comm_order)
+inst_melt$Institution <- inst_melt$Var2
+
+ggplot(inst_melt, aes(x = Institution, y = Community, fill = value)) +
+  geom_tile(color = "white") +
+  scale_fill_gradient(low = "white", high = "steelblue", name = "Share") +
+  labs(title = "Louvain Community Composition by Institution",
+       x = "Institution (Top 15 by count)", y = "Community (size-ranked)") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        plot.title = element_text(hjust = 0.5))
+
+# Subtopic heatmap (row-normalized to show composition per community)
+subtopic_table <- table(community_df$louvain, factor(community_df$subtopic, levels = top_subtopic))
+subtopic_prop <- prop.table(subtopic_table, 1)
+subtopic_melt <- melt(subtopic_prop)
+subtopic_melt$Community <- factor(subtopic_melt$Var1, levels = comm_order)
+subtopic_melt$Subtopic <- subtopic_melt$Var2
+
+ggplot(subtopic_melt, aes(x = Subtopic, y = Community, fill = value)) +
+  geom_tile(color = "white") +
+  scale_fill_gradient(low = "white", high = "darkorange", name = "Share") +
+  labs(title = "Louvain Community Composition by Subtopic",
+       x = "Subtopic (Top 15 by count)", y = "Community (size-ranked)") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        plot.title = element_text(hjust = 0.5))
 ```
 
 ```{r centrality-correlation-analysis}
