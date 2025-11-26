@@ -503,7 +503,7 @@ grid.arrange(p1, p2, ncol = 2,
              top = "Community Detection Methods Comparison")
 ```
 
-## Community Structure on Full Directed Graph (Louvain + Infomap) (Louvain + Infomap)
+## Community Structure on Full Directed Graph (Louvain + Infomap)
 
 ```{r community-full-directed}
 cat("\n=== COMMUNITY STRUCTURE ON FULL DIRECTED GRAPH ===\n")
@@ -590,6 +590,103 @@ ggplot(subtopic_melt, aes(x = Subtopic, y = Community, fill = value)) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
         plot.title = element_text(hjust = 0.5))
+```
+
+## k-core Decomposition and Network Robustness
+
+```{r kcore-decomposition}
+cat("\n=== K-CORE DECOMPOSITION (CONNECTED DIRECTED GRAPH) ===\n")
+
+# Use existing core column if present, otherwise compute
+nodes_core_full <- read.csv("data/nodes_core_full.csv")
+if (!"core" %in% names(nodes_core_full)) {
+  V(graph_connected)$core <- coreness(graph_connected, mode = "all")
+} else {
+  core_map <- setNames(nodes_core_full$core, nodes_core_full$local_id)
+  V(graph_connected)$core <- core_map[V(graph_connected)$name]
+}
+
+core_scores <- V(graph_connected)$core
+cat("Max k-core level:", max(core_scores, na.rm = TRUE), "\n")
+cat("Node counts per k:\n")
+print(sort(table(core_scores), decreasing = TRUE))
+
+# Distribution bar plot
+core_df <- data.frame(core = core_scores)
+ggplot(core_df, aes(x = core)) +
+  geom_bar(fill = "steelblue", alpha = 0.8, color = "white") +
+  labs(title = "k-core Distribution (connected directed graph)",
+       x = "k-core level", y = "Node count") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5))
+
+# Highest core set
+top_k <- max(core_scores, na.rm = TRUE)
+top_core_nodes <- V(graph_connected)[core_scores == top_k]
+cat("\nTop core (k =", top_k, ") node count:", length(top_core_nodes), "\n")
+```
+
+```{r robustness-simulation}
+cat("\n=== NETWORK ROBUSTNESS SIMULATION: NODE REMOVAL ===\n")
+
+graph_dir_orig <- graph_connected
+v_total <- vcount(graph_dir_orig)
+fractions <- seq(0, 0.9, by = 0.1)  # removal fraction
+
+compute_metrics <- function(g, v0) {
+  if (vcount(g) == 0) return(c(giant_frac = 0, eff = 0))
+  comps <- components(g, mode = "weak")
+  giant_frac <- max(comps$csize) / v0
+  avg_dist <- suppressWarnings(mean_distance(g, directed = FALSE, unconnected = TRUE))
+  eff <- if (is.finite(avg_dist) && avg_dist > 0) 1 / avg_dist else 0
+  c(giant_frac = giant_frac, eff = eff)
+}
+
+run_sim <- function(order_vec, label) {
+  res <- data.frame()
+  for (f in fractions) {
+    remove_n <- floor(f * v_total)
+    keep_nodes <- V(graph_dir_orig)$name
+    if (remove_n > 0) keep_nodes <- keep_nodes[-order_vec[1:remove_n]]
+    g_sub <- induced_subgraph(graph_dir_orig, keep_nodes)
+    metrics <- compute_metrics(g_sub, v_total)
+    res <- rbind(res, data.frame(strategy = label,
+                                 removed_frac = f,
+                                 giant_frac = metrics["giant_frac"],
+                                   efficiency = metrics["eff"]))
+  }
+  res
+}
+
+# Removal orders
+deg_order <- order(degree(graph_dir_orig, mode = "all"), decreasing = TRUE)
+pr_order <- order(page_rank(graph_dir_orig)$vector, decreasing = TRUE)
+rand_order <- sample(v_total)
+
+sim_results <- rbind(
+  run_sim(deg_order, "By Degree"),
+  run_sim(pr_order, "By PageRank"),
+  run_sim(rand_order, "Random")
+)
+
+ggplot(sim_results, aes(x = removed_frac, y = giant_frac, color = strategy)) +
+  geom_line(size = 1) +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1)) +
+  labs(title = "Giant Weak Component Under Node Removal",
+       x = "Removed nodes (fraction)", y = "Largest component fraction",
+       color = "Removal strategy") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5))
+
+ggplot(sim_results, aes(x = removed_frac, y = efficiency, color = strategy)) +
+  geom_line(size = 1) +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1)) +
+  labs(title = "Network Efficiency Under Node Removal (1 / mean shortest path)",
+       x = "Removed nodes (fraction)", y = "Efficiency metric",
+       color = "Removal strategy") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5))
 ```
 
 ```{r centrality-correlation-analysis}
