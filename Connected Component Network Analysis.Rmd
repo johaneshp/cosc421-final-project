@@ -160,7 +160,7 @@ centrality_df <- centrality_df %>%
 # Top papers by PageRank
 top_papers <- centrality_df %>%
   arrange(desc(pagerank)) %>%
-  select(title, first_author, year, pagerank, in_degree, betweenness) %>%
+  select(title, first_author, year, pagerank) %>%
   head(10)
 
 kable(top_papers, digits = 4, caption = "Top 10 Papers by PageRank")
@@ -215,7 +215,7 @@ multi_metric_top <- centrality_df %>%
   head(10)
 library(kableExtra)
 kable(multi_metric_top, digits = 3,
-      caption = "Top Papers by Combined Metrics",
+      caption = "Top 10 Papers by Combined Metrics",
       booktabs = TRUE) %>%
   kableExtra::kable_styling() %>%
   column_spec(1, width = "15em") %>%   # title column wide
@@ -248,7 +248,7 @@ oldest_papers_display <- oldest_papers %>%
   select(title, year, closeness, in_degree)
 
 kable(oldest_papers_display, digits = 3,
-      caption = "Top 10 Oldest Papers with High Closeness Centrality (Sorted by Year, then Closeness)")
+      caption = "Papers sorted based on year and closeness centrality")
 ```
 
 ## Citation Longevity Analysis
@@ -284,7 +284,7 @@ citation_longevity <- citation_longevity %>%
   select(title, year, total_citations, recent_citations)
 
 kable(head(citation_longevity, 10), digits = 3,
-      caption = "Oldest Papers Still Cited by Recent Work (2020-2025)")
+      caption = "Papers that was cited by most recent papers")
 ```
 
 # Research Question 3: Subtopic Concentration
@@ -583,9 +583,9 @@ ggplot(papers_by_year, aes(x = year, y = n)) +
 ```{r q5-bridge-papers}
 # Recent papers with high betweenness
 recent_bridge <- centrality_df %>%
-  filter(year >= 2022 & year <= 2025) %>%
+  filter(year >= 2020 & year <= 2025) %>%
   arrange(desc(betweenness)) %>%
-  select(title, first_author, year, betweenness, pagerank, in_degree) %>%
+  select(title, first_author, year, betweenness, in_degree) %>%
   head(10)
 
 kable(recent_bridge, digits = 3,
@@ -638,7 +638,7 @@ ggplot(topic_timeline, aes(x = year, y = n, color = subtopic, group = subtopic))
 ```{r q5-emerging-communities}
 # Identify communities dominated by recent papers
 recent_paper_ids <- papers_df %>%
-  filter(year >= 2022 & year <= 2025) %>%
+  filter(year >= 2020 & year <= 2025) %>%
   pull(local_id)
 
 community_recency <- data.frame()
