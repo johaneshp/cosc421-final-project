@@ -16,7 +16,7 @@ classoptions:
   # - lineno        # Optional: Add line numbers
   # - iicol         # Optional: Double column layour
 
-title: Mapping Influence and Evolution in AI Research: A Citation Network Analysis of Top Universities (2015–Present)
+title: "Mapping Influence and Evolution in AI Research: A Citation Network Analysis of Top Universities (2015–Present)"
 
 authors: 
   - firstname: Johanes
