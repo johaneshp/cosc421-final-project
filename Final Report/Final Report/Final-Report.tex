@@ -121,31 +121,31 @@ Network Analysis of Top Universities (2015--Present)}
 
 
 
-\abstract{In recent years, artificial intelligence (AI) has advanced
-rapidly, and AI-driven applications have become pervasive across
-academia and industry. Mapping citation patterns among AI publications
-from leading universities can reveal how research influence,
-collaboration, and subfields in AI have evolved over time. This study
-analyzes the distribution of AI-related publications from the top ten
-leading universities over the past decade and examines the citation
-relationships among them to identify structural patterns and distinctive
-citation characteristics. We construct a directed citation network in
-which each node represents an AI-related paper and each edge represents
-a citation between papers, using bibliographic records collected from
-online databases. Citation network analysis techniques, including degree
-and centrality measures and community detection, are then applied to
-uncover latent patterns in the publication and citation behavior of
-these institutions. The analysis reveals a scale-free network structure
-where publication volume, led by Stanford University, does not strictly
-correlate with citation impact, which is highest at Harvard University.
-Furthermore, community detection identifies ``AI in Healthcare'' as a
-dominant subfield, with a recent exponential surge in network growth
-driven by Large Language Models. These findings indicate that
-high-betweenness ``bridge'' papers are becoming critical for integrating
-disparate research communities. The study confirms a pivotal shift
-toward interdisciplinary collaboration, suggesting that future
-institutional influence will depend on producing trend-setting research
-that connects diverse domains rather than sheer publication volume.}
+\abstract{The using of Artificial intelligence has been growing rapidly,
+and AI-based applications have become more extensive across all
+disciplines. Mapping citation patterns among journals and articles about
+AI from leading institutions can reveal how research influence,
+collaboration, and subdisciplines in AI have evolved as time goes by.
+This study analyzes the distribution of AI-related journals from the top
+ten universities over the past decade and explores the relationships
+between citation to identify any patterns and characteristics in the
+citation. Using bibliographic records collected from OpenAlex (online
+databases of publications), we construct a directed citation network,
+where each node represents AI related paper, and each edge represents a
+citation between papers. Centrality measures, community detection, and
+degree distribution are applied to reveal undiscovered patterns in the
+publication and citation behaviour of these institutions. The analysis
+reveals a scale-free network structure where the publication count,
+which was led by Stanford University, does not strictly correlate with
+citation impact, which is highest at Harvard University. Furthermore,
+``AI in Healthcare'' is identified as a dominant subtopic, with a recent
+exponential growth navigated by network growth by Large Language Models.
+These discovery indicate that high-betweenness ``bridge'' papers are
+becoming crucial for integrating disconnected research communities. The
+study confirms a significant shift toward interdisciplinary
+collaboration, suggesting that future institutional influence will
+depend on producing trend-setting research that connects diverse domains
+rather than a mere publication count.}
 
 \keywords{citation network analysis, artificial intelligence, machine
 learning, healthcare AI, educational technology, research
@@ -166,15 +166,14 @@ unprecedented growth in both research output and practical applications.
 AI-related publications have increased globally by 57\% from 2018 to
 2022, making it one of the largest areas of research
 \citep{nature_ai_growth_2023}. At the same time, the organizational
-adoption of AI has surged from 55\% to 72\% between 2023 and 2024, with
-OpenAI reaching 800 million weekly users just last month
-\citep{mckinsey_ai_adoption_2024, openai_usage_2024}. This rapid
-expansion of AI-driven applications, from large language models like
-ChatGPT to highly specialized systems in healthcare, underscores the
-technology's transformative impact across virtually every industry. As
-AI research continues to grow, understanding the structural foundation
-of this field through citation patterns is critical in identifying
-influential work, emerging subfields, and future research directions.
+adoption of AI has surged from 55\% to 72\% between 2023 and 2024
+\citep{mckinsey_ai_adoption_2024}. This rapid expansion of AI-driven
+applications, from large language models like ChatGPT to highly
+specialized systems in healthcare, underscores the technology's
+transformative impact across virtually every industry. As AI research
+continues to grow, understanding the structural foundation of this field
+through citation patterns is critical in identifying influential work,
+emerging subfields, and future research directions.
 
 Due to the extensive growth in AI publications, there remains a
 significant gap in understanding how citation relationships among
@@ -265,20 +264,20 @@ subfields in contemporary AI research.
 \subsection{Bibliometric Analysis of AI
 Research}\label{bibliometric-analysis-of-ai-research}}
 
-Mardiani and Iswahyudi {[}4{]} use a bibliometric approach to map the AI
-research landscape. They examine publication volumes, country-level
-contributions, and topic clusters. Their results confirm rapid growth
-and thematic diversification in AI. However, they aggregate output at
-the global level, without analyzing differences in citation structures
-across leading universities or their links to specific subtopics. Their
-data also spans a much wider period (1974-2023) than ours, diluting the
-impact of recent LLM advances and detracting from current research
-trends.
+Mardiani and Iswahyudi \citep{mardiani_iswahyudi_2023} use a
+bibliometric approach to map the AI research landscape. They examine
+publication volumes, country-level contributions, and topic clusters.
+Their results confirm rapid evolution and thematic differences in AI.
+However, they accumulate output at the global level, without analyzing
+differences in citation structures across leading universities or their
+links to specific subtopics. Their data also spans a much wider period
+(1974-2023) than ours, diluting the impact of recent LLM advances and
+detracting from current research trends.
 
-Similarly, Costa and Frigori {[}5{]} extend this line of work by
-analyzing an AI citation network to study complexity and phase
-transitions over time. They use measures such as Shannon entropy of
-paper titles and changes in average degree to identify structural
+Similarly, Costa and Frigori \citep{costa_frigori_2024} expand this line
+of work by analyzing an AI citation network to study complexity and
+phase transitions over time. They use measures such as Shannon entropy
+of paper titles and changes in average degree to identify structural
 shifts. While their study shows that citation networks undergo rapid
 reconfiguration during major technological advances, it focuses on
 global temporal dynamics rather than institutional influence or `bridge'
@@ -290,41 +289,43 @@ means their study misses the network impact of the latest research.
 Metrics}\label{citation-networks-and-impact-metrics}}
 
 Other research has focused on citation networks and impact metrics to
-find what works best. For example, Fiala, Dalibor, and Tutoky {[}6{]}
-investigate how PageRank-based metrics compare with raw citation counts
-when predicting award-winning researchers in computer science, using an
-author-level citation network. They found that PageRank better
-identifies high-impact contributors in some cases and shows the value of
-network-aware measures for evaluating influence; however, their work
-does not address PageRank's connection to institutional citation
-patterns or community structure in AI-specific research.
+find what works best. For example, Fiala and Tutoky
+\citep{fiala_tutoky_2017} compare PageRank-based metrics and raw
+citation counts performance in predicting award-winning researchers in
+computer science, using author-level citation network. From the
+research, it is concluded that PageRank is better in identifying high
+impact contributors and shows the value of network-aware measures for
+evaluating influence. However, their work does not address PageRank's
+connection to institutional citation patterns or community structure in
+AI-specific research
 
-Costa and Frigori's treatment of citation networks as complex systems
-also encourages the use of centrality and connectivity metrics to detect
-structural key points. However, their analysis does not incorporate
-community detection of distinct subtopics, leaving open questions about
-how influence and field specialization are distributed across leading
-research teams.
+Costa and Frigori's \citep{costa_frigori_2024} treatment of citation
+networks as complex systems also encourages the use of centrality and
+connectivity metrics to detect structural key points. However, their
+analysis does not incorporate community detection of distinct subtopics,
+leaving open questions about how influence and field specialization are
+distributed across leading research teams.
 
 \hypertarget{large-language-models-as-an-emerging-ai-frontier}{%
 \subsection{Large Language Models as an Emerging AI
 Frontier}\label{large-language-models-as-an-emerging-ai-frontier}}
 
-Fan, Lizhou, et al {[}7{]} conducted a bibliometric review of large
-language model research from 2017 to 2023, synthesizing more than 5,000
-publications to characterize growth trends, application domains, and
-collaboration patterns around LLMs. Their findings highlight LLMs as a
-rapidly expanding and highly interdisciplinary subfield, but the study
+Fan et al. \citep{fan_etal_2024} conducted a bibliometric review of
+large language model research from 2017 to 2023, synthesizing more than
+5,000 publications to characterize growth trends, application domains,
+and collaboration patterns around LLMs. Their findings highlight LLMs as
+a rapidly expanding and highly interdisciplinary subfield, but the study
 treats LLM work largely through publication and topical statistics
 rather than through explicit citation network analysis or institutional
 comparison.
 
-Alongside broader AI bibliometric studies, Fan et al.'s review suggests
-that LLMs are a major driver of recent research. Even so, previous work
-has not examined how LLM-related publications reshape citation network
-topology or create high-betweenness `bridge' papers that link previously
-separate communities. Addressing this gap is essential for understanding
-how emerging transformative technologies redistribute influence among
+Alongside broader AI bibliometric studies, Fan et al.'s
+\citep{fan_etal_2024} review suggests that LLMs are a major driver of
+recent research. Even so, previous work has not examined how LLM-related
+publications reshape citation network topology or create
+high-betweenness `bridge' papers that link previously separate
+communities. Addressing this gap is essential for understanding how
+emerging transformative technologies redistribute influence among
 established institutions.
 
 \hypertarget{research-gap-and-contribution-of-this-study}{%
@@ -359,25 +360,19 @@ bibliometric and citation-based work did not capture.
 \hypertarget{data-collection}{%
 \subsection{Data Collection}\label{data-collection}}
 
-Our dataset comprises AI-related publications from the top ten
-universities, collected from the OpenAlex database. The data collection
-process involved:
+Our dataset contains AI-related journals from top ten universities from
+the OpenAlex database. The data collection involves filtering the
+institution of first author, publication year from 2015-2025, subtopics,
+and referenced work. It includes the title, authors, and the filtered
+columns.
 
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\tightlist
-\item
-  \textbf{Institutional Selection}: Papers from Stanford, MIT, Harvard,
-  CMU, UC Berkeley, Oxford, Cambridge, ETH Zurich, Toronto, and NUS
-\item
-  \textbf{Time Period}: Publications from 2015 to 2025
-\item
-  \textbf{Data Fields}: Title, authors, year, institution, citations,
-  references, and research subtopic
-\item
-  \textbf{Citation Links}: Directed citation relationships between
-  papers
-\end{enumerate}
+All data analyses in this study were conducted in R on a personal
+computer. We first filtered the raw datasets obtained from OpenAlex,
+which initially contained over 60,000 publication records and
+approximately 100,000 citation pairs. The filtering process removed
+invalid or incomplete entries---specifically, papers lacking essential
+metadata such as titles, research topics, or institutional affiliations,
+as well as citation links involving these records.
 
 After data cleaning and validation, our dataset contains:
 
@@ -401,7 +396,7 @@ the Appendix.
 \hypertarget{network-construction}{%
 \subsection{Network Construction}\label{network-construction}}
 
-We construct a directed citation network where:
+We formulate a directed citation network where:
 
 \begin{itemize}
 \tightlist
@@ -415,7 +410,7 @@ We construct a directed citation network where:
   institution, subtopic, and citation counts
 \end{itemize}
 
-The network exhibits properties typical of citation networks
+The network shows typical properties of citation networks
 \citep{newman_2001}:
 
 \begin{itemize}
@@ -431,25 +426,70 @@ The network exhibits properties typical of citation networks
 \end{itemize}
 
 The overall citation network by institution is shown in Figure
-\ref{fig:network-visualization} in the Appendix
+\ref{fig:network-visualization} in the Appendix.
+
+Because 1,028 publications in the cleaned dataset cite only works
+published prior to 2015, the initial ``overall network'' contains a
+substantial number of isolated nodes. To enable more effective
+structural analysis, we partitioned the dataset into two components:
+nodes\_isolated, representing the isolated publications with no citation
+links within the 2015--2025 scope, and nodes\_connected (along with the
+corresponding edge\_connected dataset), representing the remaining
+publications that participate in at least one citation relationship in
+the constructed network.
+
+\hypertarget{isolated-data-analysis}{%
+\subsubsection{Isolated Data Analysis}\label{isolated-data-analysis}}
+
+For the nodes\_isolated dataset, we focused on examining the
+distribution of these publications across research topics and
+institutional affiliations. This analysis allowed us to identify the
+predominant research areas represented among the isolated papers, as
+well as the institutions that contributed most frequently to this subset
+of the data.
+
+\hypertarget{non-isolated-data-analysis}{%
+\subsubsection{Non Isolated Data
+Analysis}\label{non-isolated-data-analysis}}
+
+The nodes\_connected dataset, together with its corresponding
+edge\_connected dataset, constitutes the primary focus of this study.
+For this subset of the data (1,582 nodes and 3,730 directed edges), we
+conducted analyses of topic and institutional distributions, as well as
+structural properties including the average in-degree, the overall
+in-degree and out-degree distribution, and the component structure of
+the network. From this examination, we identified the largest connected
+component, which serves as the foundation for the subsequent stages of
+analysis. The visualization of network without isolated nodes can be
+observed in Figure \ref{fig:non-isolated} in the Appendix
+
+\hypertarget{largest-connected-component}{%
+\subsubsection{Largest Connected
+Component}\label{largest-connected-component}}
+
+The largest connected component contains 1,433 nodes and 3,634 directed
+edges, meaning that the vast majority of the nodes\_connected dataset is
+encompassed within this component. Therefore, we treat the in-depth
+analysis of this component as representative of the overall structure of
+the dataset.
 
 \hypertarget{power-law-degree-distribution}{%
 \subsubsection{Power-Law Degree
 Distribution}\label{power-law-degree-distribution}}
 
-Figure \ref{fig:degree-distribution} in the Appendix demonstrates the
+Figure \ref{fig:degree-distribution} in the Appendix illustrates the
 scale-free nature of the citation network. The log-log plots show a
 linear relationship between degree and frequency, characteristic of
-power-law distributions \citep{barabasi_albert_1999}. This indicates
-that most papers receive few citations (low in-degree) while a small
-number of highly influential papers receive many citations, following
-the ``preferential attachment'' principle where well-cited papers are
-more likely to receive additional citations.
+power-law distributions \citep{barabasi_albert_1999}. This proves that
+most papers receive few citations (low in-degree) while a small number
+of highly influential papers receive many citations, following the
+``preferential attachment'' principle where well-cited papers are more
+likely to receive additional citations.
 
 \hypertarget{analysis-methods}{%
 \subsection{Analysis Methods}\label{analysis-methods}}
 
-We employ several network analysis techniques:
+We conduct several network analysis techniques:
 
 \hypertarget{centrality-measures}{%
 \subsubsection{Centrality Measures}\label{centrality-measures}}
@@ -457,7 +497,7 @@ We employ several network analysis techniques:
 \begin{itemize}
 \tightlist
 \item
-  \textbf{PageRank} \citep{brin_page_1998}: Measures paper importance
+  \textbf{PageRank} \citep{brin_page_1998}: Measure paper importance
   based on citation quality
 \item
   \textbf{Degree Centrality}: Counts direct citations (in-degree) and
@@ -508,12 +548,11 @@ Papers}\label{rq1-most-impactful-papers}}
 We identify the most impactful papers using PageRank, which considers
 not just the number of citations, but the quality of those citations.
 The top 10 most impactful papers by PageRank are presented in Table
-\ref{tab:top-papers-pagerank} in the Appendix.
-
-To provide a more comprehensive view of paper impact, we also consider
-papers that rank highly across multiple centrality metrics. The top 10
-papers by combined normalized metrics are shown in Table
-\ref{tab:combined-metrics} in the Appendix.
+\ref{tab:top-papers-pagerank} in the Appendix. However, we agree that
+the pagerank numbers produced is extremely small, so we also consider
+other metrics such as betweenness and indegree, normalized it, and add
+all of them. The top 10 papers by combined normalized metrics are shown
+in Table \ref{tab:combined-metrics} in the Appendix.
 
 \textbf{Key Findings:}
 
@@ -523,8 +562,8 @@ papers by combined normalized metrics are shown in Table
   The most impactful papers span multiple AI domains including deep
   learning, computer vision, and natural language processing
 \item
-  Papers from the 2015-2018 period dominate the top rankings, indicating
-  their foundational role
+  Papers from around the 2018 period dominate the top rankings,
+  indicating their foundational role
 \item
   High PageRank papers often serve as methodological foundations cited
   across different AI subfields
@@ -545,21 +584,21 @@ Figure \ref{fig:subtopic-distribution} in the Appendix.
 \begin{itemize}
 \tightlist
 \item
-  \textbf{AI in Healthcare} emerges as the dominant research community
-  with the highest concentration of papers
+  \textbf{AI in Healthcare} is the most dominant topic in the research
+  communities with highest concentration of papers
 \item
   Clear clustering occurs around application domains (healthcare,
   education) and technical areas (NLP, computer vision)
 \item
-  Cross-community citation patterns indicate interdisciplinary
-  collaboration, particularly between healthcare AI and other domains
+  The existence of a few different subtopics in one community shows
+  interdisciplinary collaboration
 \end{itemize}
 
 \hypertarget{rq3-institutional-research-output-and-impact}{%
 \subsection{RQ3: Institutional Research Output and
 Impact}\label{rq3-institutional-research-output-and-impact}}
 
-We analyze both the volume and impact of research from different
+We analyze both the number and impact of research from different
 institutions. Research output by institution is shown in Figure
 \ref{fig:institution-distribution}, and the institutional comparison of
 volume versus impact is presented in Figure
@@ -570,8 +609,12 @@ volume versus impact is presented in Figure
 \begin{itemize}
 \tightlist
 \item
-  \textbf{Stanford University} leads in publication volume within the
+  \textbf{Stanford University} leads in publication quantity within the
   connected component
+\item
+  Even though Stanford University is leading in terms of paper counts,
+  Harvard University is leading with highest pagerank. It means that
+  number of papers does not reflect the quality.
 \item
   \textbf{Research impact} (measured by citation counts and PageRank)
   does not perfectly correlate with volume
@@ -579,8 +622,8 @@ volume versus impact is presented in Figure
   Top institutions show different specialization patterns across AI
   subtopics
 \item
-  Some institutions punch above their weight in terms of citations per
-  paper
+  Some institutions shows exceptional research quality and influence as
+  evidenced by their high citation rates
 \end{itemize}
 
 \hypertarget{rq4-foundation-papers-with-sustained-relevance}{%
@@ -590,7 +633,7 @@ Relevance}\label{rq4-foundation-papers-with-sustained-relevance}}
 We identify older papers that maintain high closeness centrality and
 continue to receive citations from recent work. Foundation papers sorted
 by year and closeness centrality are shown in Table
-\ref{tab:foundation-papers}, and papers most cited by recent work are
+\ref{tab:foundation-papers} and papers most cited by recent work are
 presented in Table \ref{tab:citation-longevity} in the Appendix.
 
 \textbf{Key Findings:}
@@ -600,9 +643,6 @@ presented in Table \ref{tab:citation-longevity} in the Appendix.
 \item
   Foundation papers from 2015-2017 maintain high relevance through
   sustained citation by recent work
-\item
-  Papers introducing fundamental architectures (e.g., transformers,
-  ResNet) show exceptional citation longevity
 \item
   High closeness centrality indicates these papers remain central to
   ongoing research discussions
@@ -631,10 +671,11 @@ in the Appendix.
   Recent bridge papers with high betweenness centrality connect
   previously distinct research areas
 \item
+  Moving towards the application of LLM and AI for the application of
+  health and medicine research
+\item
   Emerging trend toward \textbf{interdisciplinary applications}:
   healthcare AI, educational technology, and AI ethics
-\item
-  Shift from pure methodology papers to application-oriented research
 \item
   Growing integration between NLP and other AI domains through LLM
   applications
@@ -662,8 +703,9 @@ reveals several important patterns:
 \item
   \textbf{Volume-impact disconnect}: While Stanford leads in publication
   volume, research impact (measured by PageRank and citations) is
-  distributed across institutions. This suggests that quality and timing
-  of research matter more than sheer quantity \citep{fortunato_2018}.
+  distributed across institutions, with Harvard University leading with
+  the highest PageRank. This suggests that quality and timing of
+  research matter more than quantity \citep{fortunato_2018}.
 \item
   \textbf{Healthcare AI dominance}: AI in Healthcare emerges as the
   largest and most connected research community, reflecting the field's
@@ -766,45 +808,45 @@ Several directions for future research emerge from this study:
 \hypertarget{conclusion}{%
 \section{Conclusion}\label{conclusion}}
 
-This study provides a comprehensive network analysis of AI research
-citations from top universities over the past decade. Through the
-application of centrality measures, community detection, and temporal
-analysis, we reveal the structural patterns underlying AI research
-influence and evolution.
+This study analyzed the citation patterns of AI-related publications
+from top-tier research institutions over the past decade to understand
+the structural evolution of the field. By constructing and analyzing a
+directed citation network, we aimed to identify influential
+institutions, dominant research subtopics, and the emergence of
+trend-setting papers.
 
-Our key findings demonstrate that:
+The analysis revealed a scale-free network structure with small-world
+properties, where only 60.6\% of papers formed a connected component.
+Key findings indicate a distinction between quantity and quality: while
+Stanford University led in publication volume (119 papers), Harvard
+University demonstrated the highest citation impact. Furthermore,
+community detection identified ``AI in Healthcare and Education'' as the
+most prominent research cluster. A significant exponential growth in
+research output was observed from 2022 to 2023, driven largely by the
+advent of Large Language Models (LLMs). Specifically, recent papers with
+high betweenness centrality, such as ``Large language models in
+medicine,'' were identified as critical bridges connecting disparate
+research communities.
 
-\begin{itemize}
-\tightlist
-\item
-  AI research exhibits a scale-free network structure with a small
-  number of highly influential papers
-\item
-  Research impact is distributed across institutions and does not
-  directly correlate with publication volume
-\item
-  AI in Healthcare emerges as the dominant research community
-\item
-  Foundation papers from 2015-2018 maintain sustained relevance through
-  continued citations
-\item
-  Recent research shows explosive growth driven by Large Language Models
-  and increasing interdisciplinary integration
-\end{itemize}
+The implications of these findings suggest a pivotal shift in the AI
+research landscape toward interdisciplinary integration. The prominence
+of high-betweenness papers indicates that future institutional influence
+will likely depend on producing ``bridge'' research that connects
+diverse domains---such as medicine and computer science---rather than
+merely increasing publication volume. The study confirms that LLMs are
+not just a volume driver but a foundational technology reshaping
+research directions.
 
-These findings confirm a pivotal shift in AI research toward
-interdisciplinary collaboration and application-oriented work. The rise
-of bridge papers connecting disparate research communities suggests that
-future institutional influence will depend not merely on publication
-volume, but on producing trend-setting research that integrates diverse
-domains.
-
-As AI continues to advance rapidly, understanding the citation network
-structure provides valuable insights into how research influence flows,
-how subfields emerge and interact, and where the field is headed. This
-study contributes to the growing body of bibliometric research on AI
-while providing practical insights for researchers, institutions, and
-funding agencies navigating this dynamic landscape.
+There are limitations to this study. The exclusion of cited papers
+published prior to 2015 resulted in a disintegrated network with many
+isolated nodes, limiting the scope of connectivity analysis.
+Additionally, the 2025 data remains incomplete, causing an artificial
+decline in the most recent period. Future research should expand the
+dataset to include a broader historical range to capture long-term
+citation lineages. Moreover, future work will track the long-term
+trajectory of the identified trend-setting papers to validate whether
+these bridge works successfully establish enduring, independent research
+subfields.
 
 \newpage
 
@@ -843,6 +885,15 @@ Number of Strongly Connected Components & 1569.0000000\\
 }
 
 \caption{Overall Citation Network by Institution}\label{fig:network-visualization}
+\end{figure}
+
+\begin{figure}[htbp]
+
+{\centering \includegraphics[width=1\linewidth]{network_without_isolated_nodes} 
+
+}
+
+\caption{Overall Citation Network (Non-Isolated)}\label{fig:non-isolated}
 \end{figure}
 
 \begin{figure}[H]
