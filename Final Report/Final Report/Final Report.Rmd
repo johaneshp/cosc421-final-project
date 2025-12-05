@@ -180,7 +180,7 @@ After data cleaning and validation, our dataset contains:
 - **Total papers**: 2,610 papers
 - **Connected component**: 1,582 papers with at least one citation connection
 - **Citation edges**: 3,757 directed citations
-- **Research subtopics**: AI in Healthcare, Educational Technology, Computer Vision, Natural Language Processing, Robotics, and others
+- **Research subtopics**: AI in Healthcare, AI in Law, AI and Decision Support System, Natural Language Processing, and others
 
 The network statistics are presented in Table \ref{tab:network-stats} in the Appendix.
 
@@ -252,8 +252,8 @@ We identify the most impactful papers using PageRank, which considers not just t
 
 **Key Findings:**
 
-- The most impactful papers span multiple AI domains including deep learning, computer vision, and natural language processing
-- Papers from around the 2018 period dominate the top rankings, indicating their foundational role
+- The most impactful papers are in the subtopics of healthcare such as AI in interpreting medical dataset, medicine, diagnostic accuracy
+- Papers from the 2018-present period dominate the top rankings, indicating their foundational role
 - High PageRank papers often serve as methodological foundations cited across different AI subfields
 
 ## RQ2: Research Communities and Subtopics
@@ -263,7 +263,7 @@ Community detection reveals distinct research clusters within the citation netwo
 **Key Findings:**
 
 - **AI in Healthcare** is the most dominant topic in the research communities with highest concentration of papers
-- Clear clustering occurs around application domains (healthcare, education) and technical areas (NLP, computer vision)
+- Clear clustering occurs around application domains (healthcare, education) and technical areas (Games, NLP Techniques, Material Science, Law)
 - The existence of a few different subtopics in one community shows interdisciplinary collaboration
 
 ## RQ3: Institutional Research Output and Impact
@@ -275,7 +275,6 @@ We analyze both the number and impact of research from different institutions. R
 - **Stanford University** leads in publication quantity within the connected component
 - Even though Stanford University is leading in terms of paper counts, Harvard University is leading with highest pagerank. It means that number of papers does not reflect the quality.
 - **Research impact** (measured by citation counts and PageRank) does not perfectly correlate with volume
-- Top institutions show different specialization patterns across AI subtopics
 - Some institutions shows exceptional research quality and influence as evidenced by their high citation rates
 
 ## RQ4: Foundation Papers with Sustained Relevance
@@ -330,16 +329,6 @@ These findings have several practical implications:
 **For Funding Agencies**: The dominance of healthcare AI and the rise of bridge papers suggest that supporting interdisciplinary research could yield high-impact outcomes.
 
 **For the AI Field**: The sustained relevance of foundation papers alongside rapid growth in new paradigms (LLMs) indicates that AI research builds cumulatively while also experiencing periodic paradigm shifts.
-
-## Limitations
-
-This study has several limitations:
-
-1. **Data coverage**: Our analysis focuses on top 10 universities and may not represent the global AI research landscape
-2. **Citation lag**: Recent papers have had less time to accumulate citations, potentially underestimating their eventual impact
-3. **Subtopic classification**: Papers are assigned to single subtopics, but many AI papers span multiple areas
-4. **Network dynamics**: Our analysis captures a snapshot in time and may not fully reflect the evolving nature of citation patterns
-5. **Self-citations and citation biases**: The analysis does not account for self-citations or institutional citation biases
 
 ## Future Work
 
