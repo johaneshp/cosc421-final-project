@@ -1,0 +1,11 @@
+"Metric","Value"
+"Total Nodes",1582
+"Total Edges",3757
+"Average Degree",4.74968394437417
+"Average In-Degree",2.37484197218708
+"Average Out-Degree",2.3748419721871
+"Network Density",0.00150211383440045
+"Network Diameter",10
+"Average Path Length",3.14843696087227
+"Number of Weakly Connected Components",58
+"Number of Strongly Connected Components",1569

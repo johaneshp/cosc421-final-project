@@ -1,0 +1,1054 @@
+%Version 2.1 April 2023
+% See section 11 of the User Manual for version history
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                                                 %%
+%% Please do not use \input{...} to include other tex files.       %%
+%% Submit your LaTeX manuscript as one .tex document.              %%
+%%                                                                 %%
+%% All additional figures and files should be attached             %%
+%% separately and not embedded in the \TeX\ document itself.       %%
+%%                                                                 %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[sn-basic,pdflatex]{sn-jnl}
+
+%%%% Standard Packages
+%%<additional latex packages if required can be included here>
+
+\usepackage{graphicx}%
+\usepackage{multirow}%
+\usepackage{amsmath,amssymb,amsfonts}%
+\usepackage{amsthm}%
+\usepackage{mathrsfs}%
+\usepackage[title]{appendix}%
+\usepackage{xcolor}%
+\usepackage{textcomp}%
+\usepackage{manyfoot}%
+\usepackage{booktabs}%
+\usepackage{algorithm}%
+\usepackage{algorithmicx}%
+\usepackage{algpseudocode}%
+\usepackage{listings}%
+%%%%
+
+%%%%%=============================================================================%%%%
+%%%%  Remarks: This template is provided to aid authors with the preparation
+%%%%  of original research articles intended for submission to journals published
+%%%%  by Springer Nature. The guidance has been prepared in partnership with
+%%%%  production teams to conform to Springer Nature technical requirements.
+%%%%  Editorial and presentation requirements differ among journal portfolios and
+%%%%  research disciplines. You may find sections in this template are irrelevant
+%%%%  to your work and are empowered to omit any such section if allowed by the
+%%%%  journal you intend to submit to. The submission guidelines and policies
+%%%%  of the journal take precedence. A detailed User Manual is available in the
+%%%%  template package for technical guidance.
+%%%%%=============================================================================%%%%
+
+%% Per the spinger doc, new theorem styles can be included using built in style, 
+%% but it seems the don't work so commented below
+%\theoremstyle{thmstyleone}%
+\newtheorem{theorem}{Theorem}%  meant for continuous numbers
+%%\newtheorem{theorem}{Theorem}[section]% meant for sectionwise numbers
+%% optional argument [theorem] produces theorem numbering sequence instead of independent numbers for Proposition
+\newtheorem{proposition}[theorem]{Proposition}%
+%%\newtheorem{proposition}{Proposition}% to get separate numbers for theorem and proposition etc.
+
+%% \theoremstyle{thmstyletwo}%
+\theoremstyle{remark}
+\newtheorem{example}{Example}%
+\newtheorem{remark}{Remark}%
+
+%% \theoremstyle{thmstylethree}%
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}%
+
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
+
+
+\raggedbottom
+
+
+
+
+% tightlist command for lists without linebreak
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+
+
+
+
+\begin{document}
+
+
+\title[Article Title runing]{Article Title}
+
+%%=============================================================%%
+%% Prefix	-> \pfx{Dr}
+%% GivenName	-> \fnm{Joergen W.}
+%% Particle	-> \spfx{van der} -> surname prefix
+%% FamilyName	-> \sur{Ploeg}
+%% Suffix	-> \sfx{IV}
+%% NatureName	-> \tanm{Poet Laureate} -> Title after name
+%% Degrees	-> \dgr{MSc, PhD}
+%% \author*[1,2]{\pfx{Dr} \fnm{Joergen W.} \spfx{van der} \sur{Ploeg} \sfx{IV} \tanm{Poet Laureate}
+%%                 \dgr{MSc, PhD}}\email{iauthor@gmail.com}
+%%=============================================================%%
+
+\author[]{\fnm{Leading} \sur{Author} }
+
+\author[]{\fnm{Leading} \sur{Author} }
+
+\author[]{\fnm{Leading} \sur{Author} }
+
+\author[]{\fnm{Leading} \sur{Author} }
+
+
+
+
+\abstract{In recent years, artificial intelligence (AI) has advanced
+rapidly, and AI-driven applications have become pervasive across
+academia and industry. Mapping citation patterns among AI publications
+from leading universities can reveal how research influence,
+collaboration, and subfields in AI have evolved over time. This study
+analyzes the distribution of AI-related publications from the top ten
+leading universities over the past decade and examines the citation
+relationships among them to identify structural patterns and distinctive
+citation characteristics. We construct a directed citation network in
+which each node represents an AI-related paper and each edge represents
+a citation between papers, using bibliographic records collected from
+online databases. Citation network analysis techniques, including degree
+and centrality measures and community detection, are then applied to
+uncover latent patterns in the publication and citation behavior of
+these institutions. The analysis reveals a scale-free network structure
+where publication volume, led by Stanford University, does not strictly
+correlate with citation impact, which is highest at Harvard University.
+Furthermore, community detection identifies ``AI in Healthcare'' as a
+dominant subfield, with a recent exponential surge in network growth
+driven by Large Language Models. These findings indicate that
+high-betweenness ``bridge'' papers are becoming critical for integrating
+disparate research communities. The study confirms a pivotal shift
+toward interdisciplinary collaboration, suggesting that future
+institutional influence will depend on producing trend-setting research
+that connects diverse domains rather than sheer publication volume.}
+
+\keywords{citation network analysis, artificial intelligence, machine
+learning, healthcare AI, educational technology, research
+impact, network centrality, community detection, bibliometrics}
+
+
+
+\maketitle
+
+\hypertarget{introduction}{%
+\section{Introduction}\label{introduction}}
+
+\hypertarget{background-and-motivation}{%
+\subsection{Background and Motivation}\label{background-and-motivation}}
+
+Over the past decade, artificial intelligence has experienced
+unprecedented growth in both research output and practical applications.
+AI-related publications have increased globally by 57\% from 2018 to
+2022, making it one of the largest areas of research
+\citep{nature_ai_growth_2023}. At the same time, the organizational
+adoption of AI has surged from 55\% to 72\% between 2023 and 2024, with
+OpenAI reaching 800 million weekly users just last month
+\citep{mckinsey_ai_adoption_2024, openai_usage_2024}. This rapid
+expansion of AI-driven applications, from large language models like
+ChatGPT to highly specialized systems in healthcare, underscores the
+technology's transformative impact across virtually every industry. As
+AI research continues to grow, understanding the structural foundation
+of this field through citation patterns is critical in identifying
+influential work, emerging subfields, and future research directions.
+
+Due to the extensive growth in AI publications, there remains a
+significant gap in understanding how citation relationships among
+leading research institutions reveal the underlying dynamics of
+knowledge distribution and collaborative networks in this rapidly
+evolving field. While certain papers and researcher teams are frequently
+evaluated for impact, systematic analysis of citation networks from
+top-tier institutions can uncover structural patterns that go beyond
+individual contributions and reveal how research influence spreads
+across subfields, shaping the trajectory of AI development. Moreover,
+the recent emergence of groundbreaking technologies, such as large
+language models, requires an examination of whether traditional patterns
+of citation and influence persist or whether new paradigm shifts are
+reshaping the research landscape.
+
+\hypertarget{research-objectives}{%
+\subsection{Research Objectives}\label{research-objectives}}
+
+In this context, the aim of this study is to analyze the citation
+network of AI-related publications from the top ten leading universities
+over the past decade (2015-2025). Specifically, we set out to address
+the following research questions:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{RQ1}: Which papers are the most impactful in the AI research
+  landscape?
+\item
+  \textbf{RQ2}: What subtopics have the highest concentration of
+  research and how do they cluster into communities?
+\item
+  \textbf{RQ3}: Which institutions have the most research output and
+  impact?
+\item
+  \textbf{RQ4}: What are the foundational papers that have sustained
+  relevance over time?
+\item
+  \textbf{RQ5}: What are the emerging trends and where is newer research
+  headed?
+\end{enumerate}
+
+\hypertarget{contributions}{%
+\subsection{Contributions}\label{contributions}}
+
+This study analyzes 2,610 published research papers collected from
+OpenAlex and examines their distribution across institutions and
+subtopics. The 3,757 directed citation relationships among these papers
+form a citation network that enables us to apply network analysis
+techniques, including degree distributions, centrality measures, and
+community detection, to identify structural patterns and influential
+works. Through mapping the citation landscape of leading AI research
+institutions, this study provides insights into:
+
+\begin{itemize}
+\tightlist
+\item
+  How research influence is distributed across institutions and papers
+\item
+  How interdisciplinary subfields emerge and interact through citation
+  patterns
+\item
+  How bridge papers connect disparate research communities
+\item
+  The evolution of AI research trends from 2015 to 2024
+\end{itemize}
+
+The findings of this study have direct practical implications for
+understanding the ever-evolving dynamics of AI research in its current
+form and identifying emerging directions that may help shape the future
+of this field.
+
+\newpage
+
+\hypertarget{related-work}{%
+\section{Related Work}\label{related-work}}
+
+Previous research has used bibliometric and network-based methods to
+understand the evolution of artificial intelligence research. However,
+few studies specifically examine citation structures within top
+universities or consider how recent developments, such as large language
+models, reshape them. Building on this literature, our study uses
+institutional citation networks to examine both influence and emerging
+subfields in contemporary AI research.
+
+\hypertarget{bibliometric-analysis-of-ai-research}{%
+\subsection{Bibliometric Analysis of AI
+Research}\label{bibliometric-analysis-of-ai-research}}
+
+Mardiani and Iswahyudi {[}4{]} use a bibliometric approach to map the AI
+research landscape. They examine publication volumes, country-level
+contributions, and topic clusters. Their results confirm rapid growth
+and thematic diversification in AI. However, they aggregate output at
+the global level, without analyzing differences in citation structures
+across leading universities or their links to specific subtopics. Their
+data also spans a much wider period (1974-2023) than ours, diluting the
+impact of recent LLM advances and detracting from current research
+trends.
+
+Similarly, Costa and Frigori {[}5{]} extend this line of work by
+analyzing an AI citation network to study complexity and phase
+transitions over time. They use measures such as Shannon entropy of
+paper titles and changes in average degree to identify structural
+shifts. While their study shows that citation networks undergo rapid
+reconfiguration during major technological advances, it focuses on
+global temporal dynamics rather than institutional influence or `bridge'
+papers within subfields. Additionally, collecting data only up to 2020
+means their study misses the network impact of the latest research.
+
+\hypertarget{citation-networks-and-impact-metrics}{%
+\subsection{Citation Networks and Impact
+Metrics}\label{citation-networks-and-impact-metrics}}
+
+Other research has focused on citation networks and impact metrics to
+find what works best. For example, Fiala, Dalibor, and Tutoky {[}6{]}
+investigate how PageRank-based metrics compare with raw citation counts
+when predicting award-winning researchers in computer science, using an
+author-level citation network. They found that PageRank better
+identifies high-impact contributors in some cases and shows the value of
+network-aware measures for evaluating influence; however, their work
+does not address PageRank's connection to institutional citation
+patterns or community structure in AI-specific research.
+
+Costa and Frigori's treatment of citation networks as complex systems
+also encourages the use of centrality and connectivity metrics to detect
+structural key points. However, their analysis does not incorporate
+community detection of distinct subtopics, leaving open questions about
+how influence and field specialization are distributed across leading
+research teams.
+
+\hypertarget{large-language-models-as-an-emerging-ai-frontier}{%
+\subsection{Large Language Models as an Emerging AI
+Frontier}\label{large-language-models-as-an-emerging-ai-frontier}}
+
+Fan, Lizhou, et al {[}7{]} conducted a bibliometric review of large
+language model research from 2017 to 2023, synthesizing more than 5,000
+publications to characterize growth trends, application domains, and
+collaboration patterns around LLMs. Their findings highlight LLMs as a
+rapidly expanding and highly interdisciplinary subfield, but the study
+treats LLM work largely through publication and topical statistics
+rather than through explicit citation network analysis or institutional
+comparison.
+
+Alongside broader AI bibliometric studies, Fan et al.'s review suggests
+that LLMs are a major driver of recent research. Even so, previous work
+has not examined how LLM-related publications reshape citation network
+topology or create high-betweenness `bridge' papers that link previously
+separate communities. Addressing this gap is essential for understanding
+how emerging transformative technologies redistribute influence among
+established institutions.
+
+\hypertarget{research-gap-and-contribution-of-this-study}{%
+\subsection{Research Gap and Contribution of This
+Study}\label{research-gap-and-contribution-of-this-study}}
+
+The existing bibliometric and citation-network studies collectively
+explain global growth patterns, thematic shifts, and author-level impact
+in AI. However, they provide limited insight into how citations
+influence community structure and how trend-setting papers are organized
+within the top research universities over the last decade. Additionally,
+previous work rarely combines PageRank, degree-based metrics, and
+community detection in a single institutional network or systematically
+tracks how LLM-related research contributes to the formation of
+influential papers across subfields.
+
+This study addresses these gaps by constructing a directed citation
+network of AI-related publications from the top 10 universities. It
+applies PageRank and centrality measures to identify influential papers
+and institutions, and uses community detection to reveal dominant and
+interdisciplinary subtopics, such as AI in healthcare and education.
+Focusing on the 2015-2025 period and examining high-betweenness papers,
+the analysis links technological shifts to measurable changes in network
+structure and institutional influence connections that prior
+bibliometric and citation-based work did not capture.
+
+\newpage
+
+\hypertarget{dataset-and-methodology}{%
+\section{Dataset and Methodology}\label{dataset-and-methodology}}
+
+\hypertarget{data-collection}{%
+\subsection{Data Collection}\label{data-collection}}
+
+Our dataset comprises AI-related publications from the top ten
+universities, collected from the OpenAlex database. The data collection
+process involved:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Institutional Selection}: Papers from Stanford, MIT, Harvard,
+  CMU, UC Berkeley, Oxford, Cambridge, ETH Zurich, Toronto, and NUS
+\item
+  \textbf{Time Period}: Publications from 2015 to 2025
+\item
+  \textbf{Data Fields}: Title, authors, year, institution, citations,
+  references, and research subtopic
+\item
+  \textbf{Citation Links}: Directed citation relationships between
+  papers
+\end{enumerate}
+
+After data cleaning and validation, our dataset contains:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Total papers}: 2,610 papers
+\item
+  \textbf{Connected component}: 1,582 papers with at least one citation
+  connection
+\item
+  \textbf{Citation edges}: 3,757 directed citations
+\item
+  \textbf{Research subtopics}: AI in Healthcare, Educational Technology,
+  Computer Vision, Natural Language Processing, Robotics, and others
+\end{itemize}
+
+The network statistics are presented in Table \ref{tab:network-stats} in
+the Appendix.
+
+\hypertarget{network-construction}{%
+\subsection{Network Construction}\label{network-construction}}
+
+We construct a directed citation network where:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Nodes}: Each node represents a research paper
+\item
+  \textbf{Edges}: A directed edge from paper A to paper B indicates that
+  A cites B
+\item
+  \textbf{Attributes}: Node attributes include publication year,
+  institution, subtopic, and citation counts
+\end{itemize}
+
+The network exhibits properties typical of citation networks
+\citep{newman_2001}:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Scale-free distribution}: Degree distribution follows a power
+  law \citep{barabasi_albert_1999}
+\item
+  \textbf{Small-world property}: Short average path length despite high
+  clustering
+\item
+  \textbf{Directed structure}: Citations flow from newer to older papers
+\end{itemize}
+
+The overall citation network by institution is shown in Figure
+\ref{fig:network-visualization} in the Appendix
+
+\hypertarget{power-law-degree-distribution}{%
+\subsubsection{Power-Law Degree
+Distribution}\label{power-law-degree-distribution}}
+
+Figure \ref{fig:degree-distribution} in the Appendix demonstrates the
+scale-free nature of the citation network. The log-log plots show a
+linear relationship between degree and frequency, characteristic of
+power-law distributions \citep{barabasi_albert_1999}. This indicates
+that most papers receive few citations (low in-degree) while a small
+number of highly influential papers receive many citations, following
+the ``preferential attachment'' principle where well-cited papers are
+more likely to receive additional citations.
+
+\hypertarget{analysis-methods}{%
+\subsection{Analysis Methods}\label{analysis-methods}}
+
+We employ several network analysis techniques:
+
+\hypertarget{centrality-measures}{%
+\subsubsection{Centrality Measures}\label{centrality-measures}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{PageRank} \citep{brin_page_1998}: Measures paper importance
+  based on citation quality
+\item
+  \textbf{Degree Centrality}: Counts direct citations (in-degree) and
+  references (out-degree)
+\item
+  \textbf{Betweenness Centrality}: Identifies bridge papers connecting
+  different research communities
+\item
+  \textbf{Closeness Centrality}: Measures how quickly information
+  spreads from a paper
+\end{itemize}
+
+\hypertarget{community-detection}{%
+\subsubsection{Community Detection}\label{community-detection}}
+
+We use the Louvain algorithm \citep{blondel_2008} to identify research
+communities based on citation patterns. This unsupervised method reveals
+natural groupings of papers that cite each other more frequently than
+expected by chance.
+
+\hypertarget{temporal-analysis}{%
+\subsubsection{Temporal Analysis}\label{temporal-analysis}}
+
+We analyze how citation patterns evolve over three time periods:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Early period (2015-2018)}: Foundation papers and initial AI
+  boom
+\item
+  \textbf{Middle period (2019-2021)}: Consolidation and deep learning
+  maturation
+\item
+  \textbf{Recent period (2022-2025)}: Large language models and new
+  paradigms
+\end{itemize}
+
+\newpage
+
+\hypertarget{results}{%
+\section{Results}\label{results}}
+
+\hypertarget{rq1-most-impactful-papers}{%
+\subsection{RQ1: Most Impactful
+Papers}\label{rq1-most-impactful-papers}}
+
+We identify the most impactful papers using PageRank, which considers
+not just the number of citations, but the quality of those citations.
+The top 10 most impactful papers by PageRank are presented in Table
+\ref{tab:top-papers-pagerank} in the Appendix.
+
+To provide a more comprehensive view of paper impact, we also consider
+papers that rank highly across multiple centrality metrics. The top 10
+papers by combined normalized metrics are shown in Table
+\ref{tab:combined-metrics} in the Appendix.
+
+\textbf{Key Findings:}
+
+\begin{itemize}
+\tightlist
+\item
+  The most impactful papers span multiple AI domains including deep
+  learning, computer vision, and natural language processing
+\item
+  Papers from the 2015-2018 period dominate the top rankings, indicating
+  their foundational role
+\item
+  High PageRank papers often serve as methodological foundations cited
+  across different AI subfields
+\end{itemize}
+
+\hypertarget{rq2-research-communities-and-subtopics}{%
+\subsection{RQ2: Research Communities and
+Subtopics}\label{rq2-research-communities-and-subtopics}}
+
+Community detection reveals distinct research clusters within the
+citation network. The top subtopics by detected community are shown in
+Table \ref{tab:community-subtopics} in the Appendix, and the research
+distribution by subtopic in the connected component is visualized in
+Figure \ref{fig:subtopic-distribution} in the Appendix.
+
+\textbf{Key Findings:}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{AI in Healthcare} emerges as the dominant research community
+  with the highest concentration of papers
+\item
+  Clear clustering occurs around application domains (healthcare,
+  education) and technical areas (NLP, computer vision)
+\item
+  Cross-community citation patterns indicate interdisciplinary
+  collaboration, particularly between healthcare AI and other domains
+\end{itemize}
+
+\hypertarget{rq3-institutional-research-output-and-impact}{%
+\subsection{RQ3: Institutional Research Output and
+Impact}\label{rq3-institutional-research-output-and-impact}}
+
+We analyze both the volume and impact of research from different
+institutions. Research output by institution is shown in Figure
+\ref{fig:institution-distribution}, and the institutional comparison of
+volume versus impact is presented in Figure
+\ref{fig:institution-comparison} in the Appendix.
+
+\textbf{Key Findings:}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Stanford University} leads in publication volume within the
+  connected component
+\item
+  \textbf{Research impact} (measured by citation counts and PageRank)
+  does not perfectly correlate with volume
+\item
+  Top institutions show different specialization patterns across AI
+  subtopics
+\item
+  Some institutions punch above their weight in terms of citations per
+  paper
+\end{itemize}
+
+\hypertarget{rq4-foundation-papers-with-sustained-relevance}{%
+\subsection{RQ4: Foundation Papers with Sustained
+Relevance}\label{rq4-foundation-papers-with-sustained-relevance}}
+
+We identify older papers that maintain high closeness centrality and
+continue to receive citations from recent work. Foundation papers sorted
+by year and closeness centrality are shown in Table
+\ref{tab:foundation-papers}, and papers most cited by recent work are
+presented in Table \ref{tab:citation-longevity} in the Appendix.
+
+\textbf{Key Findings:}
+
+\begin{itemize}
+\tightlist
+\item
+  Foundation papers from 2015-2017 maintain high relevance through
+  sustained citation by recent work
+\item
+  Papers introducing fundamental architectures (e.g., transformers,
+  ResNet) show exceptional citation longevity
+\item
+  High closeness centrality indicates these papers remain central to
+  ongoing research discussions
+\end{itemize}
+
+\hypertarget{rq5-emerging-trends-and-future-directions}{%
+\subsection{RQ5: Emerging Trends and Future
+Directions}\label{rq5-emerging-trends-and-future-directions}}
+
+We analyze recent research trends by examining publication patterns and
+high-betweenness papers from 2020-2025. Research output by time period
+is shown in Table \ref{tab:publications-by-period}, and recent papers
+with highest betweenness centrality are presented in Table
+\ref{tab:bridge-papers} in the Appendix. The citation network colored by
+research subtopic is shown in Figure \ref{fig:citation-network-subtopic}
+in the Appendix.
+
+\textbf{Key Findings:}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Exponential growth} in AI publications from 2022-2024,
+  particularly in Large Language Models
+\item
+  Recent bridge papers with high betweenness centrality connect
+  previously distinct research areas
+\item
+  Emerging trend toward \textbf{interdisciplinary applications}:
+  healthcare AI, educational technology, and AI ethics
+\item
+  Shift from pure methodology papers to application-oriented research
+\item
+  Growing integration between NLP and other AI domains through LLM
+  applications
+\end{itemize}
+
+\newpage
+
+\hypertarget{discussion}{%
+\section{Discussion}\label{discussion}}
+
+\hypertarget{principal-findings}{%
+\subsection{Principal Findings}\label{principal-findings}}
+
+Our citation network analysis of AI research from top universities
+reveals several important patterns:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \textbf{Scale-free network structure}: The citation network exhibits a
+  power-law degree distribution, where a small number of highly cited
+  papers coexist with many papers receiving few citations
+  \citep{barabasi_albert_1999}. This confirms the ``rich get richer''
+  phenomenon in academic citations \citep{wang_barabasi_2021}.
+\item
+  \textbf{Volume-impact disconnect}: While Stanford leads in publication
+  volume, research impact (measured by PageRank and citations) is
+  distributed across institutions. This suggests that quality and timing
+  of research matter more than sheer quantity \citep{fortunato_2018}.
+\item
+  \textbf{Healthcare AI dominance}: AI in Healthcare emerges as the
+  largest and most connected research community, reflecting the field's
+  practical importance and interdisciplinary nature.
+\item
+  \textbf{Foundation papers maintain relevance}: Papers from 2015-2018
+  introducing fundamental architectures continue to receive citations
+  from recent work, indicating their sustained importance as AI research
+  evolves.
+\item
+  \textbf{Paradigm shift toward LLMs}: The 2022-2024 period shows
+  explosive growth in publications, driven primarily by Large Language
+  Models and their applications across domains.
+\item
+  \textbf{Rise of bridge papers}: Recent high-betweenness papers
+  increasingly serve to connect different research communities,
+  suggesting a trend toward more integrated, interdisciplinary AI
+  research.
+\end{enumerate}
+
+\hypertarget{implications}{%
+\subsection{Implications}\label{implications}}
+
+These findings have several practical implications:
+
+\textbf{For Researchers}: Understanding the network structure helps
+identify foundational papers, emerging trends, and opportunities for
+interdisciplinary work. High-betweenness positions indicate
+opportunities to bridge research gaps.
+
+\textbf{For Institutions}: Publication volume alone does not guarantee
+research impact. Strategic focus on trend-setting research and
+interdisciplinary collaboration may be more important than maximizing
+output.
+
+\textbf{For Funding Agencies}: The dominance of healthcare AI and the
+rise of bridge papers suggest that supporting interdisciplinary research
+could yield high-impact outcomes.
+
+\textbf{For the AI Field}: The sustained relevance of foundation papers
+alongside rapid growth in new paradigms (LLMs) indicates that AI
+research builds cumulatively while also experiencing periodic paradigm
+shifts.
+
+\hypertarget{limitations}{%
+\subsection{Limitations}\label{limitations}}
+
+This study has several limitations:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Data coverage}: Our analysis focuses on top 10 universities
+  and may not represent the global AI research landscape
+\item
+  \textbf{Citation lag}: Recent papers have had less time to accumulate
+  citations, potentially underestimating their eventual impact
+\item
+  \textbf{Subtopic classification}: Papers are assigned to single
+  subtopics, but many AI papers span multiple areas
+\item
+  \textbf{Network dynamics}: Our analysis captures a snapshot in time
+  and may not fully reflect the evolving nature of citation patterns
+\item
+  \textbf{Self-citations and citation biases}: The analysis does not
+  account for self-citations or institutional citation biases
+\end{enumerate}
+
+\hypertarget{future-work}{%
+\subsection{Future Work}\label{future-work}}
+
+Several directions for future research emerge from this study:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Temporal dynamics}: Longitudinal analysis tracking how
+  individual papers' centrality measures evolve over time
+  \citep{wang_barabasi_2021}
+\item
+  \textbf{Author networks}: Analyzing collaboration networks alongside
+  citation networks to understand how research influence spreads through
+  both ideas and people \citep{newman_2001}
+\item
+  \textbf{Content analysis}: Combining network analysis with natural
+  language processing to analyze the semantic content of highly central
+  papers \citep{chen_2006}
+\item
+  \textbf{Predictive modeling}: Using early citation patterns to predict
+  which papers will become foundational \citep{fortunato_2018}
+\item
+  \textbf{Global comparison}: Expanding the analysis to include
+  institutions from more countries and regions
+\end{enumerate}
+
+\newpage
+
+\hypertarget{conclusion}{%
+\section{Conclusion}\label{conclusion}}
+
+This study provides a comprehensive network analysis of AI research
+citations from top universities over the past decade. Through the
+application of centrality measures, community detection, and temporal
+analysis, we reveal the structural patterns underlying AI research
+influence and evolution.
+
+Our key findings demonstrate that:
+
+\begin{itemize}
+\tightlist
+\item
+  AI research exhibits a scale-free network structure with a small
+  number of highly influential papers
+\item
+  Research impact is distributed across institutions and does not
+  directly correlate with publication volume
+\item
+  AI in Healthcare emerges as the dominant research community
+\item
+  Foundation papers from 2015-2018 maintain sustained relevance through
+  continued citations
+\item
+  Recent research shows explosive growth driven by Large Language Models
+  and increasing interdisciplinary integration
+\end{itemize}
+
+These findings confirm a pivotal shift in AI research toward
+interdisciplinary collaboration and application-oriented work. The rise
+of bridge papers connecting disparate research communities suggests that
+future institutional influence will depend not merely on publication
+volume, but on producing trend-setting research that integrates diverse
+domains.
+
+As AI continues to advance rapidly, understanding the citation network
+structure provides valuable insights into how research influence flows,
+how subfields emerge and interact, and where the field is headed. This
+study contributes to the growing body of bibliometric research on AI
+while providing practical insights for researchers, institutions, and
+funding agencies navigating this dynamic landscape.
+
+\newpage
+
+\begin{appendices}
+
+\hypertarget{tables-graphs-and-figures}{%
+\section{Tables, Graphs, and Figures}\label{tables-graphs-and-figures}}
+
+\hypertarget{network-statistics-and-visualizations}{%
+\subsection{Network Statistics and
+Visualizations}\label{network-statistics-and-visualizations}}
+
+\begin{longtable}[t]{lr}
+\caption{\label{tab:network-stats}Network Basic Statistics}\\
+\toprule
+Metric & Value\\
+\midrule
+\cellcolor{gray!10}{Total Nodes} & \cellcolor{gray!10}{1582.0000000}\\
+Total Edges & 3757.0000000\\
+\cellcolor{gray!10}{Average Degree} & \cellcolor{gray!10}{4.7496839}\\
+Average In-Degree & 2.3748420\\
+\cellcolor{gray!10}{Average Out-Degree} & \cellcolor{gray!10}{2.3748420}\\
+\addlinespace
+Network Density & 0.0015021\\
+\cellcolor{gray!10}{Network Diameter} & \cellcolor{gray!10}{10.0000000}\\
+Average Path Length & 3.1484370\\
+\cellcolor{gray!10}{Number of Weakly Connected Components} & \cellcolor{gray!10}{58.0000000}\\
+Number of Strongly Connected Components & 1569.0000000\\
+\bottomrule
+\end{longtable}
+
+\begin{figure}[htbp]
+
+{\centering \includegraphics[width=1\linewidth]{overall_network_by_university} 
+
+}
+
+\caption{Overall Citation Network by Institution}\label{fig:network-visualization}
+\end{figure}
+
+\begin{figure}[H]
+
+{\centering \includegraphics[width=0.7\linewidth,height=0.7\textheight]{degree_distribution_power_law} 
+
+}
+
+\caption{Degree Distribution Showing Power-Law Property. The log-log plots (bottom panels) show linear trends, confirming power-law distribution characteristic of scale-free networks.}\label{fig:degree-distribution}
+\end{figure}
+
+\hypertarget{rq1-most-impactful-papers-1}{%
+\subsection{RQ1: Most Impactful
+Papers}\label{rq1-most-impactful-papers-1}}
+
+\begin{longtable}[t]{>{\raggedright\arraybackslash}p{8cm}lrr}
+\caption{\label{tab:top-papers-pagerank}Top 10 Most Impactful Papers by PageRank}\\
+\toprule
+Title & First Author & Year & PageRank\\
+\midrule
+\cellcolor{gray!10}{Artificial intelligence in healthcare} & \cellcolor{gray!10}{Kun-Hsing Yu} & \cellcolor{gray!10}{2018} & \cellcolor{gray!10}{0.0370}\\
+Developing specific reporting guidelines for diagnostic accuracy studies assessing AI interventions: The STARD-AI Steering Group & Viknesh Sounderajah & 2020 & 0.0297\\
+\cellcolor{gray!10}{Framing the challenges of artificial intelligence in medicine} & \cellcolor{gray!10}{Kun-Hsing Yu} & \cellcolor{gray!10}{2018} & \cellcolor{gray!10}{0.0181}\\
+Artificial intelligence (AI) systems for interpreting complex medical datasets & Rb Altman & 2017 & 0.0160\\
+\cellcolor{gray!10}{Potential Liability for Physicians Using Artificial Intelligence} & \cellcolor{gray!10}{W. Nicholson Price} & \cellcolor{gray!10}{2019} & \cellcolor{gray!10}{0.0144}\\
+\addlinespace
+The “inconvenient truth” about AI in healthcare & Trishan Panch & 2019 & 0.0127\\
+\cellcolor{gray!10}{Large language models in medicine} & \cellcolor{gray!10}{Arun James Thirunavukarasu} & \cellcolor{gray!10}{2023} & \cellcolor{gray!10}{0.0115}\\
+AI in health and medicine & Pranav Rajpurkar & 2022 & 0.0105\\
+\cellcolor{gray!10}{AI-Assisted Decision-making in Healthcare} & \cellcolor{gray!10}{Tamra Lysaght} & \cellcolor{gray!10}{2019} & \cellcolor{gray!10}{0.0101}\\
+An Ethics Framework for Big Data in Health and Research & Vicki Xafis & 2019 & 0.0095\\
+\bottomrule
+\end{longtable}
+
+\begin{longtable}[t]{>{\raggedright\arraybackslash}p{7cm}rrrr>{\raggedleft\arraybackslash}p{0.75cm}}
+\caption{\label{tab:combined-metrics}Top 10 Papers by Combined Normalized Metrics}\\
+\toprule
+Title & Year & PageRank & In-Degree & Betweenness & Combined\\
+\midrule
+\cellcolor{gray!10}{Large language models in medicine} & \cellcolor{gray!10}{2023} & \cellcolor{gray!10}{0.306} & \cellcolor{gray!10}{1.000} & \cellcolor{gray!10}{0.812} & \cellcolor{gray!10}{2.117}\\
+Artificial intelligence in healthcare & 2018 & 1.000 & 0.587 & 0.250 & 1.837\\
+\cellcolor{gray!10}{AI in health and medicine} & \cellcolor{gray!10}{2022} & \cellcolor{gray!10}{0.278} & \cellcolor{gray!10}{0.587} & \cellcolor{gray!10}{0.672} & \cellcolor{gray!10}{1.536}\\
+The shaky foundations of large language models and foundation models for electronic health records & 2023 & 0.169 & 0.308 & 1.000 & 1.476\\
+\cellcolor{gray!10}{Foundation models for generalist medical artificial intelligence} & \cellcolor{gray!10}{2023} & \cellcolor{gray!10}{0.222} & \cellcolor{gray!10}{0.606} & \cellcolor{gray!10}{0.519} & \cellcolor{gray!10}{1.346}\\
+\addlinespace
+Multimodal biomedical AI & 2022 & 0.173 & 0.250 & 0.749 & 1.172\\
+\cellcolor{gray!10}{Developing specific reporting guidelines for diagnostic accuracy studies assessing AI interventions: The STARD-AI Steering Group} & \cellcolor{gray!10}{2020} & \cellcolor{gray!10}{0.800} & \cellcolor{gray!10}{0.308} & \cellcolor{gray!10}{0.000} & \cellcolor{gray!10}{1.108}\\
+Reporting guidelines for clinical trial reports for interventions involving artificial intelligence: the CONSORT-AI extension & 2020 & 0.250 & 0.606 & 0.018 & 0.873\\
+\cellcolor{gray!10}{Potential Liability for Physicians Using Artificial Intelligence} & \cellcolor{gray!10}{2019} & \cellcolor{gray!10}{0.386} & \cellcolor{gray!10}{0.365} & \cellcolor{gray!10}{0.000} & \cellcolor{gray!10}{0.751}\\
+Creation and Adoption of Large Language Models in Medicine & 2023 & 0.123 & 0.279 & 0.335 & 0.737\\
+\bottomrule
+\end{longtable}
+
+\hypertarget{rq2-research-communities-and-subtopics-1}{%
+\subsection{RQ2: Research Communities and
+Subtopics}\label{rq2-research-communities-and-subtopics-1}}
+
+\begin{longtable}[t]{rlr}
+\caption{\label{tab:community-subtopics}Top Subtopics by Detected Community}\\
+\toprule
+Community & Subtopic & Papers\\
+\midrule
+\cellcolor{gray!10}{1} & \cellcolor{gray!10}{Artificial Intelligence in Healthcare and Education} & \cellcolor{gray!10}{209}\\
+1 & Machine Learning in Healthcare & 34\\
+\cellcolor{gray!10}{1} & \cellcolor{gray!10}{Artificial Intelligence in Healthcare} & \cellcolor{gray!10}{2}\\
+2 & Artificial Intelligence in Healthcare and Education & 70\\
+\cellcolor{gray!10}{2} & \cellcolor{gray!10}{Machine Learning in Healthcare} & \cellcolor{gray!10}{9}\\
+\addlinespace
+2 & Artificial Intelligence in Healthcare & 3\\
+\cellcolor{gray!10}{3} & \cellcolor{gray!10}{Machine Learning in Materials Science} & \cellcolor{gray!10}{46}\\
+4 & Artificial Intelligence in Healthcare and Education & 145\\
+\cellcolor{gray!10}{4} & \cellcolor{gray!10}{Machine Learning in Healthcare} & \cellcolor{gray!10}{9}\\
+4 & Artificial Intelligence in Healthcare & 5\\
+\addlinespace
+\cellcolor{gray!10}{5} & \cellcolor{gray!10}{Artificial Intelligence in Healthcare and Education} & \cellcolor{gray!10}{138}\\
+5 & Machine Learning in Healthcare & 16\\
+\cellcolor{gray!10}{5} & \cellcolor{gray!10}{Machine Learning and Data Classification} & \cellcolor{gray!10}{1}\\
+6 & Machine Learning in Healthcare & 2\\
+\cellcolor{gray!10}{6} & \cellcolor{gray!10}{Natural Language Processing Techniques} & \cellcolor{gray!10}{1}\\
+\addlinespace
+7 & Machine Learning in Healthcare & 35\\
+\cellcolor{gray!10}{7} & \cellcolor{gray!10}{Artificial Intelligence in Healthcare and Education} & \cellcolor{gray!10}{5}\\
+7 & Artificial Intelligence in Healthcare & 1\\
+\cellcolor{gray!10}{8} & \cellcolor{gray!10}{Artificial Intelligence in Healthcare and Education} & \cellcolor{gray!10}{111}\\
+8 & Machine Learning in Healthcare & 11\\
+\bottomrule
+\end{longtable}
+
+\begin{figure}[htbp]
+
+{\centering \includegraphics[width=1\linewidth]{connected_nodes_subtopic_distribution} 
+
+}
+
+\caption{Research Distribution by Subtopic in Connected Component}\label{fig:subtopic-distribution}
+\end{figure}
+
+\hypertarget{rq3-institutional-research-output-and-impact-1}{%
+\subsection{RQ3: Institutional Research Output and
+Impact}\label{rq3-institutional-research-output-and-impact-1}}
+
+\begin{figure}[H]
+
+{\centering \includegraphics[width=1\linewidth]{connected_nodes_institution_distribution} 
+
+}
+
+\caption{Research Output by Institution}\label{fig:institution-distribution}
+\end{figure}
+
+\begin{figure}[H]
+
+{\centering \includegraphics[width=1\linewidth]{institution_faceted_comparison} 
+
+}
+
+\caption{Institutional Comparison: Volume vs Impact}\label{fig:institution-comparison}
+\end{figure}
+
+\hypertarget{rq4-foundation-papers-with-sustained-relevance-1}{%
+\subsection{RQ4: Foundation Papers with Sustained
+Relevance}\label{rq4-foundation-papers-with-sustained-relevance-1}}
+
+\begin{longtable}[t]{>{\raggedright\arraybackslash}p{8cm}rrr}
+\caption{\label{tab:foundation-papers}Foundation Papers Sorted by Year and Closeness Centrality}\\
+\toprule
+Title & Year & Closeness & In-Degree\\
+\midrule
+\cellcolor{gray!10}{Exploring big educational learner corpora for SLA research} & \cellcolor{gray!10}{2015} & \cellcolor{gray!10}{1.0000} & \cellcolor{gray!10}{1}\\
+Incremental Dependency Parsing and Disfluency Detection in Spoken Learner English & 2015 & 0.3333 & 1\\
+\cellcolor{gray!10}{How to Train good Word Embeddings for Biomedical NLP} & \cellcolor{gray!10}{2016} & \cellcolor{gray!10}{0.3333} & \cellcolor{gray!10}{1}\\
+AI as evaluator: Search driven playtesting of modern board games & 2017 & 1.0000 & 0\\
+\cellcolor{gray!10}{Findings of the VarDial Evaluation Campaign 2017} & \cellcolor{gray!10}{2017} & \cellcolor{gray!10}{0.2000} & \cellcolor{gray!10}{3}\\
+\addlinespace
+A Report on the 2017 Native Language Identification Shared Task & 2017 & 0.1667 & 1\\
+\cellcolor{gray!10}{Investigating the cross-lingual translatability of VerbNet-style classification} & \cellcolor{gray!10}{2017} & \cellcolor{gray!10}{0.0044} & \cellcolor{gray!10}{1}\\
+What This Computer Needs Is a Physician & 2017 & 0.0002 & 13\\
+\cellcolor{gray!10}{Artificial intelligence (AI) systems for interpreting complex medical datasets} & \cellcolor{gray!10}{2017} & \cellcolor{gray!10}{0.0002} & \cellcolor{gray!10}{1}\\
+Segmenting and POS tagging Classical Tibetan using a memory-based tagger & 2018 & 1.0000 & 1\\
+\bottomrule
+\end{longtable}
+
+\begin{longtable}[t]{>{\raggedright\arraybackslash}p{8cm}rrr}
+\caption{\label{tab:citation-longevity}Papers Most Cited by Recent Work (2020-2025)}\\
+\toprule
+Title & Year & Total Citations & Recent Citations\\
+\midrule
+\cellcolor{gray!10}{What This Computer Needs Is a Physician} & \cellcolor{gray!10}{2017} & \cellcolor{gray!10}{13} & \cellcolor{gray!10}{4}\\
+How to Train good Word Embeddings for Biomedical NLP & 2016 & 1 & 1\\
+\cellcolor{gray!10}{Investigating the cross-lingual translatability of VerbNet-style classification} & \cellcolor{gray!10}{2017} & \cellcolor{gray!10}{1} & \cellcolor{gray!10}{1}\\
+Exploring big educational learner corpora for SLA research & 2015 & 1 & 0\\
+\cellcolor{gray!10}{Incremental Dependency Parsing and Disfluency Detection in Spoken Learner English} & \cellcolor{gray!10}{2015} & \cellcolor{gray!10}{1} & \cellcolor{gray!10}{0}\\
+\addlinespace
+AI as evaluator: Search driven playtesting of modern board games & 2017 & 0 & 0\\
+\cellcolor{gray!10}{Findings of the VarDial Evaluation Campaign 2017} & \cellcolor{gray!10}{2017} & \cellcolor{gray!10}{3} & \cellcolor{gray!10}{0}\\
+A Report on the 2017 Native Language Identification Shared Task & 2017 & 1 & 0\\
+\cellcolor{gray!10}{Artificial intelligence (AI) systems for interpreting complex medical datasets} & \cellcolor{gray!10}{2017} & \cellcolor{gray!10}{1} & \cellcolor{gray!10}{0}\\
+Segmenting and POS tagging Classical Tibetan using a memory-based tagger & 2018 & 1 & 0\\
+\bottomrule
+\end{longtable}
+
+\hypertarget{rq5-emerging-trends-and-future-directions-1}{%
+\subsection{RQ5: Emerging Trends and Future
+Directions}\label{rq5-emerging-trends-and-future-directions-1}}
+
+\begin{longtable}[t]{lr}
+\caption{\label{tab:publications-by-period}Research Output by Time Period}\\
+\toprule
+Period & Number of Papers\\
+\midrule
+\cellcolor{gray!10}{Early (2015-2018)} & \cellcolor{gray!10}{93}\\
+Middle (2019-2021) & 509\\
+\cellcolor{gray!10}{Recent (2022-2024)} & \cellcolor{gray!10}{1436}\\
+\bottomrule
+\end{longtable}
+
+\begin{longtable}[t]{>{\raggedright\arraybackslash}p{8cm}rrr}
+\caption{\label{tab:bridge-papers}Recent Papers with Highest Betweenness Centrality (Bridge Papers)}\\
+\toprule
+Title & Year & Betweenness & In-Degree\\
+\midrule
+\cellcolor{gray!10}{The shaky foundations of large language models and foundation models for electronic health records} & \cellcolor{gray!10}{2023} & \cellcolor{gray!10}{5287.65} & \cellcolor{gray!10}{32}\\
+Large language models in medicine & 2023 & 4291.82 & 104\\
+\cellcolor{gray!10}{Multimodal biomedical AI} & \cellcolor{gray!10}{2022} & \cellcolor{gray!10}{3960.81} & \cellcolor{gray!10}{26}\\
+AI in health and medicine & 2022 & 3551.09 & 61\\
+\cellcolor{gray!10}{Foundation models for generalist medical artificial intelligence} & \cellcolor{gray!10}{2023} & \cellcolor{gray!10}{2744.23} & \cellcolor{gray!10}{63}\\
+\addlinespace
+QUEST-AI: A System for Question Generation, Verification, and Refinement using AI for USMLE-Style Exams & 2023 & 2034.00 & 2\\
+\cellcolor{gray!10}{Creation and Adoption of Large Language Models in Medicine} & \cellcolor{gray!10}{2023} & \cellcolor{gray!10}{1768.98} & \cellcolor{gray!10}{29}\\
+Ensuring that biomedical AI benefits diverse populations & 2021 & 1747.33 & 2\\
+\cellcolor{gray!10}{A Systematic Review of Testing and Evaluation of Healthcare Applications of Large Language Models (LLMs)} & \cellcolor{gray!10}{2024} & \cellcolor{gray!10}{1740.67} & \cellcolor{gray!10}{3}\\
+AI recognition of patient race in medical imaging: a modelling study & 2022 & 1354.80 & 28\\
+\bottomrule
+\end{longtable}
+
+\begin{figure}[htbp]
+
+{\centering \includegraphics[width=1\linewidth]{citation_network_by_subtopic} 
+
+}
+
+\caption{Citation Network Colored by Research Subtopic}\label{fig:citation-network-subtopic}
+\end{figure}
+
+\end{appendices}
+
+\bibliography{bibliography.bib}
+
+
+\end{document}

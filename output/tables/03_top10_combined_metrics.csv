@@ -1,0 +1,11 @@
+"title","year","pagerank_norm","indegree_norm","betweenness_norm","combined_score"
+"Large language models in medicine",2023,0.305647985870518,1,0.811667615440555,2.11731560131107
+"Artificial intelligence in healthcare",2018,1,0.586538461538462,0.249997410860427,1.83653587239889
+"AI in health and medicine",2022,0.277804302974786,0.586538461538462,0.671582107341502,1.53592487185475
+"The shaky foundations of large language models and foundation models for electronic health records",2023,0.168662983720167,0.307692307692308,1,1.47635529141247
+"Foundation models for generalist medical artificial intelligence",2023,0.221653517430419,0.605769230769231,0.518988974768272,1.34641172296792
+"Multimodal biomedical AI",2022,0.173237596853712,0.25,0.749067762545248,1.17230535939896
+"Developing specific reporting guidelines for diagnostic accuracy studies assessing AI interventions: The STARD-AI Steering Group",2020,0.800291985659415,0.307692307692308,0,1.10798429335172
+"Reporting guidelines for clinical trial reports for interventions involving artificial intelligence: the CONSORT-AI extension",2020,0.249745593494962,0.605769230769231,0.0177608220405572,0.87327564630475
+"Potential Liability for Physicians Using Artificial Intelligence",2019,0.385777450984462,0.365384615384615,0,0.751162066369078
+"Creation and Adoption of Large Language Models in Medicine",2023,0.123188053987353,0.278846153846154,0.334549478457233,0.73658368629074
