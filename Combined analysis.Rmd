@@ -405,11 +405,3 @@ cat("Largest component nodes:", vcount(largest_component), " | Louvain communiti
 cat("Highest PageRank node:", V(largest_component)$name[which.max(c_pagerank)], " (", round(max(c_pagerank),4), ")\n")
 cat("Highest betweenness node:", V(largest_component)$name[which.max(c_between)], " (", round(max(c_between),4), ")\n")
 ```
-
-## Appendix: Deduplication Strategy
-
-This file integrates `Basic analysis.Rmd` and `Deeper analysis.Rmd`:
-- Removed: duplicated library imports, repeated connected graph construction (graph2 / graph_connected), repeated basic network stats and degree stats output.
-- Kept: advanced centrality analysis, component and community detection, isolated vs connected comparison, centrality correlations.
-- Merged: degree distributions centralized on the directed connected graph; largest component analysis consolidated; visualization simplified to Louvain communities + PageRank sizing.
-- Unified variable naming: `graph_raw` (raw undirected), `graph_connected` (directed connected), `largest_component` (largest weakly connected subgraph).

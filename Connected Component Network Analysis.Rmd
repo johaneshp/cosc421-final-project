@@ -1,6 +1,6 @@
 ---
 title: "Connnected Component Analysis"
-author: "Johanes Panjaitan(39809579)"
+author: "Johanes Panjaitan(39809579), Yuxuan Sun (27929934)"
 date: "`r Sys.Date()`"
 output:
   pdf_document:

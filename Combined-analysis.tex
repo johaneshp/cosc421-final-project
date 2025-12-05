@@ -97,7 +97,7 @@
 \ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
-\usepackage{bookmark}
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \urlstyle{same}
 \hypersetup{
@@ -113,8 +113,9 @@
 \begin{document}
 \maketitle
 
+\hypertarget{environment-and-dependencies}{%
 \subsection{1. Environment and
-Dependencies}\label{environment-and-dependencies}
+Dependencies}\label{environment-and-dependencies}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -129,9 +130,10 @@ Dependencies}\label{environment-and-dependencies}
 \end{Highlighting}
 \end{Shaded}
 
+\hypertarget{raw-data-loading-and-preprocessing-before-removing-isolated-nodes}{%
 \subsection{2. Raw Data Loading and Preprocessing (before removing
 isolated
-nodes)}\label{raw-data-loading-and-preprocessing-before-removing-isolated-nodes}
+nodes)}\label{raw-data-loading-and-preprocessing-before-removing-isolated-nodes}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -212,9 +214,10 @@ nodes)}\label{raw-data-loading-and-preprocessing-before-removing-isolated-nodes}
 ## Isolated nodes count: 1043  ( 39.96 %)
 \end{verbatim}
 
+\hypertarget{connected-data-after-removing-isolated-nodes-for-directed-advanced-analysis}{%
 \subsection{3. Connected Data After Removing Isolated Nodes (for
 directed advanced
-analysis)}\label{connected-data-after-removing-isolated-nodes-for-directed-advanced-analysis}
+analysis)}\label{connected-data-after-removing-isolated-nodes-for-directed-advanced-analysis}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -294,9 +297,10 @@ analysis)}\label{connected-data-after-removing-isolated-nodes-for-directed-advan
 ## Is directed: TRUE  | Is weighted: FALSE
 \end{verbatim}
 
+\hypertarget{global-degree-statistics-and-distributions-directed-connected-graph}{%
 \subsection{4. Global Degree Statistics and Distributions (directed
 connected
-graph)}\label{global-degree-statistics-and-distributions-directed-connected-graph}
+graph)}\label{global-degree-statistics-and-distributions-directed-connected-graph}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -421,8 +425,9 @@ graph)}\label{global-degree-statistics-and-distributions-directed-connected-grap
 
 \includegraphics{Combined-analysis_files/figure-latex/degree-comparison-1.pdf}
 
+\hypertarget{component-analysis-directed-graph}{%
 \subsection{5. Component Analysis (directed
-graph)}\label{component-analysis-directed-graph}
+graph)}\label{component-analysis-directed-graph}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -561,8 +566,9 @@ graph)}\label{component-analysis-directed-graph}
 ## Diameter: 13  | Average path length: 4.5
 \end{verbatim}
 
+\hypertarget{centrality-analysis-of-largest-component}{%
 \subsection{6. Centrality Analysis of Largest
-Component}\label{centrality-analysis-of-largest-component}
+Component}\label{centrality-analysis-of-largest-component}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -895,8 +901,9 @@ Component}\label{centrality-analysis-of-largest-component}
 
 \includegraphics{Combined-analysis_files/figure-latex/edge-betweenness-1.pdf}
 
+\hypertarget{community-detection-comparison-largest-component}{%
 \subsection{7. Community Detection Comparison (Largest
-Component)}\label{community-detection-comparison-largest-component}
+Component)}\label{community-detection-comparison-largest-component}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1012,15 +1019,6 @@ Component)}\label{community-detection-comparison-largest-component}
 \begin{Highlighting}[]
 \NormalTok{cor\_data }\OtherTok{\textless{}{-}}\NormalTok{ centrality\_summary[, }\FunctionTok{c}\NormalTok{(}\StringTok{"degree\_in"}\NormalTok{,}\StringTok{"degree\_out"}\NormalTok{,}\StringTok{"betweenness"}\NormalTok{,}\StringTok{"closeness\_in"}\NormalTok{,}\StringTok{"closeness\_out"}\NormalTok{,}\StringTok{"eigenvector"}\NormalTok{,}\StringTok{"pagerank"}\NormalTok{,}\StringTok{"authority"}\NormalTok{,}\StringTok{"hub"}\NormalTok{)]}
 \NormalTok{cor\_mat }\OtherTok{\textless{}{-}} \FunctionTok{cor}\NormalTok{(cor\_data, }\AttributeTok{use =} \StringTok{"complete.obs"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## Warning in cor(cor_data, use = "complete.obs"): 标准差为零
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \FunctionTok{print}\NormalTok{(}\FunctionTok{round}\NormalTok{(cor\_mat,}\DecValTok{3}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
@@ -1032,20 +1030,20 @@ Component)}\label{community-detection-comparison-largest-component}
 ## betweenness       0.616      0.173       1.000       -0.260        -0.101
 ## closeness_in     -0.390      0.152      -0.260        1.000        -0.277
 ## closeness_out     0.138     -0.262      -0.101       -0.277         1.000
-## eigenvector          NA         NA          NA           NA            NA
+## eigenvector       0.449     -0.068       0.458       -0.412         0.115
 ## pagerank          0.696     -0.057       0.460       -0.356         0.162
 ## authority         0.869      0.029       0.435       -0.311         0.125
 ## hub               0.096      0.670       0.110        0.036        -0.170
 ##               eigenvector pagerank authority    hub
-## degree_in              NA    0.696     0.869  0.096
-## degree_out             NA   -0.057     0.029  0.670
-## betweenness            NA    0.460     0.435  0.110
-## closeness_in           NA   -0.356    -0.311  0.036
-## closeness_out          NA    0.162     0.125 -0.170
-## eigenvector             1       NA        NA     NA
-## pagerank               NA    1.000     0.498 -0.012
-## authority              NA    0.498     1.000  0.187
-## hub                    NA   -0.012     0.187  1.000
+## degree_in           0.449    0.696     0.869  0.096
+## degree_out         -0.068   -0.057     0.029  0.670
+## betweenness         0.458    0.460     0.435  0.110
+## closeness_in       -0.412   -0.356    -0.311  0.036
+## closeness_out       0.115    0.162     0.125 -0.170
+## eigenvector         1.000    0.701     0.331 -0.060
+## pagerank            0.701    1.000     0.498 -0.012
+## authority           0.331    0.498     1.000  0.187
+## hub                -0.060   -0.012     0.187  1.000
 \end{verbatim}
 
 \begin{Shaded}
@@ -1062,15 +1060,11 @@ Component)}\label{community-detection-comparison-largest-component}
 \end{Highlighting}
 \end{Shaded}
 
-\begin{verbatim}
-## Warning: Removed 16 rows containing missing values or values outside the scale range
-## (`geom_text()`).
-\end{verbatim}
-
 \includegraphics{Combined-analysis_files/figure-latex/centrality-correlation-1.pdf}
 
+\hypertarget{isolated-vs-connected-nodes-comparison}{%
 \subsection{9. Isolated vs Connected Nodes
-Comparison}\label{isolated-vs-connected-nodes-comparison}
+Comparison}\label{isolated-vs-connected-nodes-comparison}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1244,7 +1238,8 @@ Comparison}\label{isolated-vs-connected-nodes-comparison}
 
 \includegraphics{Combined-analysis_files/figure-latex/institution-comparison-1.pdf}
 
-\subsection{10. Overall Summary}\label{overall-summary}
+\hypertarget{overall-summary}{%
+\subsection{10. Overall Summary}\label{overall-summary}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1305,21 +1300,5 @@ Comparison}\label{isolated-vs-connected-nodes-comparison}
 \begin{verbatim}
 ## Highest betweenness node: P0011  ( 0.0026 )
 \end{verbatim}
-
-\subsection{Appendix: Deduplication
-Strategy}\label{appendix-deduplication-strategy}
-
-This file integrates \texttt{Basic\ analysis.Rmd} and
-\texttt{Deeper\ analysis.Rmd}: - Removed: duplicated library imports,
-repeated connected graph construction (graph2 / graph\_connected),
-repeated basic network stats and degree stats output. - Kept: advanced
-centrality analysis, component and community detection, isolated vs
-connected comparison, centrality correlations. - Merged: degree
-distributions centralized on the directed connected graph; largest
-component analysis consolidated; visualization simplified to Louvain
-communities + PageRank sizing. - Unified variable naming:
-\texttt{graph\_raw} (raw undirected), \texttt{graph\_connected}
-(directed connected), \texttt{largest\_component} (largest weakly
-connected subgraph).
 
 \end{document}
