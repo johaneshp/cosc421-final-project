@@ -20,16 +20,16 @@ title: "Mapping Influence and Evolution in AI Research: A Citation Network Analy
 
 authors: 
   - firstname: Jinxi
-    lastname: Hu
+    lastname: Hu (48528608)
 
   - firstname: Johanes
-    lastname: Panjaitan
+    lastname: Panjaitan (39809579)
 
   - firstname: Samarth
-    lastname: Grover
+    lastname: Grover (38220463)
 
   - firstname: Yuxuan
-    lastname: Sun
+    lastname: Sun (27929934)
 
 
 keywords:
@@ -49,6 +49,8 @@ keywords:
 # Sample for structured abstract
 abstract: |
   The using of Artificial intelligence has been growing rapidly, and AI-based applications have become more extensive across all disciplines. Mapping citation patterns among journals and articles about AI from leading institutions can reveal how research influence, collaboration, and subdisciplines in AI have evolved as time goes by. This study analyzes the distribution of AI-related journals from the top ten universities over the past decade and explores the relationships between citation to identify any patterns and characteristics in the citation. Using bibliographic records collected from OpenAlex (online databases of publications), we construct a directed citation network, where each node represents AI related paper, and each edge represents a citation between papers. Centrality measures, community detection, and degree distribution are applied to reveal undiscovered patterns in the publication and citation behaviour of these institutions. The analysis reveals a scale-free network structure where the publication count, which was led by Stanford University, does not strictly correlate with citation impact, which is highest at Harvard University. Furthermore, "AI in Healthcare" is identified as a dominant subtopic, with a recent exponential growth navigated by network growth by Large Language Models. These discovery indicate that high-betweenness "bridge" papers are becoming crucial for integrating disconnected research communities. The study confirms a significant shift toward interdisciplinary collaboration, suggesting that future institutional influence will depend on producing trend-setting research that connects diverse domains rather than a mere publication count.
+  
+  This analysis is done in the Submission branch of github repo: https://github.com/johaneshp/cosc421-final-project.git
 
 bibliography: bibliography.bib
 
@@ -134,7 +136,7 @@ This study analyzes 2,610 published research papers collected from OpenAlex and 
 
 The findings of this study have direct practical implications for understanding the ever-evolving dynamics of AI research in its current form and identifying emerging directions that may help shape the future of this field.
 
-\newpage
+
 
 # Related Work
 
@@ -165,7 +167,7 @@ The existing bibliometric and citation-network studies collectively explain glob
 This study addresses these gaps by constructing a directed citation network of AI-related publications from the top 10 universities. It applies PageRank and centrality measures to identify influential papers and institutions, and uses community detection to reveal dominant and interdisciplinary subtopics, such as AI in healthcare and education. Focusing on the 2015-2025 period and examining high-betweenness papers, the analysis links technological shifts to measurable changes in network structure and institutional influence connections that prior bibliometric and citation-based work did not capture.
 
 
-\newpage
+
 
 # Dataset and Methodology
 
@@ -242,7 +244,7 @@ We analyze how citation patterns evolve over three time periods:
 - **Middle period (2019-2021)**: Consolidation and deep learning maturation
 - **Recent period (2022-2025)**: Large language models and new paradigms
 
-\newpage
+
 
 # Results
 
@@ -298,7 +300,7 @@ We analyze recent research trends by examining publication patterns and high-bet
 - Emerging trend toward **interdisciplinary applications**: healthcare AI, educational technology, and AI ethics
 - Growing integration between NLP and other AI domains through LLM applications
 
-\newpage
+
 
 # Discussion
 
@@ -340,7 +342,7 @@ Several directions for future research emerge from this study:
 4. **Predictive modeling**: Using early citation patterns to predict which papers will become foundational
 5. **Global comparison**: Expanding the analysis to include institutions from more countries and regions
 
-\newpage
+
 
 # Conclusion
 
@@ -352,7 +354,7 @@ The implications of these findings suggest a pivotal shift in the AI research la
 
 There are limitations to this study. The exclusion of cited papers published prior to 2015 resulted in a disintegrated network with many isolated nodes, limiting the scope of connectivity analysis. Additionally, the 2025 data remains incomplete, causing an artificial decline in the most recent period. Future research should expand the dataset to include a broader historical range to capture long-term citation lineages. Moreover, future work will track the long-term trajectory of the identified trend-setting papers to validate whether these bridge works successfully establish enduring, independent research subfields.
 
-\newpage
+
 
 ::: {.appendices latex=true}
 
