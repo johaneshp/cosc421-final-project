@@ -73,6 +73,14 @@ header-includes: |
   \theoremstyle{definition}
   \newtheorem{definition}{Definition}%
 
+  %% Set page margins to 1 inch on all sides
+  \usepackage{geometry}
+  \geometry{margin=1in}
+
+  %% Start references on a new page
+  \usepackage{etoolbox}
+  \pretocmd{\bibliography}{\newpage}{}{}
+
 output: rticles::springer_article
 ---
 
@@ -354,7 +362,7 @@ The implications of these findings suggest a pivotal shift in the AI research la
 There are limitations to this study. The exclusion of cited papers published prior to 2015 resulted in a disintegrated network with many isolated nodes, limiting the scope of connectivity analysis. Additionally, the 2025 data remains incomplete, causing an artificial decline in the most recent period. Future research should expand the dataset to include a broader historical range to capture long-term citation lineages. Moreover, future work will track the long-term trajectory of the identified trend-setting papers to validate whether these bridge works successfully establish enduring, independent research subfields.
 
 
-
+\newpage
 ::: {.appendices latex=true}
 
 # Tables, Graphs, and Figures
@@ -378,7 +386,7 @@ knitr::include_graphics("overall_network_by_university.png")
 knitr::include_graphics("network_without_isolated_nodes.png")
 ```
 
-```{r degree-distribution, fig.cap="Degree Distribution Showing Power-Law Property. The log-log plots (bottom panels) show linear trends, confirming power-law distribution characteristic of scale-free networks.", out.width="70%", fig.pos="H", out.height="70%"}
+```{r degree-distribution, fig.cap="Degree Distribution Showing Power-Law Property. The log-log plots (bottom panels) show linear trends, confirming power-law distribution characteristic of scale-free networks.", fig.pos="H"}
 knitr::include_graphics("degree_distribution_power_law.png")
 ```
 
@@ -390,7 +398,7 @@ kable(top_papers,
       booktabs = TRUE,
       digits = 4,
       col.names = c("Title", "First Author", "Year", "PageRank")) %>%
-  kable_styling(latex_options = c("hold_position", "striped", "scale_down")) %>%
+  kable_styling(latex_options = c("hold_position", "striped", "scale_down"), font_size = 8) %>%
   column_spec(1, width = "8cm")
 ```
 
@@ -401,7 +409,7 @@ kable(combined,
       booktabs = TRUE,
       digits = 3,
       col.names = c("Title", "Year", "PageRank", "In-Degree", "Betweenness", "Combined")) %>%
-  kable_styling(latex_options = c("hold_position", "striped", "scale_down")) %>%
+  kable_styling(latex_options = c("hold_position", "striped", "scale_down"), font_size=8) %>%
   column_spec(1, width = "7cm") %>% 
   column_spec(6, width="0.75cm")
 ```
@@ -413,16 +421,16 @@ kable(communities,
       caption = "Top Subtopics by Detected Community",
       booktabs = TRUE,
       col.names = c("Community", "Subtopic", "Papers")) %>%
-  kable_styling(latex_options = c("hold_position", "striped"))
+  kable_styling(latex_options = c("hold_position", "striped"), font_size=8)
 ```
 
-```{r subtopic-distribution, fig.cap="Research Distribution by Subtopic in Connected Component", out.width="100%"}
+```{r subtopic-distribution, fig.cap="Research Distribution by Subtopic in Connected Component", out.width="85%"}
 knitr::include_graphics("connected_nodes_subtopic_distribution.png")
 ```
 
 
 ## RQ3: Institutional Research Output and Impact
-```{r institution-distribution, fig.cap="Research Output by Institution", out.width="100%", fig.pos='H'}
+```{r institution-distribution, fig.cap="Research Output by Institution", out.width="85%", fig.pos='H'}
 knitr::include_graphics("connected_nodes_institution_distribution.png")
 ```
 
@@ -474,7 +482,7 @@ kable(bridges,
   column_spec(1, width = "8cm")
 ```
 
-```{r citation-network-subtopic, fig.cap="Citation Network Colored by Research Subtopic", out.width="100%"}
+```{r citation-network-subtopic, fig.cap="Citation Network Colored by Research Subtopic", out.width="100%", fig.pos="H"}
 knitr::include_graphics("citation_network_by_subtopic.png")
 ```
 

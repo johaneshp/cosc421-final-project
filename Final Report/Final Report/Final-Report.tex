@@ -63,6 +63,14 @@
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}%
 
+%% Set page margins to 1 inch on all sides
+\usepackage{geometry}
+\geometry{margin=1in}
+
+%% Start references on a new page
+\usepackage{etoolbox}
+\pretocmd{\bibliography}{\newpage}{}{}
+
 \usepackage{booktabs}
 \usepackage{longtable}
 \usepackage{array}
@@ -811,6 +819,8 @@ trajectory of the identified trend-setting papers to validate whether
 these bridge works successfully establish enduring, independent research
 subfields.
 
+\newpage
+
 \begin{appendices}
 
 \hypertarget{tables-graphs-and-figures}{%
@@ -859,7 +869,7 @@ Number of Strongly Connected Components & 1569.0000000\\
 
 \begin{figure}[H]
 
-{\centering \includegraphics[width=0.7\linewidth,height=0.7\textheight]{degree_distribution_power_law} 
+{\centering \includegraphics[width=0.9\linewidth]{degree_distribution_power_law} 
 
 }
 
@@ -869,6 +879,8 @@ Number of Strongly Connected Components & 1569.0000000\\
 \hypertarget{rq1-most-impactful-papers-1}{%
 \subsection{RQ1: Most Impactful
 Papers}\label{rq1-most-impactful-papers-1}}
+
+\begingroup\fontsize{8}{10}\selectfont
 
 \begin{longtable}[t]{>{\raggedright\arraybackslash}p{8cm}lrr}
 \caption{\label{tab:top-papers-pagerank}Top 10 Most Impactful Papers by PageRank}\\
@@ -888,6 +900,9 @@ AI in health and medicine & Pranav Rajpurkar & 2022 & 0.0105\\
 An Ethics Framework for Big Data in Health and Research & Vicki Xafis & 2019 & 0.0095\\
 \bottomrule
 \end{longtable}
+\endgroup{}
+
+\begingroup\fontsize{8}{10}\selectfont
 
 \begin{longtable}[t]{>{\raggedright\arraybackslash}p{7cm}rrrr>{\raggedleft\arraybackslash}p{0.75cm}}
 \caption{\label{tab:combined-metrics}Top 10 Papers by Combined Normalized Metrics}\\
@@ -907,10 +922,13 @@ Reporting guidelines for clinical trial reports for interventions involving arti
 Creation and Adoption of Large Language Models in Medicine & 2023 & 0.123 & 0.279 & 0.335 & 0.737\\
 \bottomrule
 \end{longtable}
+\endgroup{}
 
 \hypertarget{rq2-research-communities-and-subtopics-1}{%
 \subsection{RQ2: Research Communities and
 Subtopics}\label{rq2-research-communities-and-subtopics-1}}
+
+\begingroup\fontsize{8}{10}\selectfont
 
 \begin{longtable}[t]{rlr}
 \caption{\label{tab:community-subtopics}Top Subtopics by Detected Community}\\
@@ -942,10 +960,11 @@ Community & Subtopic & Papers\\
 8 & Machine Learning in Healthcare & 11\\
 \bottomrule
 \end{longtable}
+\endgroup{}
 
 \begin{figure}[htbp]
 
-{\centering \includegraphics[width=1\linewidth]{connected_nodes_subtopic_distribution} 
+{\centering \includegraphics[width=0.85\linewidth]{connected_nodes_subtopic_distribution} 
 
 }
 
@@ -958,7 +977,7 @@ Impact}\label{rq3-institutional-research-output-and-impact-1}}
 
 \begin{figure}[H]
 
-{\centering \includegraphics[width=1\linewidth]{connected_nodes_institution_distribution} 
+{\centering \includegraphics[width=0.85\linewidth]{connected_nodes_institution_distribution} 
 
 }
 
@@ -1050,7 +1069,7 @@ AI recognition of patient race in medical imaging: a modelling study & 2022 & 13
 \bottomrule
 \end{longtable}
 
-\begin{figure}[htbp]
+\begin{figure}[H]
 
 {\centering \includegraphics[width=1\linewidth]{citation_network_by_subtopic} 
 
