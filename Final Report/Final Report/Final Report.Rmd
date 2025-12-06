@@ -298,7 +298,6 @@ We analyze recent research trends by examining publication patterns and high-bet
 - Recent bridge papers with high betweenness centrality connect previously distinct research areas
 - Moving towards the application of LLM and AI for the application of health and medicine research
 - Emerging trend toward **interdisciplinary applications**: healthcare AI, educational technology, and AI ethics
-- Growing integration between NLP and other AI domains through LLM applications
 
 
 
