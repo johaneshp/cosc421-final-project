@@ -262,9 +262,12 @@ We identify the most impactful papers using PageRank, which considers not just t
 
 **Key Findings:**
 
-- The most impactful papers are in the subtopics of healthcare such as AI in interpreting medical dataset, medicine, diagnostic accuracy
+- The most impactful papers are in the subtopics of healthcare such as AI in interpreting medical dataset, medicine, diagnostic accuracy, etc.
 - Papers from the 2018-present period dominate the top rankings, indicating their foundational role
 - High PageRank papers often serve as methodological foundations cited across different AI subfields
+- The subtopics of AI in healthcare is the most influential
+
+These key findings answer the research question 1 by identifying which research area dominates and produces the most impactful work. The similarity of papers in both tables of pagerank and combined metrics prove they are objectively the most impactful papers.
 
 ## RQ2: Research Communities and Subtopics
 
@@ -275,6 +278,8 @@ Community detection reveals distinct research clusters within the citation netwo
 - **AI in Healthcare** is the most dominant topic in the research communities with highest concentration of papers
 - Clear clustering occurs around application domains (healthcare, education) and technical areas (Games, NLP Techniques, Material Science, Law)
 - The existence of a few different subtopics in one community shows interdisciplinary collaboration
+
+These key findings shows subtopics of AI in Healthcare dominates the research area of AI.
 
 ## RQ3: Institutional Research Output and Impact
 
@@ -287,14 +292,18 @@ We analyze both the number and impact of research from different institutions. R
 - **Research impact** (measured by citation counts and PageRank) does not perfectly correlate with volume
 - Some institutions shows exceptional research quality and influence as evidenced by their high citation rates
 
+These key findings answers the research question since it shows that both Stanford and Harvard University are indeed the University with most research output with Harvard has the most influence in their research outputs. 
+
 ## RQ4: Foundation Papers with Sustained Relevance
 
 We identify older papers that maintain high closeness centrality and continue to receive citations from recent work. Foundation papers sorted by year and closeness centrality are shown in Table \ref{tab:foundation-papers} and papers most cited by recent work are presented in Table \ref{tab:citation-longevity} in the Appendix.
 
 **Key Findings:**
 
-- Foundation papers from 2015-2017 maintain high relevance through sustained citation by recent work
+- Foundation papers from 2015-2018 maintain high relevance through sustained citation by recent work
 - High closeness centrality indicates these papers remain central to ongoing research discussions
+
+These key findings shows that papers from 2015-2017 continue to be cited in 2022-2025. It might not be a very accurate one since we know that those recent papers might cite more older papers, but we did not account papers older than 2015. However, this still shows that there are still old papers that is foundational.
 
 ## RQ5: Emerging Trends and Future Directions
 
@@ -302,12 +311,12 @@ We analyze recent research trends by examining publication patterns and high-bet
 
 **Key Findings:**
 
-- **Exponential growth** in AI publications from 2022-2024, particularly in Large Language Models
+- Rapid growth in the past decade, shown by the early period there exists only 93 papers, while in recent periods shows there are more than 1000 papers about AI.
 - Recent bridge papers with high betweenness centrality connect previously distinct research areas
 - Moving towards the application of LLM and AI for the application of health and medicine research
 - Emerging trend toward **interdisciplinary applications**: healthcare AI, educational technology, and AI ethics
 
-
+These key findings shows that research in AI will keep growing with the healthcare AI, educational technology, and AI ethics being the future research direction.
 
 # Discussion
 

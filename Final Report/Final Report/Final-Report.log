@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.12.4)  5 DEC 2025 18:26
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.12.4)  5 DEC 2025 21:32
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -704,110 +704,113 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 [7]
-<overall_network_by_university.png, id=326, 1204.5pt x 903.375pt>
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+[8]
+<overall_network_by_university.png, id=330, 1204.5pt x 903.375pt>
 File: overall_network_by_university.png Graphic file (type png)
 <use overall_network_by_university.png>
-Package pdftex.def Info: overall_network_by_university.png  used on input line 854.
+Package pdftex.def Info: overall_network_by_university.png  used on input line 881.
 (pdftex.def)             Requested size: 435.89626pt x 326.92401pt.
-<network_without_isolated_nodes.png, id=328, 1204.5pt x 903.375pt>
+<network_without_isolated_nodes.png, id=332, 1204.5pt x 903.375pt>
 File: network_without_isolated_nodes.png Graphic file (type png)
 <use network_without_isolated_nodes.png>
-Package pdftex.def Info: network_without_isolated_nodes.png  used on input line 863.
+Package pdftex.def Info: network_without_isolated_nodes.png  used on input line 890.
 (pdftex.def)             Requested size: 435.89626pt x 326.92401pt.
-<degree_distribution_power_law.png, id=329, 3011.25pt x 2409.0pt>
+<degree_distribution_power_law.png, id=333, 3011.25pt x 2409.0pt>
 File: degree_distribution_power_law.png Graphic file (type png)
 <use degree_distribution_power_law.png>
-Package pdftex.def Info: degree_distribution_power_law.png  used on input line 872.
+Package pdftex.def Info: degree_distribution_power_law.png  used on input line 899.
 (pdftex.def)             Requested size: 392.30396pt x 313.84265pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-[8
+[9
 pdfTeX warning (ext4): destination with the same identifier (name{figure.1}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.878 
+l.905 
        <./overall_network_by_university.png>]
-Overfull \hbox (4.98233pt too wide) in alignment at lines 885--902
+Overfull \hbox (4.98233pt too wide) in alignment at lines 912--929
  [] [] [] [] 
  []
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-[9
+[10
 pdfTeX warning (ext4): destination with the same identifier (name{figure.2}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.902 \end{longtable}
+l.929 \end{longtable}
                      
 pdfTeX warning (ext4): destination with the same identifier (name{figure.3}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.902 \end{longtable}
+l.929 \end{longtable}
                       <./network_without_isolated_nodes.png> <./degree_distribution_power_law.png>]
-Overfull \hbox (16.20265pt too wide) in paragraph at lines 910--911
+Overfull \hbox (16.20265pt too wide) in paragraph at lines 937--938
  []|\OT1/cmr/m/n/8 Combined|
  []
 
 ignored error: Infinite glue shrinkage found in box being split
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-[10]
-<connected_nodes_subtopic_distribution.png, id=349, 867.24pt x 578.16pt>
+[11]
+<connected_nodes_subtopic_distribution.png, id=353, 867.24pt x 578.16pt>
 File: connected_nodes_subtopic_distribution.png Graphic file (type png)
 <use connected_nodes_subtopic_distribution.png>
-Package pdftex.def Info: connected_nodes_subtopic_distribution.png  used on input line 967.
+Package pdftex.def Info: connected_nodes_subtopic_distribution.png  used on input line 994.
 (pdftex.def)             Requested size: 370.51447pt x 247.00717pt.
-<connected_nodes_institution_distribution.png, id=350, 867.24pt x 578.16pt>
+<connected_nodes_institution_distribution.png, id=354, 867.24pt x 578.16pt>
 File: connected_nodes_institution_distribution.png Graphic file (type png)
 <use connected_nodes_institution_distribution.png>
-Package pdftex.def Info: connected_nodes_institution_distribution.png  used on input line 980.
+Package pdftex.def Info: connected_nodes_institution_distribution.png  used on input line 1007.
 (pdftex.def)             Requested size: 370.51447pt x 247.00717pt.
-<institution_faceted_comparison.png, id=351, 829.0975pt x 500.87125pt>
+<institution_faceted_comparison.png, id=355, 829.0975pt x 500.87125pt>
 File: institution_faceted_comparison.png Graphic file (type png)
 <use institution_faceted_comparison.png>
-Package pdftex.def Info: institution_faceted_comparison.png  used on input line 989.
+Package pdftex.def Info: institution_faceted_comparison.png  used on input line 1016.
 (pdftex.def)             Requested size: 435.89626pt x 263.32819pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-[11
+[12
 pdfTeX warning (ext4): destination with the same identifier (name{figure.4}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.995 
-      
+l.1022 
+       
 pdfTeX warning (ext4): destination with the same identifier (name{figure.5}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.995 
-       <./connected_nodes_subtopic_distribution.png> <./connected_nodes_institution_distribution.png>]
+l.1022 
+        <./connected_nodes_subtopic_distribution.png> <./connected_nodes_institution_distribution.png>]
 ignored error: Infinite glue shrinkage found in box being split
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-[12
+[13
 pdfTeX warning (ext4): destination with the same identifier (name{figure.6}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.1036 \end{longtable}
+l.1063 \end{longtable}
                        <./institution_faceted_comparison.png>]
-<citation_network_by_subtopic.png, id=365, 1405.25pt x 1003.75pt>
+<citation_network_by_subtopic.png, id=370, 1405.25pt x 1003.75pt>
 File: citation_network_by_subtopic.png Graphic file (type png)
 <use citation_network_by_subtopic.png>
-Package pdftex.def Info: citation_network_by_subtopic.png  used on input line 1074.
+Package pdftex.def Info: citation_network_by_subtopic.png  used on input line 1101.
 (pdftex.def)             Requested size: 435.89626pt x 311.3584pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-[13]
+[14]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-[14
+[15
 pdfTeX warning (ext4): destination with the same identifier (name{figure.7}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.1083 \bibliography{bibliography.bib}
+l.1110 \bibliography{bibliography.bib}
                                        <./citation_network_by_subtopic.png>] (./Final-Report.bbl
 Underfull \hbox (badness 1424) in paragraph at lines 34--35
 []\OT1/cmr/m/n/10 Nature News (2023) Ai research report. URL [][]$https : / / www . nature . com / research-[]intelligence /
@@ -816,7 +819,7 @@ Underfull \hbox (badness 1424) in paragraph at lines 34--35
 )
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-[15] (./Final-Report.aux)
+[16] (./Final-Report.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2025-11-14>
@@ -829,18 +832,18 @@ Package rerunfilecheck Info: File `Final-Report.out' has not changed.
 (rerunfilecheck)             Checksum: 8EED12BC2FDB46DD5048EDBD23E46C3D;7479.
  ) 
 Here is how much of TeX's memory you used:
- 15678 strings out of 469519
- 242847 string characters out of 5468803
- 688463 words of memory out of 5000000
+ 15679 strings out of 469519
+ 242854 string characters out of 5468803
+ 688465 words of memory out of 5000000
  43923 multiletter control sequences out of 15000+600000
  638629 words of font info for 84 fonts, out of 8000000 for 9000
  24 hyphenation exceptions out of 8191
  90i,8n,93p,549b,671s stack positions out of 10000i,1000n,20000p,200000b,200000s
  </Users/johaneshp/Library/TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1000.600pk></Users/johaneshp/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></Users/johaneshp/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></Users/johaneshp/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></Users/johaneshp/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></Users/johaneshp/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></Users/johaneshp/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></Users/johaneshp/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></Users/johaneshp/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></Users/johaneshp/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb>
-Output written on Final-Report.pdf (15 pages, 1006270 bytes).
+Output written on Final-Report.pdf (16 pages, 1007059 bytes).
 PDF statistics:
- 466 PDF objects out of 1000 (max. 8388607)
- 411 compressed objects within 5 object streams
- 137 named destinations out of 1000 (max. 500000)
+ 470 PDF objects out of 1000 (max. 8388607)
+ 414 compressed objects within 5 object streams
+ 138 named destinations out of 1000 (max. 500000)
  340 words of extra memory for PDF output out of 10000 (max. 10000000)
 
